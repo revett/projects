@@ -76,3 +76,39 @@ func TestAlphabetLetters(t *testing.T) {
 		})
 	}
 }
+
+func TestAlphabetRandomLetterPair(t *testing.T) {
+	tests := map[string]struct {
+		input         string
+		want          []string
+		withMixedCase bool
+	}{
+		"WithoutMixedCase": {
+			input:         "ab",
+			want:          []string{"aa", "ab", "ba", "bb"},
+			withMixedCase: false,
+		},
+		"WithMixedCase": {
+			input: "ab",
+			want: []string{
+				"aa", "aA", "Aa", "AA", "ab", "aB", "Ab", "AB",
+				"ba", "bA", "Ba", "BA", "bb", "bB", "Bb", "BB",
+			},
+			withMixedCase: true,
+		},
+	}
+
+	for n, test := range tests {
+		t.Run(n, func(subtest *testing.T) {
+			var opts []func(*text.Alphabet)
+			if test.withMixedCase {
+				opts = append(opts, text.WithMixedCase())
+			}
+
+			a := text.NewAlphabet(test.input, opts...)
+			lp := a.RandomLetterPair()
+			assert.Contains(t, a.Combinations, lp)
+			assert.Contains(t, test.want, lp)
+		})
+	}
+}
