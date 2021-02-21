@@ -7,6 +7,40 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestAlphabetCombinations(t *testing.T) {
+	tests := map[string]struct {
+		input         string
+		want          []string
+		withMixedCase bool
+	}{
+		"WithoutMixedCase": {
+			input:         "ab",
+			want:          []string{"aa", "ab", "ba", "bb"},
+			withMixedCase: false,
+		},
+		"WithMixedCase": {
+			input: "ab",
+			want: []string{
+				"aa", "aA", "Aa", "AA", "ab", "aB", "Ab", "AB",
+				"ba", "bA", "Ba", "BA", "bb", "bB", "Bb", "BB",
+			},
+			withMixedCase: true,
+		},
+	}
+
+	for n, test := range tests {
+		t.Run(n, func(subtest *testing.T) {
+			var opts []func(*text.Alphabet)
+			if test.withMixedCase {
+				opts = append(opts, text.WithMixedCase())
+			}
+
+			a := text.NewAlphabet(test.input, opts...)
+			assert.ElementsMatch(t, a.Combinations, test.want)
+		})
+	}
+}
+
 func TestAlphabetLetters(t *testing.T) {
 	tests := map[string]struct {
 		input         string
@@ -39,40 +73,6 @@ func TestAlphabetLetters(t *testing.T) {
 
 			a := text.NewAlphabet(test.input, opts...)
 			assert.ElementsMatch(t, a.Letters, test.want)
-		})
-	}
-}
-
-func TestAlphabetCombinations(t *testing.T) {
-	tests := map[string]struct {
-		input         string
-		want          []string
-		withMixedCase bool
-	}{
-		"WithoutMixedCase": {
-			input:         "ab",
-			want:          []string{"aa", "ab", "ba", "bb"},
-			withMixedCase: false,
-		},
-		"WithMixedCase": {
-			input: "ab",
-			want: []string{
-				"aa", "aA", "Aa", "AA", "ab", "aB", "Ab", "AB",
-				"ba", "bA", "Ba", "BA", "bb", "bB", "Bb", "BB",
-			},
-			withMixedCase: true,
-		},
-	}
-
-	for n, test := range tests {
-		t.Run(n, func(subtest *testing.T) {
-			var opts []func(*text.Alphabet)
-			if test.withMixedCase {
-				opts = append(opts, text.WithMixedCase())
-			}
-
-			a := text.NewAlphabet(test.input, opts...)
-			assert.ElementsMatch(t, a.Combinations, test.want)
 		})
 	}
 }
