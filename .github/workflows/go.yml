@@ -10,6 +10,7 @@ on:
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,10 +22,11 @@ jobs:
       - name: Test
         run: go test -v ./... -cover
   lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Lint (golangci)
-        uses: golangci/golangci-lint-action
+        uses: golangci/golangci-lint-action@v2
         with:
           version: v1.37
