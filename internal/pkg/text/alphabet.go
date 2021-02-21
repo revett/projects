@@ -63,7 +63,3 @@ func (a *Alphabet) generateCombinations() {
 
 	a.Combinations = c
 }
-
-func neverUsed() {
-
-}
