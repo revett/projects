@@ -18,14 +18,12 @@ const EnglishAlphabet = "abcdefghijklmnopqrstuvwxyz"
 type Alphabet struct {
 	combinations []string
 	letters      []string
-	s            string
 }
 
 // NewAlphabet creates and configures an Alphabet struct.
 func NewAlphabet(s string, opts ...func(*Alphabet)) *Alphabet {
 	a := &Alphabet{
 		letters: strings.Split(s, ""),
-		s:       s,
 	}
 
 	for _, o := range opts {
@@ -40,17 +38,17 @@ func NewAlphabet(s string, opts ...func(*Alphabet)) *Alphabet {
 // both upper and lower case.
 func WithMixedCase() func(*Alphabet) {
 	return func(a *Alphabet) {
-		s := strings.ToLower(a.s) + strings.ToUpper(a.s)
-		a.letters = strings.Split(s, "")
-		a.s = s
+		var mc []string
+		for _, l := range a.letters {
+			mc = append(mc, strings.ToLower(l), strings.ToUpper(l))
+		}
+
+		a.letters = mc
 	}
 }
 
 // RandomLetterPair returns a random letter pair from the configured alphabet.
 func (a Alphabet) RandomLetterPair() string {
-	fmt.Println(len(a.combinations))
-	fmt.Println(a.combinations)
-
 	return a.combinations[rand.Intn(len(a.combinations))]
 }
 
