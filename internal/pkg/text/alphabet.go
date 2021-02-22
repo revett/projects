@@ -16,8 +16,9 @@ const EnglishAlphabet = "abcdefghijklmnopqrstuvwxyz"
 
 // Alphabet contains a slice of letters and combinations.
 type Alphabet struct {
-	Combinations []string
-	Letters      []string
+	Combinations      []string
+	Letters           []string
+	uniqueLetterPairs bool
 }
 
 // NewAlphabet creates and configures an Alphabet struct.
@@ -32,6 +33,14 @@ func NewAlphabet(s string, opts ...func(*Alphabet)) *Alphabet {
 
 	a.generateCombinations()
 	return a
+}
+
+// WithUniqueLetterPairs configures the alphabet to not produce repeating
+// letter pairs (e.g. "AA").
+func WithUniqueLetterPairs() func(*Alphabet) {
+	return func(a *Alphabet) {
+		a.uniqueLetterPairs = true
+	}
 }
 
 // WithMixedCase duplicates the original alphabet string so that each letter is
@@ -57,6 +66,10 @@ func (a *Alphabet) generateCombinations() {
 
 	for _, lx := range a.Letters {
 		for _, ly := range a.Letters {
+			if a.uniqueLetterPairs && lx == ly {
+				continue
+			}
+
 			c = append(c, fmt.Sprintf("%s%s", lx, ly))
 		}
 	}
