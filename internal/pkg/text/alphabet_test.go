@@ -9,14 +9,14 @@ import (
 
 func TestAlphabetCombinations(t *testing.T) {
 	tests := map[string]struct {
-		input         string
-		want          []string
-		withMixedCase bool
+		input                 string
+		want                  []string
+		withMixedCase         bool
+		withUniqueLetterPairs bool
 	}{
 		"WithoutMixedCase": {
-			input:         "ab",
-			want:          []string{"aa", "ab", "ba", "bb"},
-			withMixedCase: false,
+			input: "ab",
+			want:  []string{"aa", "ab", "ba", "bb"},
 		},
 		"WithMixedCase": {
 			input: "ab",
@@ -26,13 +26,30 @@ func TestAlphabetCombinations(t *testing.T) {
 			},
 			withMixedCase: true,
 		},
+		"WithUniqueLetterPairs": {
+			input:                 "ab",
+			want:                  []string{"ab", "ba"},
+			withUniqueLetterPairs: true,
+		},
+		"WithMixedCaseAndUniqueLetterPairs": {
+			input: "ab",
+			want: []string{
+				"aA", "Aa", "ab", "aB", "Ab", "AB", "ba", "bA", "Ba", "BA", "bB", "Bb",
+			},
+			withMixedCase:         true,
+			withUniqueLetterPairs: true,
+		},
 	}
 
 	for n, test := range tests {
 		t.Run(n, func(subtest *testing.T) {
 			var opts []func(*text.Alphabet)
+
 			if test.withMixedCase {
 				opts = append(opts, text.WithMixedCase())
+			}
+			if test.withUniqueLetterPairs {
+				opts = append(opts, text.WithUniqueLetterPairs())
 			}
 
 			a := text.NewAlphabet(test.input, opts...)
