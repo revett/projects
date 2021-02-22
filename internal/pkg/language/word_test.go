@@ -49,8 +49,8 @@ func TestWordConsonantVowelPattern(t *testing.T) {
 			want:  "CVCLE",
 		},
 		"FalseConsonantLE": {
-			input: "tale",
-			want:  "CVCC",
+			input: "le",
+			want:  "CV",
 		},
 		"UpperCase": {
 			input: "FOOD",
