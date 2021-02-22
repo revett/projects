@@ -14,7 +14,7 @@ func init() {
 // EnglishAlphabet contains the 26 lowercase letters of the english alphabet.
 const EnglishAlphabet = "abcdefghijklmnopqrstuvwxyz"
 
-// Alphabet contains a slice of letters.
+// Alphabet contains a slice of letters and combinations.
 type Alphabet struct {
 	Combinations []string
 	Letters      []string

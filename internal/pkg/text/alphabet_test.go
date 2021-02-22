@@ -36,7 +36,7 @@ func TestAlphabetCombinations(t *testing.T) {
 			}
 
 			a := text.NewAlphabet(test.input, opts...)
-			assert.ElementsMatch(t, a.Combinations, test.want)
+			assert.ElementsMatch(t, test.want, a.Combinations)
 		})
 	}
 }
@@ -72,7 +72,7 @@ func TestAlphabetLetters(t *testing.T) {
 			}
 
 			a := text.NewAlphabet(test.input, opts...)
-			assert.ElementsMatch(t, a.Letters, test.want)
+			assert.ElementsMatch(t, test.want, a.Letters)
 		})
 	}
 }
