@@ -141,3 +141,6 @@ dist
 
 # Tailwind
 tailwind.css
+
+# Compiled Markdown Partials
+*.partial.html
