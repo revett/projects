@@ -60,6 +60,14 @@ func TestWordConsonantVowelPattern(t *testing.T) {
 			input: "Golang",
 			want:  "CVCVCC",
 		},
+		"RControlledConsonantLE": {
+			input: "hurdle",
+			want:  "CVRCLE",
+		},
+		"RControlledVowelConsonantE": {
+			input: "hurade",
+			want:  "CVRVCE",
+		},
 	}
 
 	for n, test := range tests {
