@@ -57,7 +57,7 @@ func (w Word) ConsonantVowelPattern() string {
 		return strings.Join(p, "")
 	}
 
-	if strings.HasSuffix(w.Text, "e") && p[l-2] == "C" && p[l-3] == "V" {
+	if strings.HasSuffix(w.Text, "e") && p[l-3] == "V" && p[l-2] == "C" {
 		p[l-1] = "E"
 	}
 
