@@ -32,7 +32,7 @@ uci
 Set supported UCI option:
 
 ```
-uci name <x> value <y>
+setoption name <x> value <y>
 ```
 
 Set position:
@@ -50,3 +50,4 @@ go depth <n>
 go movetime <ms>
 ```
 
+> Makes use of the [UCI Protocol](http://wbec-ridderkerk.nl/html/UCIProtocol.html).
