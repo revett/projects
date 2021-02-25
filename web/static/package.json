@@ -8,9 +8,7 @@
     "posthtml-include": "^1.6.2",
     "tailwindcss": "^2.0.3"
   },
-  "dependencies": {
-    "chessboardjs": "^0.0.1"
-  },
+  "dependencies": {},
   "engines": {
     "node": "12.13.0"
   }

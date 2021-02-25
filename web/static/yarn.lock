@@ -1452,11 +1452,6 @@ chalk@^4.1.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-chessboardjs@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/chessboardjs/-/chessboardjs-0.0.1.tgz#106e112dba6cc0dcdcf75472a29212c304ff564e"
-  integrity sha1-EG4RLbpswNzc91RyopISwwT/Vk4=
-
 chokidar@^2.1.5:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.8.tgz#804b3a7b6a99358c3c5c61e71d8728f041cff917"

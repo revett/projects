@@ -1,14 +1,12 @@
-import chessboard from 'chessboardjs'
-
 const onBoardChange = (o, n) => {
   const fen = document.querySelector('code')
-  fen.innerHTML = chessboard.objToFen(n)
+  fen.innerHTML = Chessboard.objToFen(n)
 }
 
 let opts = {
   onChange: onBoardChange,
 }
-const b = chessboard('b', opts)
+const b = Chessboard('b', opts)
 b.start(true)
 
 const newFen = (e) => {
