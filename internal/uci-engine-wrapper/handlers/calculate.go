@@ -8,19 +8,24 @@ import (
 )
 
 type request struct {
-	Depth   int    `json:"depth"`
-	FEN     string `json:"fen"`
-	MultiPV int    `json:"multiPV"`
+	Depth    int    `json:"depth"`
+	FEN      string `json:"fen"`
+	MoveTime int64  `json:"moveTime"`
+	MultiPV  int    `json:"multiPV"`
 }
 
-// processingTime is the total amount of time that the engine can search for.
-const processingTime = 7000
+// maxMoveTime is the maximum amount of time the engine can search for.
+const maxMoveTime = 7000
 
 // Calculate runs the 'go' UCI command with a set of options.
 func Calculate(c echo.Context) error {
 	var req request
 	if err := c.Bind(&req); err != nil {
 		return err
+	}
+
+	if req.MoveTime > maxMoveTime {
+		req.MoveTime = maxMoveTime
 	}
 
 	e, err := uci.NewEngine("/usr/local/bin/stockfish")
@@ -44,7 +49,7 @@ func Calculate(c echo.Context) error {
 		return err
 	}
 
-	r, err := e.Go(req.Depth, "", processingTime)
+	r, err := e.Go(req.Depth, "", req.MoveTime)
 	if err != nil {
 		return err
 	}
