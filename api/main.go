@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -30,5 +31,18 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(path)
 
+	var files []string
+
+	root := path
+	err = filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+			files = append(files, path)
+			return nil
+	})
+	if err != nil {
+			log.Println(err)
+	}
+	for _, file := range files {
+			fmt.Println(file)
+	}
   fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
 }
