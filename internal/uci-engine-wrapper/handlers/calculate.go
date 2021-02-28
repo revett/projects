@@ -14,7 +14,6 @@ type request struct {
 	MultiPV  int    `json:"multiPV"`
 }
 
-// maxMoveTime is the maximum amount of time the engine can search for.
 const maxMoveTime = 7000
 
 // Calculate runs the 'go' UCI command with a set of options.
