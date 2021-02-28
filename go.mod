@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/freeeve/uci v1.0.0
+	github.com/klauspost/cpuid/v2 v2.0.4
 	github.com/labstack/echo/v4 v4.2.0
 	github.com/stretchr/testify v1.7.0
 )
