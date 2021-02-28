@@ -8,10 +8,11 @@ import (
 
 func main() {
 	e := echo.New()
+	e.Debug = true
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.GET("/calculate", handlers.Calculate)
+	e.POST("/calculate", handlers.Calculate)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
