@@ -33,7 +33,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	var files []string
 
-	root := "/var"
+	root := "/var/task"
 	err = filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 			files = append(files, path)
 			return nil
