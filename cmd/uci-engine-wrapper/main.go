@@ -1,40 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"log"
-
-	"github.com/freeeve/uci"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/revett/projects/internal/uci-engine-wrapper/handlers"
 )
 
-const enginePath = "/usr/local/bin/stockfish"
-
 func main() {
-	e, err := uci.NewEngine(enginePath)
-	if err != nil {
-		log.Fatal(err)
-	}
+	e := echo.New()
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 
-	err = e.SetOptions(uci.Options{
-		Hash:    128,
-		Ponder:  false,
-		OwnBook: true,
-		MultiPV: 4,
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
+	e.GET("/calculate", handlers.Calculate)
 
-	err = e.SetFEN("rnb4r/ppp1k1pp/3bp3/1N3p2/1P2n3/P3BN2/2P1PPPP/R3KB1R b KQ - 4 11")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	opts := uci.HighestDepthOnly | uci.IncludeUpperbounds | uci.IncludeLowerbounds
-	r, err := e.GoDepth(10, opts)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(r)
+	e.Logger.Fatal(e.Start(":1323"))
 }
