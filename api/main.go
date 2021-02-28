@@ -2,7 +2,9 @@ package handler
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -22,5 +24,11 @@ func main() {
 
 // Handler is required by Vercel.
 func Handler(w http.ResponseWriter, r *http.Request) {
+	path, err := os.Getwd()
+	if err != nil {
+			log.Println(err)
+	}
+	fmt.Println(path)
+
   fmt.Fprintf(w, "<h1>Hello from Go!</h1>")
 }
