@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/main.go": {
-      "includeFiles": "foo/**"
+      "includeFiles": "./build/*"
     }
   }
 }
