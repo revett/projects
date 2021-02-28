@@ -1,0 +1,3 @@
+{
+  "builds": [{ "src": "cmd/uci-engine-wrapper/*.go", "use": "@vercel/go" }]
+}
