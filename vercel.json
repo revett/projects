@@ -1,3 +1,13 @@
 {
-  "builds": [{ "src": "cmd/uci-engine-wrapper/*.go", "use": "@vercel/go" }]
+  "builds": [
+    {
+      "src": "cmd/uci-engine-wrapper/*.go",
+      "use": "@vercel/go"
+    }
+  ],
+  "functions": {
+    "cmd/uci-engine-wrapper/main.go": {
+      "includeFiles": "build/**"
+    }
+  }
 }
