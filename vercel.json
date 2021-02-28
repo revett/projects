@@ -1,6 +1,6 @@
 {
   "functions": {
-    "cmd/uci-engine-wrapper/main.go": {
+    "*.go": {
       "includeFiles": "build/**"
     }
   }
