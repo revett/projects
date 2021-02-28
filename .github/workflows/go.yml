@@ -9,8 +9,17 @@ on:
       - main
 
 jobs:
+  lint:
+    name: GoLint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Lint (golangci)
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.37
   test:
-    name: Test
+    name: GoTest
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,12 +30,3 @@ jobs:
           go-version: 1.15
       - name: Test
         run: go test -v ./... -cover
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Lint (golangci)
-        uses: golangci/golangci-lint-action@v2
-        with:
-          version: v1.37
