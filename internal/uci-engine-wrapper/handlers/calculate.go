@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -22,6 +23,12 @@ const maxMoveTime = 7000
 // of options.
 func Calculate(stockfishPath string) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+		defer func() {
+			if err := recover(); err != nil {
+				fmt.Println(err)
+			}
+		}()
+
 		contentType := r.Header.Get(webgo.HeaderContentType)
 		if contentType != webgo.JSONContentType {
 			msg := "Content-Type header is not application/json"
