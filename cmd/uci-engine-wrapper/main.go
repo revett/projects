@@ -1,18 +1,25 @@
 package main
 
 import (
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/bnkamalesh/webgo/v4"
+	"github.com/bnkamalesh/webgo/v4/middleware"
 	"github.com/revett/projects/internal/uci-engine-wrapper/handlers"
 )
 
+const stockfishPath = "/usr/local/bin/stockfish"
+
 func main() {
-	e := echo.New()
-	e.Debug = true
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+	c := webgo.Config{
+		Port: "1323",
+	}
 
-	e.POST("/calculate", handlers.Calculate)
+	r := webgo.NewRouter(&c, routes())
+	r.Use(middleware.AccessLog)
+	r.Start()
+}
 
-	e.Logger.Fatal(e.Start(":1323"))
+func routes() []*webgo.Route {
+	return []*webgo.Route{
+		handlers.CalculateRoute(stockfishPath),
+	}
 }
