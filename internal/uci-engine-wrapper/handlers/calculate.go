@@ -2,12 +2,10 @@ package handlers
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/bnkamalesh/webgo/v4"
 	"github.com/freeeve/uci"
-	"github.com/rotisserie/eris"
 )
 
 type request struct {
@@ -23,19 +21,12 @@ const maxMoveTime = 7000
 // of options.
 func Calculate(stockfishPath string) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		defer func() {
-			if err := recover(); err != nil {
-				log.Println(err)
-			}
-		}()
-
 		contentType := r.Header.Get(webgo.HeaderContentType)
 		if contentType != webgo.JSONContentType {
 			msg := "Content-Type header is not application/json"
 			webgo.SendError(w, msg, http.StatusUnsupportedMediaType)
 			return
 		}
-		log.Println("req is a valid content-type")
 
 		r.Body = http.MaxBytesReader(w, r.Body, 1048576)
 
@@ -48,7 +39,6 @@ func Calculate(stockfishPath string) func(http.ResponseWriter, *http.Request) {
 			webgo.R400(w, err)
 			return
 		}
-		log.Printf("parsed req body: %+v", req)
 
 		if req.MoveTime > maxMoveTime {
 			req.MoveTime = maxMoveTime
@@ -59,7 +49,6 @@ func Calculate(stockfishPath string) func(http.ResponseWriter, *http.Request) {
 			webgo.R500(w, err)
 			return
 		}
-		log.Println("created engine")
 
 		engOpts := uci.Options{
 			Hash:    1024,
@@ -72,23 +61,18 @@ func Calculate(stockfishPath string) func(http.ResponseWriter, *http.Request) {
 			webgo.R500(w, err)
 			return
 		}
-		log.Println("set engine options")
 
 		err = e.SetFEN(req.FEN)
 		if err != nil {
 			webgo.R500(w, err)
 			return
 		}
-		log.Println("set position")
 
 		res, err := e.Go(req.Depth, "", req.MoveTime)
 		if err != nil {
-			e := eris.Wrap(err, "engine unable to process operation")
-			log.Println(eris.ToString(e, true))
-			webgo.R500(w, eris.ToJSON(e, true))
+			webgo.R500(w, err)
 			return
 		}
-		log.Println("search completed")
 
 		webgo.R200(w, res)
 	}
