@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -25,7 +24,7 @@ func Calculate(stockfishPath string) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if err := recover(); err != nil {
-				fmt.Println(err)
+				log.Println(err)
 			}
 		}()
 
@@ -83,6 +82,9 @@ func Calculate(stockfishPath string) func(http.ResponseWriter, *http.Request) {
 
 		res, err := e.Go(req.Depth, "", req.MoveTime)
 		if err != nil {
+			log.Println("-")
+			log.Println(err)
+			log.Println("-")
 			webgo.R500(w, err)
 			return
 		}
