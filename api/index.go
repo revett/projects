@@ -7,7 +7,8 @@ import (
 )
 
 // Handler is the exported http.HandlerFunc for Vercel.
-func Handler(w http.ResponseWriter, req *http.Request) {
+func Handler(w http.ResponseWriter, r *http.Request) {
 	stockfishPath := "/var/task/templates/stockfish_13_linux_x64_bmi2"
-	handlers.Calculate(stockfishPath)
+	h := handlers.Calculate(stockfishPath)
+	h(w, r)
 }
