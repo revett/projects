@@ -7,6 +7,7 @@ import (
 
 	"github.com/bnkamalesh/webgo/v4"
 	"github.com/freeeve/uci"
+	"github.com/rotisserie/eris"
 )
 
 type request struct {
@@ -82,10 +83,9 @@ func Calculate(stockfishPath string) func(http.ResponseWriter, *http.Request) {
 
 		res, err := e.Go(req.Depth, "", req.MoveTime)
 		if err != nil {
-			log.Println("-")
-			log.Println(err)
-			log.Println("-")
-			webgo.R500(w, err)
+			e := eris.Wrap(err, "engine unable to process operation")
+			log.Println(eris.ToString(e, true))
+			webgo.R500(w, eris.ToJSON(e, true))
 			return
 		}
 		log.Println("search completed")
