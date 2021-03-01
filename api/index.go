@@ -5,28 +5,16 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/bnkamalesh/webgo/v4"
 	"github.com/freeeve/uci"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-	"github.com/revett/projects/internal/uci-engine-wrapper/handlers"
 )
 
-func main() {
-	e := echo.New()
-	e.Debug = true
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-
-	e.POST("/calculate", handlers.Calculate)
-
-	e.Logger.Fatal(e.Start(":1323"))
-}
-
-// Handler is required by Vercel.
+// Handler is the exported http.HandlerFunc for Vercel to use.
 func Handler(w http.ResponseWriter, req *http.Request) {
 	e, err := uci.NewEngine("/var/task/templates/stockfish_13_linux_x64_bmi2")
 	if err != nil {
-		log.Fatal(err)
+		webgo.R500(w, err)
+		return
 	}
 
 	engOpts := uci.Options{
