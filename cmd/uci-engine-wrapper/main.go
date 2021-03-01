@@ -8,12 +8,6 @@ import (
 
 const stockfishPath = "/usr/local/bin/stockfish"
 
-func routes() []*webgo.Route {
-	return []*webgo.Route{
-		handlers.CalculateRoute(stockfishPath),
-	}
-}
-
 func main() {
 	c := webgo.Config{
 		Port: "1323",
@@ -22,4 +16,10 @@ func main() {
 	r := webgo.NewRouter(&c, routes())
 	r.Use(middleware.AccessLog)
 	r.Start()
+}
+
+func routes() []*webgo.Route {
+	return []*webgo.Route{
+		handlers.CalculateRoute(stockfishPath),
+	}
 }
