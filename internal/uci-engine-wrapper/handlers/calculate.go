@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/bnkamalesh/webgo/v4"
-	"github.com/freeeve/uci"
+	"github.com/revett/projects/pkg/uci"
 )
 
 type request struct {
