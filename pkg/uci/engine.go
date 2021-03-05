@@ -44,17 +44,22 @@ func NewEngine(p string, cmdContext execContext) (*Engine, error) {
 	}, nil
 }
 
-// Stop ends the chess engine command.
+// Stop ends the chess engine executable.
 func (e Engine) Stop() error {
 	err := e.sendCommand("quit")
 	if err != nil {
 		return err
 	}
 
-	return e.cmd.Wait()
+	err = e.cmd.Wait()
+	if err != nil {
+		return errors.Wrap(err, "error when waiting for engine to quit")
+	}
+
+	return nil
 }
 
-// IsReady checks if the engine is ready for a command
+// IsReady checks if the engine is ready for a command.
 func (e Engine) IsReady() (bool, error) {
 	err := e.sendCommand("isready")
 	if err != nil {
