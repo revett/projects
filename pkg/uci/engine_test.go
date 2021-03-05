@@ -11,7 +11,7 @@ import (
 )
 
 func TestEngineIsReady(t *testing.T) {
-	e, err := uci.NewEngine("/usr/local/bin/stockfish", fakeExecContext)
+	e, err := uci.NewEngine("/path/to/engine", fakeExecContext)
 	assert.NoError(t, err)
 
 	ready, err := e.IsReady()
