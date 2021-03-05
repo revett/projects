@@ -9,7 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-type execContext = func(name string, arg ...string) *exec.Cmd
+type execContext func(name string, arg ...string) *exec.Cmd
 
 // Engine holds the properties required to communicate with a UCI-compatible
 // chess engine executable.
