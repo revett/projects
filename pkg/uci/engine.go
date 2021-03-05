@@ -19,7 +19,7 @@ type Engine struct {
 	out *bufio.Reader
 }
 
-// NewEngine returns an Engine, with any options configured.
+// NewEngine returns an Engine.
 func NewEngine(p string, cmdContext execContext) (*Engine, error) {
 	cmd := cmdContext(p)
 
@@ -37,13 +37,11 @@ func NewEngine(p string, cmdContext execContext) (*Engine, error) {
 		return nil, errors.Wrap(err, "failed to start command")
 	}
 
-	e := Engine{
+	return &Engine{
 		cmd: cmd,
 		in:  bufio.NewWriter(in),
 		out: bufio.NewReader(out),
-	}
-
-	return &e, nil
+	}, nil
 }
 
 // Stop ends the chess engine command.
