@@ -19,7 +19,7 @@ func TestEngineIsReady(t *testing.T) {
 		},
 	}
 
-	e, err := uci.NewEngine("/path/to/engine", m)
+	e, err := uci.NewEngine(m, "/path/to/engine")
 	assert.NoError(t, err)
 
 	ready, err := e.IsReady()

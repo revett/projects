@@ -18,7 +18,7 @@ type Engine struct {
 }
 
 // NewEngine returns an Engine.
-func NewEngine(p string, c commander) (*Engine, error) {
+func NewEngine(c commander, p string) (*Engine, error) {
 	cmd := c.Command(p)
 
 	in, err := cmd.StdinPipe()
