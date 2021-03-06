@@ -1,13 +1,48 @@
-# projects
+# Projects
 
 🧪 Personal projects and experiments from [@revcd](https://twitter.com/revcd).
 
-## Project Layout
+## Layout
 
 This repo follows the structure outlined in
 [golang-standards/project-layout](https://github.com/golang-standards/project-layout).
 
 ## Active
+
+### `pkg/uci`
+
+Package for interacting with a chess engine that supports the
+[Universal Chess Interface](http://wbec-ridderkerk.nl/html/UCIProtocol.html)
+(UCI) protocol. It builds upon the excellent
+[freeeve/uci](https://github.com/freeeve/uci) repo.
+
+```go
+package main
+
+import (
+	"log"
+	"os/exec"
+
+	"github.com/revett/projects/pkg/uci"
+)
+
+func main() {
+	e, err := uci.NewEngine("/usr/local/bin/stockfish", exec.Command)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = e.IsReady()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = e.Stop()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+```
 
 ### Pronounceable Gibberish
 
