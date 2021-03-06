@@ -9,7 +9,7 @@ This repo follows the structure outlined in
 
 ## Active
 
-## `pkg/uci`
+### `pkg/uci`
 
 Package for interacting with a chess engine that supports
 [Universal Chess Interface](http://wbec-ridderkerk.nl/html/UCIProtocol.html)
