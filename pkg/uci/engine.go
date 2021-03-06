@@ -9,8 +9,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-type execContext func(name string, arg ...string) *exec.Cmd
-
 // Engine holds the properties required to communicate with a UCI-compatible
 // chess engine executable.
 type Engine struct {
@@ -20,8 +18,8 @@ type Engine struct {
 }
 
 // NewEngine returns an Engine.
-func NewEngine(p string, cmdContext execContext) (*Engine, error) {
-	cmd := cmdContext(p)
+func NewEngine(c commander, p string) (*Engine, error) {
+	cmd := c.Command(p)
 
 	in, err := cmd.StdinPipe()
 	if err != nil {

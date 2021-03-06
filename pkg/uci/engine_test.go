@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 	"testing"
 
 	"github.com/revett/projects/pkg/uci"
@@ -11,7 +12,14 @@ import (
 )
 
 func TestEngineIsReady(t *testing.T) {
-	e, err := uci.NewEngine("/path/to/engine", fakeExecContext)
+	m := mockCommander{
+		out: []string{
+			"Stockfish 13 by the Stockfish developers (see AUTHORS file)",
+			"readyok",
+		},
+	}
+
+	e, err := uci.NewEngine(m, "/path/to/engine")
 	assert.NoError(t, err)
 
 	ready, err := e.IsReady()
@@ -22,26 +30,26 @@ func TestEngineIsReady(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-// TestProcess is a function acts as a subsitute for an actual shell command.
-// GO_TEST_PROCESS flag ensures that if it is called as part of the test suite,
-// it is skipped.
-func TestProcess(t *testing.T) {
-	if os.Getenv("GO_TEST_PROCESS") != "1" {
-		return
-	}
-
-	fmt.Fprintln(
-		os.Stdout, "Stockfish 13 by the Stockfish developers (see AUTHORS file)",
-	)
-	fmt.Fprintln(os.Stdout, "readyok")
+type mockCommander struct {
+	out []string
 }
 
-// fakeExecCommandSuccess is a function that initialises a new exec.Cmd, one
-// which will simply calls TestProcess rather than the command it is provided.
-func fakeExecContext(command string, args ...string) *exec.Cmd {
-	cs := []string{"-test.run=TestProcess", "--", command}
-	cs = append(cs, args...)
-	cmd := exec.Command(os.Args[0], cs...)
-	cmd.Env = []string{"GO_TEST_PROCESS=1"}
+func (m mockCommander) Command(s string, a ...string) *exec.Cmd {
+	out := fmt.Sprintf("TEST_CMD_OUTPUT=%s", strings.Join(m.out, ","))
+	cmd := exec.Command(os.Args[0])
+	cmd.Env = append(os.Environ(), "TEST_MAIN=1", out)
 	return cmd
+}
+
+func TestMain(m *testing.M) {
+	if os.Getenv("TEST_MAIN") != "1" {
+		os.Exit(m.Run())
+	}
+
+	l := strings.Split(os.Getenv("TEST_CMD_OUTPUT"), ",")
+	for _, s := range l {
+		fmt.Fprintln(os.Stdout, s)
+	}
+
+	os.Exit(0)
 }

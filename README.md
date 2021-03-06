@@ -21,13 +21,12 @@ package main
 
 import (
 	"log"
-	"os/exec"
 
 	"github.com/revett/projects/pkg/uci"
 )
 
 func main() {
-	e, err := uci.NewEngine("/usr/local/bin/stockfish", exec.Command)
+	e, err := uci.NewEngine(uci.DefaultCommand(), "/usr/local/bin/stockfish")
 	if err != nil {
 		log.Fatal(err)
 	}
