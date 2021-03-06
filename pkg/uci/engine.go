@@ -3,8 +3,8 @@ package uci
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os/exec"
-	"strings"
 
 	"github.com/pkg/errors"
 )
@@ -13,23 +13,18 @@ import (
 // chess engine executable.
 type Engine struct {
 	cmd *exec.Cmd
-	in  *bufio.Writer
-	out *bufio.Reader
+	in  *io.PipeWriter
+	out *io.PipeReader
 }
 
 // NewEngine returns an Engine.
 func NewEngine(c commander, p string) (*Engine, error) {
+	rIn, wIn := io.Pipe()
+	rOut, wOut := io.Pipe()
+
 	cmd := c.Command(p)
-
-	in, err := cmd.StdinPipe()
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to return stdin pipe from command")
-	}
-
-	out, err := cmd.StdoutPipe()
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to return stdout pipe from command")
-	}
+	cmd.Stdin = rIn
+	cmd.Stdout = wOut
 
 	if err := cmd.Start(); err != nil {
 		return nil, errors.Wrap(err, "failed to start command")
@@ -37,24 +32,26 @@ func NewEngine(c commander, p string) (*Engine, error) {
 
 	return &Engine{
 		cmd: cmd,
-		in:  bufio.NewWriter(in),
-		out: bufio.NewReader(out),
+		in:  wIn,
+		out: rOut,
 	}, nil
 }
 
 // Stop ends the chess engine executable.
-func (e Engine) Stop() error {
-	err := e.sendCommand("quit")
-	if err != nil {
+func (e Engine) Close() error {
+	if err := e.sendCommand("quit"); err != nil {
 		return err
 	}
 
-	err = e.cmd.Wait()
-	if err != nil {
-		return errors.Wrap(err, "error when waiting for engine to quit")
+	if err := e.in.Close(); err != nil {
+		return err
 	}
 
-	return nil
+	if err := e.out.Close(); err != nil {
+		return err
+	}
+
+	return e.cmd.Process.Kill()
 }
 
 // IsReady checks if the engine is ready for a command.
@@ -78,14 +75,10 @@ func (e Engine) IsReady() (bool, error) {
 
 func (e Engine) readUntil(s string) ([]string, error) {
 	var lines []string
+	scanner := bufio.NewScanner(e.out)
 
-	for {
-		l, err := e.out.ReadString('\n')
-		if err != nil {
-			return nil, errors.Wrap(err, "unable to read output from engine")
-		}
-
-		l = strings.Trim(l, "\n")
+	for scanner.Scan() {
+		l := scanner.Text()
 		lines = append(lines, l)
 
 		if l == s {
@@ -93,19 +86,17 @@ func (e Engine) readUntil(s string) ([]string, error) {
 		}
 	}
 
+	if scanner.Err() != nil {
+		return nil, errors.Wrap(scanner.Err(), "error reading output from engine")
+	}
+
 	return lines, nil
 }
 
 func (e Engine) sendCommand(s string) error {
-	c := fmt.Sprintf("%s\n", s)
-	_, err := e.in.WriteString(c)
+	_, err := fmt.Fprintln(e.in, s)
 	if err != nil {
 		return errors.Wrap(err, "error creating command to send")
-	}
-
-	err = e.in.Flush()
-	if err != nil {
-		return errors.Wrap(err, "error sending command to engine")
 	}
 
 	return nil
