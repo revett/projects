@@ -26,7 +26,7 @@ func TestEngineIsReady(t *testing.T) {
 	assert.NoError(t, err)
 	assert.True(t, ready)
 
-	err = e.Stop()
+	err = e.Close()
 	assert.NoError(t, err)
 }
 
