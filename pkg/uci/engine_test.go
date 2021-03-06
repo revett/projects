@@ -12,7 +12,7 @@ import (
 )
 
 func TestEngineIsReady(t *testing.T) {
-	m := mockCmdProvider{
+	m := mockCommander{
 		out: []string{
 			"Stockfish 13 by the Stockfish developers (see AUTHORS file)",
 			"readyok",
@@ -30,11 +30,11 @@ func TestEngineIsReady(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-type mockCmdProvider struct {
+type mockCommander struct {
 	out []string
 }
 
-func (m mockCmdProvider) Command(s string, a ...string) *exec.Cmd {
+func (m mockCommander) Command(s string, a ...string) *exec.Cmd {
 	out := fmt.Sprintf("TEST_CMD_OUTPUT=%s", strings.Join(m.out, ","))
 	cmd := exec.Command(os.Args[0])
 	cmd.Env = append(os.Environ(), "TEST_MAIN=1", out)
