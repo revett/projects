@@ -26,7 +26,7 @@ import (
 )
 
 func main() {
-	e, err := uci.NewEngine("/usr/local/bin/stockfish", uci.DefaultCommand())
+	e, err := uci.NewEngine(uci.DefaultCommand(), "/usr/local/bin/stockfish")
 	if err != nil {
 		log.Fatal(err)
 	}
