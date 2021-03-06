@@ -32,7 +32,12 @@ func main() {
 	}
 	defer e.Close()
 
-	_, err = e.IsReady()
+	err = e.UCI()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = e.IsReady()
 	if err != nil {
 		log.Fatal(err)
 	}
