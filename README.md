@@ -30,13 +30,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer e.Close()
 
 	_, err = e.IsReady()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = e.Stop()
 	if err != nil {
 		log.Fatal(err)
 	}
