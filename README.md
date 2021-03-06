@@ -11,7 +11,7 @@ This repo follows the structure outlined in
 
 ### `pkg/uci`
 
-Package for interacting with a chess engine that supports
+Package for interacting with a chess engine that supports the
 [Universal Chess Interface](http://wbec-ridderkerk.nl/html/UCIProtocol.html)
 (UCI) protocol. It builds upon the excellent
 [freeeve/uci](https://github.com/freeeve/uci) repo.
