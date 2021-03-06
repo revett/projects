@@ -9,7 +9,15 @@ import (
 	"github.com/pkg/errors"
 )
 
-type execContext func(name string, arg ...string) *exec.Cmd
+type CommandBuilder interface {
+	Command(s string, a ...string) *exec.Cmd
+}
+
+type DefaultCommandBuilder struct{}
+
+func (d DefaultCommandBuilder) Command(s string, a ...string) *exec.Cmd {
+	return exec.Command(s, a...)
+}
 
 // Engine holds the properties required to communicate with a UCI-compatible
 // chess engine executable.
@@ -20,8 +28,8 @@ type Engine struct {
 }
 
 // NewEngine returns an Engine.
-func NewEngine(p string, cmdContext execContext) (*Engine, error) {
-	cmd := cmdContext(p)
+func NewEngine(p string, cmdBuilder CommandBuilder) (*Engine, error) {
+	cmd := cmdBuilder.Command(p)
 
 	in, err := cmd.StdinPipe()
 	if err != nil {
