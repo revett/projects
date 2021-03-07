@@ -76,6 +76,12 @@ func (e Engine) UCI() error {
 	return err
 }
 
+// UCINewGame sends the `ucinewgame` command to the engine, to tell the engine
+// that the next search command will be from a different game.
+func (e Engine) UCINewGame() error {
+	return e.sendCommand(uciNewGameCmd)
+}
+
 func (e Engine) readUntil(s string) ([]string, error) {
 	var lines []string
 	scanner := bufio.NewScanner(e.out)
