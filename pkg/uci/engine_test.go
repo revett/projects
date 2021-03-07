@@ -57,6 +57,14 @@ func TestNewEngine(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestPosition(t *testing.T) {
+	e, err := uci.NewEngine(mockCommander{}, mockEnginePath)
+	assert.NoError(t, err)
+
+	err = e.Position(uci.StartingPosition)
+	assert.NoError(t, err)
+}
+
 func TestUCI(t *testing.T) {
 	m := mockCommander{
 		out: []string{
