@@ -37,6 +37,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	err = e.UCINewGame()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	err = e.IsReady()
 	if err != nil {
 		log.Fatal(err)
