@@ -26,26 +26,17 @@ import (
 )
 
 func main() {
-	e, err := uci.NewEngine(uci.DefaultCommand(), "/usr/local/bin/stockfish")
+	e, err := uci.NewEngine(
+		uci.DefaultCommand(),
+		"/usr/local/bin/stockfish",
+		uci.InitialiseGame,
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer e.Close()
 
-	err = e.UCI()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = e.UCINewGame()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = e.IsReady()
-	if err != nil {
-		log.Fatal(err)
-	}
+	// ...
 }
 ```
 

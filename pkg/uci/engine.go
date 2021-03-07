@@ -18,7 +18,7 @@ type Engine struct {
 }
 
 // NewEngine returns an Engine.
-func NewEngine(c commander, p string) (*Engine, error) {
+func NewEngine(c commander, p string, opts ...func(e *Engine) error) (*Engine, error) {
 	rIn, wIn := io.Pipe()
 	rOut, wOut := io.Pipe()
 
@@ -30,11 +30,33 @@ func NewEngine(c commander, p string) (*Engine, error) {
 		return nil, errors.Wrap(err, "failed to start command")
 	}
 
-	return &Engine{
+	e := &Engine{
 		cmd: cmd,
 		in:  wIn,
 		out: rOut,
-	}, nil
+	}
+
+	for _, o := range opts {
+		if err := o(e); err != nil {
+			return nil, err
+		}
+	}
+
+	return e, nil
+}
+
+// InitialiseGame tells the engine to; use UCI, start a new game and check if it
+// is ready.
+func InitialiseGame(e *Engine) error {
+	if err := e.UCI(); err != nil {
+		return err
+	}
+
+	if err := e.UCINewGame(); err != nil {
+		return err
+	}
+
+	return e.IsReady()
 }
 
 // Stop ends the chess engine executable.
