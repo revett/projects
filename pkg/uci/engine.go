@@ -64,6 +64,15 @@ func InitialiseGame(e *Engine) error {
 	return e.IsReady()
 }
 
+// WithCommandTimeout sets the duration the client will wait for when listening
+// for a given output from the engine.
+func WithCommandTimeout(d time.Duration) func(*Engine) error {
+	return func(e *Engine) error {
+		e.timeout = d
+		return nil
+	}
+}
+
 // Stop ends the chess engine executable.
 func (e Engine) Close() error {
 	if err := e.sendCommand("quit"); err != nil {

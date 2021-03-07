@@ -63,7 +63,9 @@ func TestIsReady(t *testing.T) {
 				out: tc.cmdOutput,
 			}
 
-			e, err := uci.NewEngine(m, mockEnginePath)
+			e, err := uci.NewEngine(
+				m, mockEnginePath, uci.WithCommandTimeout(100*time.Millisecond),
+			)
 			assert.NoError(t, err)
 
 			err = e.IsReady()
