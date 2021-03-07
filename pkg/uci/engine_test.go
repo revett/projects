@@ -48,6 +48,17 @@ func TestUCI(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestUCINewGame(t *testing.T) {
+	e, err := uci.NewEngine(mockCommander{}, "/path/to/engine")
+	assert.NoError(t, err)
+
+	err = e.UCINewGame()
+	assert.NoError(t, err)
+
+	err = e.Close()
+	assert.NoError(t, err)
+}
+
 type mockCommander struct {
 	out []string
 }
