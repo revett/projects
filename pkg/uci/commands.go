@@ -1,6 +1,7 @@
 package uci
 
 const (
-	isReadyCmd = "isready"
-	uciCmd     = "uci"
+	isReadyCmd    = "isready"
+	uciCmd        = "uci"
+	uciNewGameCmd = "ucinewgame"
 )
