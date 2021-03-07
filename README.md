@@ -21,6 +21,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/revett/projects/pkg/uci"
 )
@@ -30,6 +31,7 @@ func main() {
 		uci.DefaultCommand(),
 		"/usr/local/bin/stockfish",
 		uci.InitialiseGame,
+		uci.WithCommandTimeout(100*time.Millisecond),
 	)
 	if err != nil {
 		log.Fatal(err)
