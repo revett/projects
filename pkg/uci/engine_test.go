@@ -38,18 +38,38 @@ func TestInitialiseGame(t *testing.T) {
 }
 
 func TestIsReady(t *testing.T) {
-	m := mockCommander{
-		out: []string{
-			"Stockfish 13 by the Stockfish developers (see AUTHORS file)",
-			"readyok",
+	testCases := map[string]struct {
+		cmdOutput []string
+		want      error
+	}{
+		"Success": {
+			cmdOutput: []string{
+				"Stockfish 13 by the Stockfish developers (see AUTHORS file)",
+				"readyok",
+			},
+			want: nil,
+		},
+		"TimeOut": {
+			cmdOutput: []string{
+				"Stockfish 13 by the Stockfish developers (see AUTHORS file)",
+			},
+			want: uci.CommandTimeoutError{},
 		},
 	}
 
-	e, err := uci.NewEngine(m, mockEnginePath)
-	assert.NoError(t, err)
+	for n, tc := range testCases {
+		t.Run(n, func(st *testing.T) {
+			m := mockCommander{
+				out: tc.cmdOutput,
+			}
 
-	err = e.IsReady()
-	assert.NoError(t, err)
+			e, err := uci.NewEngine(m, mockEnginePath)
+			assert.NoError(t, err)
+
+			err = e.IsReady()
+			assert.IsType(t, tc.want, err)
+		})
+	}
 }
 
 func TestNewEngine(t *testing.T) {

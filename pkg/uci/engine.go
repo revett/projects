@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
+	"time"
 
 	"github.com/pkg/errors"
 )
@@ -111,15 +112,31 @@ func (e Engine) UCINewGame() error {
 }
 
 func (e Engine) readUntil(s string) ([]string, error) {
-	var lines []string
 	scanner := bufio.NewScanner(e.out)
+	c := make(chan []string, 1)
 
-	for scanner.Scan() {
-		l := scanner.Text()
-		lines = append(lines, l)
+	go func() {
+		var lines []string
+		for scanner.Scan() {
+			l := scanner.Text()
+			lines = append(lines, l)
+			if l == s {
+				break
+			}
+		}
 
-		if l == s {
-			break
+		c <- lines
+	}()
+
+	var lines []string
+
+	select {
+	case res := <-c:
+		lines = res
+	case <-time.After(1 * time.Second):
+		return nil, CommandTimeoutError{
+			duration: 1,
+			response: s,
 		}
 	}
 
