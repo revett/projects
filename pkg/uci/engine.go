@@ -10,12 +10,15 @@ import (
 	"github.com/pkg/errors"
 )
 
+const defaultCommandTimeout = 1 * time.Second
+
 // Engine holds the properties required to communicate with a UCI-compatible
 // chess engine executable.
 type Engine struct {
-	cmd *exec.Cmd
-	in  *io.PipeWriter
-	out *io.PipeReader
+	cmd     *exec.Cmd
+	timeout time.Duration
+	in      *io.PipeWriter
+	out     *io.PipeReader
 }
 
 // NewEngine returns an Engine.
@@ -32,9 +35,10 @@ func NewEngine(c commander, p string, opts ...func(e *Engine) error) (*Engine, e
 	}
 
 	e := &Engine{
-		cmd: cmd,
-		in:  wIn,
-		out: rOut,
+		cmd:     cmd,
+		timeout: defaultCommandTimeout,
+		in:      wIn,
+		out:     rOut,
 	}
 
 	for _, o := range opts {
@@ -133,7 +137,7 @@ func (e Engine) readUntil(s string) ([]string, error) {
 	select {
 	case res := <-c:
 		lines = res
-	case <-time.After(1 * time.Second):
+	case <-time.After(e.timeout):
 		return nil, CommandTimeoutError{
 			duration: 1,
 			response: s,
