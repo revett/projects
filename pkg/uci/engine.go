@@ -5,16 +5,20 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
+	"time"
 
 	"github.com/pkg/errors"
 )
 
+const defaultCommandTimeout = 1 * time.Second
+
 // Engine holds the properties required to communicate with a UCI-compatible
 // chess engine executable.
 type Engine struct {
-	cmd *exec.Cmd
-	in  *io.PipeWriter
-	out *io.PipeReader
+	cmd     *exec.Cmd
+	timeout time.Duration
+	in      *io.PipeWriter
+	out     *io.PipeReader
 }
 
 // NewEngine returns an Engine.
@@ -31,9 +35,10 @@ func NewEngine(c commander, p string, opts ...func(e *Engine) error) (*Engine, e
 	}
 
 	e := &Engine{
-		cmd: cmd,
-		in:  wIn,
-		out: rOut,
+		cmd:     cmd,
+		timeout: defaultCommandTimeout,
+		in:      wIn,
+		out:     rOut,
 	}
 
 	for _, o := range opts {
@@ -57,6 +62,15 @@ func InitialiseGame(e *Engine) error {
 	}
 
 	return e.IsReady()
+}
+
+// WithCommandTimeout sets the duration the client will wait for when listening
+// for a given output from the engine.
+func WithCommandTimeout(d time.Duration) func(*Engine) error {
+	return func(e *Engine) error {
+		e.timeout = d
+		return nil
+	}
 }
 
 // Stop ends the chess engine executable.
@@ -111,15 +125,31 @@ func (e Engine) UCINewGame() error {
 }
 
 func (e Engine) readUntil(s string) ([]string, error) {
-	var lines []string
 	scanner := bufio.NewScanner(e.out)
+	c := make(chan []string, 1)
 
-	for scanner.Scan() {
-		l := scanner.Text()
-		lines = append(lines, l)
+	go func() {
+		var lines []string
+		for scanner.Scan() {
+			l := scanner.Text()
+			lines = append(lines, l)
+			if l == s {
+				break
+			}
+		}
 
-		if l == s {
-			break
+		c <- lines
+	}()
+
+	var lines []string
+
+	select {
+	case res := <-c:
+		lines = res
+	case <-time.After(e.timeout):
+		return nil, CommandTimeoutError{
+			duration: 1,
+			response: s,
 		}
 	}
 
