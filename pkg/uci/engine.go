@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"log"
 	"os/exec"
 	"time"
 
@@ -16,6 +17,7 @@ const defaultCommandTimeout = 1 * time.Second
 // chess engine executable.
 type Engine struct {
 	cmd     *exec.Cmd
+	debug   bool
 	timeout time.Duration
 	in      *io.PipeWriter
 	out     *io.PipeReader
@@ -50,8 +52,15 @@ func NewEngine(c commander, p string, opts ...func(e *Engine) error) (*Engine, e
 	return e, nil
 }
 
-// InitialiseGame tells the engine to; use UCI, start a new game and check if it
-// is ready.
+// Debug is an option for the NewEngine function which logs any commands sent to
+// the engine, and all output recieved.
+func Debug(e *Engine) error {
+	e.debug = true
+	return nil
+}
+
+// InitialiseGame is an option for the NewEngine function which tells the engine
+// to use UCI and start a new game. It then checks if the engine is ready.
 func InitialiseGame(e *Engine) error {
 	if err := e.UCI(); err != nil {
 		return err
@@ -64,8 +73,8 @@ func InitialiseGame(e *Engine) error {
 	return e.IsReady()
 }
 
-// WithCommandTimeout sets the duration the client will wait for when listening
-// for a given output from the engine.
+// WithCommandTimeout is an option for the NewEngine function which sets the
+// duration a command must complete in.
 func WithCommandTimeout(d time.Duration) func(*Engine) error {
 	return func(e *Engine) error {
 		e.timeout = d
@@ -130,9 +139,15 @@ func (e Engine) readUntil(s string) ([]string, error) {
 
 	go func() {
 		var lines []string
+
 		for scanner.Scan() {
 			l := scanner.Text()
 			lines = append(lines, l)
+
+			if e.debug {
+				log.Println(l)
+			}
+
 			if l == s {
 				break
 			}
@@ -162,6 +177,11 @@ func (e Engine) readUntil(s string) ([]string, error) {
 
 func (e Engine) sendCommand(s string, a ...interface{}) error {
 	s = fmt.Sprintf(s, a...)
+
+	if e.debug {
+		log.Printf("> %s", s)
+	}
+
 	_, err := fmt.Fprintln(e.in, s)
 	if err != nil {
 		return errors.Wrap(err, "error creating command to send")
