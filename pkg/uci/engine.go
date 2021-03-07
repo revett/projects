@@ -87,6 +87,12 @@ func (e Engine) IsReady() error {
 	return err
 }
 
+// Position sends the `position` command to the engine with a givin FEN, setting
+// the internal board position.
+func (e Engine) Position(f string) error {
+	return e.sendCommand(positionCmd, f)
+}
+
 // UCI sends the `uci` command to the engine, to tell the engine to use UCI.
 func (e Engine) UCI() error {
 	err := e.sendCommand(uciCmd)
@@ -124,7 +130,8 @@ func (e Engine) readUntil(s string) ([]string, error) {
 	return lines, nil
 }
 
-func (e Engine) sendCommand(s string) error {
+func (e Engine) sendCommand(s string, a ...interface{}) error {
+	s = fmt.Sprintf(s, a...)
 	_, err := fmt.Fprintln(e.in, s)
 	if err != nil {
 		return errors.Wrap(err, "error creating command to send")
