@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestEngineIsReady(t *testing.T) {
+func TestIsReady(t *testing.T) {
 	m := mockCommander{
 		out: []string{
 			"Stockfish 13 by the Stockfish developers (see AUTHORS file)",
@@ -22,9 +22,27 @@ func TestEngineIsReady(t *testing.T) {
 	e, err := uci.NewEngine(m, "/path/to/engine")
 	assert.NoError(t, err)
 
-	ready, err := e.IsReady()
+	err = e.IsReady()
 	assert.NoError(t, err)
-	assert.True(t, ready)
+
+	err = e.Close()
+	assert.NoError(t, err)
+}
+
+func TestUCI(t *testing.T) {
+	m := mockCommander{
+		out: []string{
+			"id name Stockfish 13",
+			"id author the Stockfish developers (see AUTHORS file)",
+			"uciok",
+		},
+	}
+
+	e, err := uci.NewEngine(m, "/path/to/engine")
+	assert.NoError(t, err)
+
+	err = e.UCI()
+	assert.NoError(t, err)
 
 	err = e.Close()
 	assert.NoError(t, err)

@@ -54,23 +54,26 @@ func (e Engine) Close() error {
 	return e.cmd.Process.Kill()
 }
 
-// IsReady checks if the engine is ready for a command.
-func (e Engine) IsReady() (bool, error) {
-	err := e.sendCommand("isready")
+// IsReady sends the `isready` command to the engine, to check that it is alive.
+func (e Engine) IsReady() error {
+	err := e.sendCommand(isReadyCmd)
 	if err != nil {
-		return false, err
+		return err
 	}
 
-	l, err := e.readUntil("readyok")
+	_, err = e.readUntil("readyok")
+	return err
+}
+
+// UCI sends the `uci` command to the engine, to tell the engine to use UCI.
+func (e Engine) UCI() error {
+	err := e.sendCommand(uciCmd)
 	if err != nil {
-		return false, err
+		return err
 	}
 
-	if l[len(l)-1] != "readyok" {
-		return false, errors.New("unknown response from engine")
-	}
-
-	return true, nil
+	_, err = e.readUntil("uciok")
+	return err
 }
 
 func (e Engine) readUntil(s string) ([]string, error) {
