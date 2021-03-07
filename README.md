@@ -30,6 +30,7 @@ func main() {
 	e, err := uci.NewEngine(
 		uci.DefaultCommand(),
 		"/usr/local/bin/stockfish",
+		uci.Debug,
 		uci.InitialiseGame,
 		uci.WithCommandTimeout(100*time.Millisecond),
 	)
