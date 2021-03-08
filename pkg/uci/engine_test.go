@@ -58,7 +58,7 @@ func TestIsReady(t *testing.T) {
 	}
 
 	for n, tc := range testCases {
-		t.Run(n, func(st *testing.T) {
+		t.Run(n, func(t *testing.T) {
 			m := mockCommander{
 				out: tc.cmdOutput,
 			}
