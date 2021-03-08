@@ -1,0 +1,11 @@
+baseURL = "http://example.org/"
+disableKinds = ["section", "taxonomy", "term"]
+enableGitInfo = true
+languageCode = "en-us"
+title = "@revcd"
+theme = "kasparov"
+
+[markup]
+  [markup.highlight]
+    style = "algol_nu"
+    tabWidth = 4

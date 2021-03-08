@@ -1,13 +1,15 @@
 module.exports = {
-  purge: [
-    './**/*.html',
-  ],
+  purge: ["./**/*.html"],
   darkMode: false,
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        serif: ["Source Sans Pro", "sans-serif"],
+      },
+    },
   },
   variants: {
     extend: {},
   },
   plugins: [],
-}
+};

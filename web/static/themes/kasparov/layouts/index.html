@@ -1,0 +1,20 @@
+{{ define "title" }}Posts{{ end }}
+
+{{ define "main" }}
+  <h1>
+    Posts - {{ .Site.Title }}
+  </h1>
+
+  <ul class="mt-4">
+  {{- range first 10 .Site.RegularPages }}
+    {{- if ne .File.Dir "/" }}
+      <li>
+        {{ .Date.Format "2006 Jan 02" }} -
+        <a href="{{ .Permalink }}">
+          <span class="font-bold">{{ .Title }}</span>
+        </a>
+      </li>
+    {{- end -}}
+  {{- end }}
+  </ul>
+{{ end }}
