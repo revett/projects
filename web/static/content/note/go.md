@@ -5,6 +5,55 @@ draft: true
 url: "/go"
 ---
 
+## Resources
+
+- [gophercises.com](https://gophercises.com)
+- [dariubs/GoBooks](https://github.com/dariubs/GoBooks)
+- [quii/learn-go-with-tests](https://github.com/quii/learn-go-with-tests)
+
+## Mocking with Interfaces
+
+```go
+package foo
+
+type Tweeter interface {
+	Tweet(s string) error
+}
+
+func SendMessage(t Tweeter, s string) error {
+  // ...
+  return t.Tweet(s)
+}
+```
+
+```go
+package foo_test
+
+import (
+  "testing"
+
+  "github.com/revett/foo"
+  "github.com/stretchr/testify/assert"
+)
+
+type mockTweeter struct{}
+
+func (m mockTweeter) Tweet(s string) error {
+  // ...
+  return nil
+}
+
+func TestSendMessage(t *testing.T) {
+  // ...
+  err := foo.SendMessage(mockTweeter{}, "...")
+  assert.NoError(t, err)
+}
+```
+
+Links:
+
+- [“Mocking Golang with Interfaces In Real Life” by Jonatas Baldin](https://dev.to/jonatasbaldin/mocking-golang-with-interfaces-in-real-life-3f1m)
+
 ## Different Testing Package
 
 ```go
@@ -27,10 +76,6 @@ If unexported code must be tested, then create another file with
 `_internal_test.go` as the suffix which imports `foo`.
 
 ## Table Driven Tests
-
-Links:
-
-- [“Prefer table driven tests” by @davecheney](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
 
 ```go
 package foo
@@ -73,3 +118,7 @@ func TestBar(t *testing.T) {
   }
 }
 ```
+
+Links:
+
+- [“Prefer table driven tests” by @davecheney](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
