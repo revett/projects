@@ -143,6 +143,17 @@ Links:
 
 - ["Go Code Review Comments - Initialisms" (github.com)](https://github.com/golang/go/wiki/CodeReviewComments#initialisms)
 
+## Interface Names
+
+- One method interfaces are named by the method with an `-er` suffix
+- This applies even if the result is not perfect English (e.g. `Execer` for `.Exec`)
+- Reordering is best if it will help with readability (e.g. `ByteReader` for `.ReadByte`)
+
+Links:
+
+- ["Effective Go: Interface Names" (golang.org)](https://golang.org/doc/effective_go#interface-names)
+- ["What's in a name?" (golang.org)](https://talks.golang.org/2014/names.slide#13)
+
 ## Pretty Printing Data Structures
 
 ```go
