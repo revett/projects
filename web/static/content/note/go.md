@@ -143,6 +143,27 @@ Links:
 
 - ["Go Code Review Comments - Initialisms" (github.com)](https://github.com/golang/go/wiki/CodeReviewComments#initialisms)
 
+## Pretty Printing Data Structures
+
+```go
+fmt.Printf("%+v\n", foo)
+```
+
+```go
+package main
+
+import "https://github.com/davecgh/go-spew"
+
+func main() {
+  spew.Dump(foo)
+}
+```
+
+```go
+s, _ := json.MarshalIndent(foo, "", "\t")
+fmt.Println(s)
+```
+
 ## Resources
 
 - [gophercises.com](https://gophercises.com)
