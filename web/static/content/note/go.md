@@ -133,6 +133,16 @@ Links:
 
 - ["Package names" by Sameer Ajmani (blog.golang.org)](https://blog.golang.org/package-names)
 
+## Naming Acronyms
+
+- Consistent case
+- Either all lowercase or uppercase (e.g. `url` or `URL`)
+- Never use `mixedCase` (e.g. `Url`)
+
+Links:
+
+- ["Go Code Review Comments - Initialisms" (github.com)](https://github.com/golang/go/wiki/CodeReviewComments#initialisms)
+
 ## Resources
 
 - [gophercises.com](https://gophercises.com)
