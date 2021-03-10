@@ -46,7 +46,7 @@ func TestSendMessage(t *testing.T) {
 
 Links:
 
-- [“Mocking Golang with Interfaces In Real Life” by Jonatas Baldin](https://dev.to/jonatasbaldin/mocking-golang-with-interfaces-in-real-life-3f1m)
+- ["Mocking Golang with Interfaces In Real Life" by Jonatas Baldin (dev.to)](https://dev.to/jonatasbaldin/mocking-golang-with-interfaces-in-real-life-3f1m)
 
 ## Different Testing Package
 
@@ -115,7 +115,23 @@ func TestBar(t *testing.T) {
 
 Links:
 
-- [“Prefer table driven tests” by @davecheney](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
+- ["Prefer table driven tests" by Dave Cheney (dave.cheney.net)](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
+
+## Package Names
+
+- Short and clear
+- Often simple nouns (e.g. `time`, `list`, `http`)
+- Lower case, with no underscores or `mixedCase`
+- Avoid package and function name stutter
+- Abbreviate only if the name will be unambiguous (e.g. `strconv`, `syscall`, `fmt`)
+- Don't steal good names (e.g. `bufio` instead of `buf`)
+- Avoid generic names (e.g. `util`, `common`, `misc`)
+- Avoid exposing all API interfaces in a single package (e.g. `types`, `models`)
+- Avoid unnecessary name collisions (e.g. using same name as popular `http` package)
+
+Links:
+
+- ["Package names" by Sameer Ajmani (blog.golang.org)](https://blog.golang.org/package-names)
 
 ## Resources
 
