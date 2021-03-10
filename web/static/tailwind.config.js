@@ -1,6 +1,10 @@
 module.exports = {
-  purge: ["./**/*.html"],
+  corePlugins: {
+    preflight: false,
+  },
   darkMode: false,
+  plugins: [],
+  purge: ["./**/*.html"],
   theme: {
     extend: {
       fontFamily: {
@@ -11,5 +15,4 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
 };

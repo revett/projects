@@ -5,12 +5,6 @@ draft: true
 url: "/go"
 ---
 
-## Resources
-
-- [gophercises.com](https://gophercises.com)
-- [dariubs/GoBooks](https://github.com/dariubs/GoBooks)
-- [quii/learn-go-with-tests](https://github.com/quii/learn-go-with-tests)
-
 ## Mocking with Interfaces
 
 ```go
@@ -122,3 +116,9 @@ func TestBar(t *testing.T) {
 Links:
 
 - [“Prefer table driven tests” by @davecheney](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
+
+## Resources
+
+- [gophercises.com](https://gophercises.com)
+- [dariubs/GoBooks](https://github.com/dariubs/GoBooks)
+- [quii/learn-go-with-tests](https://github.com/quii/learn-go-with-tests)

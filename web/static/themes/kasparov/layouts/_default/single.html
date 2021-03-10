@@ -1,12 +1,22 @@
 {{ define "title" }}{{ .Title }}{{ end }}
 
 {{ define "main" }}
-  <h1 class="mb-1">
-    <a href="/">Posts</a> → {{ .Title }}
+  <h1>
+    <a href="/">Posts</a> / {{ .Title }}
   </h1>
 
-  <div class="mb-6">
-    {{ .Date.Format "Mon, Jan 2, 2006" }}.
+  <div>
+    Last Updated:
+    {{ if .GitInfo }}
+      <a href="https://github.com/revett/projects/commit/{{ .GitInfo.Hash }}">
+        {{ .Lastmod.Format "Monday, 2 January 2006" }}
+      </a>
+    {{ end }}
+  </div>
+
+  <div>
+    <h2>Contents</h2>
+    {{ .TableOfContents }}
   </div>
 
   {{ .Content }}

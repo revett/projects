@@ -2,6 +2,7 @@ baseURL = "http://example.org/"
 disableKinds = ["section", "taxonomy", "term"]
 enableGitInfo = true
 languageCode = "en-us"
+pygmentsUseClasses = true
 title = "@revcd"
 theme = "kasparov"
 
@@ -9,3 +10,5 @@ theme = "kasparov"
   [markup.highlight]
     style = "algol_nu"
     tabWidth = 4
+  [markup.tableOfContents]
+    ordered = true
