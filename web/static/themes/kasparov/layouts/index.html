@@ -5,13 +5,13 @@
     Posts - {{ .Site.Title }}
   </h1>
 
-  <ul class="mt-4">
+  <ul>
   {{- range first 10 .Site.RegularPages }}
     {{- if ne .File.Dir "/" }}
       <li>
         {{ .Date.Format "2006 Jan 02" }} -
         <a href="{{ .Permalink }}">
-          <span class="font-bold">{{ .Title }}</span>
+          <span><b>{{ .Title }}</b></span>
         </a>
       </li>
     {{- end -}}

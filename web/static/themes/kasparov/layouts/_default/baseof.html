@@ -9,18 +9,27 @@
     {{ hugo.Generator }}
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/tailwind.css">
+    {{ $chroma := resources.Get "css/chroma.css" }}
+    {{ $github := resources.Get "css/github.css" }}
+    {{ $tailwind := resources.Get "css/tailwind-build.css" }}
+    {{ $styles := slice $chroma $github $tailwind | resources.Concat "css/bundle.min.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
   </head>
 
-  <body class="font-serif">
-    <div class="container max-w-2xl mx-auto my-16">
+  <body>
+    <div class="container max-w-2xl mx-auto my-16 px-2">
       {{- block "main" . }}{{- end }}
 
-      <div>
+      <div class="mt-4">
+        ___
+      </div>
+      <div class="mt-2">
         Built using
-        <a href="https://github.com/gohugoio/hugo">Hugo v{{ hugo.Version }}</a>,
-        and <a href="https://github.com/alecthomas/chroma">Chroma</a>
-        (<a href="https://xyproto.github.io/splash/docs/longer/algol_nu.html">algol_nu</a> theme).
+        <a href="https://github.com/gohugoio/hugo">Hugo</a> (v{{ hugo.Version }}).
+        Styled using
+        <a href="https://github.com/alecthomas/chroma">Chroma</a>,
+        <a href="https://tailwindcss.com/">Tailwind</a> and
+        <a href="https://github.com/sindresorhus/github-markdown-css">GithubMarkdown</a>.
       </div>
     </div>
   </body>
