@@ -11,6 +11,10 @@ import (
 	"github.com/pkg/errors"
 )
 
+// Command is an exported function to allow unit tests to monkey patch how the
+// program will be executed.
+var Command = exec.Command
+
 const defaultCommandTimeout = 1 * time.Second
 
 // Engine holds the properties required to communicate with a UCI-compatible
@@ -24,11 +28,11 @@ type Engine struct {
 }
 
 // NewEngine returns an Engine.
-func NewEngine(c commander, p string, opts ...func(e *Engine) error) (*Engine, error) {
+func NewEngine(p string, opts ...func(e *Engine) error) (*Engine, error) {
 	rIn, wIn := io.Pipe()
 	rOut, wOut := io.Pipe()
 
-	cmd := c.Command(p)
+	cmd := Command(p)
 	cmd.Stdin = rIn
 	cmd.Stdout = wOut
 

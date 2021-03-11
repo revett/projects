@@ -15,7 +15,8 @@ import (
 const mockEnginePath = "/path/to/engine"
 
 func TestClose(t *testing.T) {
-	e, err := uci.NewEngine(mockCommander{}, mockEnginePath)
+	uci.Command = mockCommander{}.Command
+	e, err := uci.NewEngine(mockEnginePath)
 	assert.NoError(t, err)
 
 	err = e.Close()
@@ -32,8 +33,9 @@ func TestInitialiseGame(t *testing.T) {
 			"readyok",
 		},
 	}
+	uci.Command = m.Command
 
-	_, err := uci.NewEngine(m, mockEnginePath, uci.InitialiseGame)
+	_, err := uci.NewEngine(mockEnginePath, uci.InitialiseGame)
 	assert.NoError(t, err)
 }
 
@@ -62,9 +64,10 @@ func TestIsReady(t *testing.T) {
 			m := mockCommander{
 				out: tc.cmdOutput,
 			}
+			uci.Command = m.Command
 
 			e, err := uci.NewEngine(
-				m, mockEnginePath, uci.WithCommandTimeout(100*time.Millisecond),
+				mockEnginePath, uci.WithCommandTimeout(100*time.Millisecond),
 			)
 			assert.NoError(t, err)
 
@@ -75,12 +78,14 @@ func TestIsReady(t *testing.T) {
 }
 
 func TestNewEngine(t *testing.T) {
-	_, err := uci.NewEngine(mockCommander{}, mockEnginePath)
+	uci.Command = mockCommander{}.Command
+	_, err := uci.NewEngine(mockEnginePath)
 	assert.NoError(t, err)
 }
 
 func TestPosition(t *testing.T) {
-	e, err := uci.NewEngine(mockCommander{}, mockEnginePath)
+	uci.Command = mockCommander{}.Command
+	e, err := uci.NewEngine(mockEnginePath)
 	assert.NoError(t, err)
 
 	err = e.Position(uci.StartingPosition)
@@ -95,8 +100,9 @@ func TestUCI(t *testing.T) {
 			"uciok",
 		},
 	}
+	uci.Command = m.Command
 
-	e, err := uci.NewEngine(m, mockEnginePath)
+	e, err := uci.NewEngine(mockEnginePath)
 	assert.NoError(t, err)
 
 	err = e.UCI()
@@ -104,7 +110,8 @@ func TestUCI(t *testing.T) {
 }
 
 func TestUCINewGame(t *testing.T) {
-	e, err := uci.NewEngine(mockCommander{}, mockEnginePath)
+	uci.Command = mockCommander{}.Command
+	e, err := uci.NewEngine(mockEnginePath)
 	assert.NoError(t, err)
 
 	err = e.UCINewGame()
