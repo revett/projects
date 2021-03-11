@@ -1,54 +1,189 @@
 ---
-title: "Notes on Go"
+title: "Go"
 date: 2021-03-08T18:09:52Z
 draft: true
-url: "/go"
 ---
 
-## Mocking with Interfaces
+## Debugging
+
+### Pretty Printing Data Structures
 
 ```go
-package foo
+fmt.Printf("%+v\n", s)
+```
 
-type Tweeter interface {
-	Tweet(s string) error
-}
+```go
+package main
 
-func SendMessage(t Tweeter, s string) error {
-  // ...
-  return t.Tweet(s)
+import "https://github.com/davecgh/go-spew"
+
+func main() {
+  spew.Dump(s)
 }
 ```
 
 ```go
-package foo_test
-
-import (
-  "testing"
-
-  "github.com/revett/foo"
-  "github.com/stretchr/testify/assert"
-)
-
-type mockTweeter struct{}
-
-func (m mockTweeter) Tweet(s string) error {
-  // ...
-  return nil
-}
-
-func TestSendMessage(t *testing.T) {
-  // ...
-  err := foo.SendMessage(mockTweeter{}, "...")
-  assert.NoError(t, err)
-}
+d, _ := json.MarshalIndent(s, "", "\t")
+fmt.Println(string(d))
 ```
+
+## Definitions
+
+### Higher-Order Function
+
+- A function that operates on other functions
+- It must either:
+  - Recieve a (_first-class_) function as an argument
+  - Return a function as output
+
+## HTTP
+
+### Closing Response Body
+
+```go
+r, err := http.Get("https://example.com")
+if err != nil {
+	return err
+}
+defer r.Body.Close()
+// ...
+```
+
+> The client must close the response body when finished with it.
+
+- This must be done even if `r.Body` is not consumed
+- Not closing can lead to a resource leak where the connection is not re-used
 
 Links:
 
-- ["Mocking Golang with Interfaces In Real Life" by Jonatas Baldin (dev.to)](https://dev.to/jonatasbaldin/mocking-golang-with-interfaces-in-real-life-3f1m)
+- [Package HTTP Overview (golang.org)](https://golang.org/pkg/net/http/#pkg-overview)
+- [http.Client Godoc (golang.org)](https://golang.org/pkg/net/http/#Client.Do)
 
-## Different Testing Package
+## Map
+
+### Key Exists
+
+```go
+if _, ok := m["key"]; ok {
+  // ...
+}
+```
+
+## Mocks
+
+### Higher-Order Function
+
+```go
+package page
+
+import "net/http"
+
+type Getter func(string) (*http.Response, error)
+
+func IsHTML(g Getter, u string) (bool, error) {
+	r, err := g(u)
+	// ...
+}
+```
+
+Full example with tests: [github.com/revett/snippets/internal/hofunc/page](https://github.com/revett/snippets/tree/main/internal/hofunc/page)
+
+Considerations:
+
+- Callers of `.IsHTML` will need to import `http`, expanding the list of
+  dependencies for packages that call the function
+- May expand the function arguments list beyond what is reasonable to read
+- Function may be more difficult to understand due to passing in logic that may
+  not be clearly linked
+
+Links:
+
+- ["Mocking Techniques for Go" (myhatchpad.com)](https://www.myhatchpad.com/insight/mocking-techniques-for-go/)
+
+### Interface Substitution
+
+```go
+package page
+
+import "net/http"
+
+type Getter interface {
+	Get(s string) (r *http.Response, err error)
+}
+
+func IsHTML(g Getter, u string) (bool, error) {
+	r, err := g.Get(u)
+	// ...
+}
+```
+
+Full example with tests: [github.com/revett/snippets/internal/isub/page](https://github.com/revett/snippets/tree/main/internal/isub/page)
+
+### Monkey Patching
+
+```go
+package page
+
+import "net/http"
+
+var Getter = http.Get
+
+func IsHTML(u string) (bool, error) {
+	r, err := Getter(u)
+	// ...
+}
+```
+
+Full example with tests: [github.com/revett/snippets/internal/monkpatch/page](https://github.com/revett/snippets/tree/main/internal/monkpatch/page)
+
+Considerations:
+
+- Parallel tests will not function correctly
+- Exporting the variable `Getter` will allow anyone to change it
+- `Getter` being exported pollutes the package as only useful for testing
+
+## Naming
+
+### Interface Names
+
+- One method interfaces are named by the method with an `-er` suffix
+- This applies even if the result is not perfect English (e.g. `Execer` for `.Exec`)
+- Reordering is best if it will help with readability (e.g. `ByteReader` for `.ReadByte`)
+
+Links:
+
+- ["Effective Go: Interface Names" (golang.org)](https://golang.org/doc/effective_go#interface-names)
+- ["What's in a name?" (golang.org)](https://talks.golang.org/2014/names.slide#13)
+
+### Naming Acronyms
+
+- Consistent case
+- Either all lowercase or uppercase (e.g. `url` or `URL`)
+- Never use `mixedCase` (e.g. `Url`)
+
+Links:
+
+- ["Go Code Review Comments - Initialisms" (github.com)](https://github.com/golang/go/wiki/CodeReviewComments#initialisms)
+
+### Package Names
+
+- Short and clear
+- Often simple nouns (e.g. `time`, `list`, `http`)
+- Lower case, with no underscores or `mixedCase`
+- Avoid package and function name stutter
+- Abbreviate only if the name will be unambiguous (e.g. `strconv`, `syscall`, `fmt`)
+- Don't steal good names (e.g. `bufio` instead of `buf`)
+- Avoid generic names (e.g. `util`, `common`, `misc`)
+- Avoid exposing all API interfaces in a single package (e.g. `types`, `models`)
+- Avoid unnecessary name collisions (e.g. using same name as popular `http` package)
+
+Links:
+
+- ["Package names" by Sameer Ajmani (blog.golang.org)](https://blog.golang.org/package-names)
+
+## Testing
+
+### Different Package
 
 ```go
 package foo
@@ -69,7 +204,17 @@ import (
 If unexported code must be tested, then create another file with
 `_internal_test.go` as the suffix which imports `foo`.
 
-## Table Driven Tests
+### HTML Coverage Report
+
+```bash
+go test -v ./... -cover -coverprofile=coverage.out
+```
+
+```bash
+go tool cover -html=coverage.out
+```
+
+### Table Driven
 
 ```go
 package foo
@@ -116,74 +261,6 @@ func TestBar(t *testing.T) {
 Links:
 
 - ["Prefer table driven tests" by Dave Cheney (dave.cheney.net)](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
-
-## HTML Coverage Reports
-
-```bash
-go test -v ./... -cover -coverprofile=coverage.out
-```
-
-```bash
-go tool cover -html=coverage.out
-```
-
-## Package Names
-
-- Short and clear
-- Often simple nouns (e.g. `time`, `list`, `http`)
-- Lower case, with no underscores or `mixedCase`
-- Avoid package and function name stutter
-- Abbreviate only if the name will be unambiguous (e.g. `strconv`, `syscall`, `fmt`)
-- Don't steal good names (e.g. `bufio` instead of `buf`)
-- Avoid generic names (e.g. `util`, `common`, `misc`)
-- Avoid exposing all API interfaces in a single package (e.g. `types`, `models`)
-- Avoid unnecessary name collisions (e.g. using same name as popular `http` package)
-
-Links:
-
-- ["Package names" by Sameer Ajmani (blog.golang.org)](https://blog.golang.org/package-names)
-
-## Naming Acronyms
-
-- Consistent case
-- Either all lowercase or uppercase (e.g. `url` or `URL`)
-- Never use `mixedCase` (e.g. `Url`)
-
-Links:
-
-- ["Go Code Review Comments - Initialisms" (github.com)](https://github.com/golang/go/wiki/CodeReviewComments#initialisms)
-
-## Interface Names
-
-- One method interfaces are named by the method with an `-er` suffix
-- This applies even if the result is not perfect English (e.g. `Execer` for `.Exec`)
-- Reordering is best if it will help with readability (e.g. `ByteReader` for `.ReadByte`)
-
-Links:
-
-- ["Effective Go: Interface Names" (golang.org)](https://golang.org/doc/effective_go#interface-names)
-- ["What's in a name?" (golang.org)](https://talks.golang.org/2014/names.slide#13)
-
-## Pretty Printing Data Structures
-
-```go
-fmt.Printf("%+v\n", foo)
-```
-
-```go
-package main
-
-import "https://github.com/davecgh/go-spew"
-
-func main() {
-  spew.Dump(foo)
-}
-```
-
-```go
-s, _ := json.MarshalIndent(foo, "", "\t")
-fmt.Println(s)
-```
 
 ## Resources
 
