@@ -117,6 +117,16 @@ Links:
 
 - ["Prefer table driven tests" by Dave Cheney (dave.cheney.net)](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
 
+## HTML Coverage Reports
+
+```bash
+go test -v ./... -cover -coverprofile=coverage.out
+```
+
+```bash
+go tool cover -html=coverage.out
+```
+
 ## Package Names
 
 - Short and clear
