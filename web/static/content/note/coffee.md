@@ -1,8 +1,7 @@
 ---
-title: "Notes on Coffee"
-date: 2021-03-10T14:31:39Z
+title: "Coffee"
+date: 2021-03-10T20:31:39Z
 draft: true
-url: "/coffee"
 ---
 
 ## AeroPress Daily

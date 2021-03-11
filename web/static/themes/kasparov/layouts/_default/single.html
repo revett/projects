@@ -1,8 +1,19 @@
-{{ define "title" }}{{ .Title }}{{ end }}
+{{ define "title" }}
+  {{ if eq .Type "note" }}
+    Notes on {{ .Title }}
+  {{ else }}
+    {{ .Title }}
+  {{ end }}
+{{ end }}
 
 {{ define "main" }}
   <h1>
-    <a href="/">Posts</a> / {{ .Title }}
+    <a href="/">Posts</a> /
+    {{ if eq .Type "note" }}
+      Notes on {{ .Title }}
+    {{ else }}
+      {{ .Title }}
+    {{ end }}
   </h1>
 
   <div>
@@ -14,10 +25,14 @@
     {{ end }}
   </div>
 
-  <div>
-    <h2>Contents</h2>
-    {{ .TableOfContents }}
-  </div>
+  {{ if ne .Type "page" }}
+    <div>
+      <h2>Contents</h2>
+      {{ .TableOfContents }}
+    </div>
+  {{ else }}
+    <div class="mb-6"></div>
+  {{ end }}
 
   {{ .Content }}
 {{ end }}
