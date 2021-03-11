@@ -43,7 +43,7 @@ fmt.Println(string(d))
 ```go
 r, err := http.Get("https://example.com")
 if err != nil {
-	return err
+  return err
 }
 defer r.Body.Close()
 // ...
@@ -81,8 +81,8 @@ import "net/http"
 type Getter func(string) (*http.Response, error)
 
 func IsHTML(g Getter, u string) (bool, error) {
-	r, err := g(u)
-	// ...
+  r, err := g(u)
+  // ...
 }
 ```
 
@@ -108,12 +108,12 @@ package page
 import "net/http"
 
 type Getter interface {
-	Get(s string) (r *http.Response, err error)
+  Get(s string) (r *http.Response, err error)
 }
 
 func IsHTML(g Getter, u string) (bool, error) {
-	r, err := g.Get(u)
-	// ...
+  r, err := g.Get(u)
+  // ...
 }
 ```
 
@@ -129,8 +129,8 @@ import "net/http"
 var Getter = http.Get
 
 func IsHTML(u string) (bool, error) {
-	r, err := Getter(u)
-	// ...
+  r, err := Getter(u)
+  // ...
 }
 ```
 
@@ -222,43 +222,43 @@ go tool cover -html=coverage.out
 package page_test
 
 import (
-	"errors"
-	"testing"
+  "errors"
+  "testing"
 
-	"github.com/revett/snippets/internal/isub/page"
-	"github.com/stretchr/testify/assert"
+  "github.com/revett/snippets/internal/isub/page"
+  "github.com/stretchr/testify/assert"
 )
 
 func TestIsHTML(t *testing.T) {
-	tests := map[string]struct {
-		mg   mockGetter
-		want bool
-		err  bool
-	}{
-		"Simple": {
-			mg: mockGetter{
-				ct: "text/html",
-			},
-			want: true,
-			err:  false,
-		},
-		"Error": {
-			mg: mockGetter{
-				err: errors.New("error"),
-			},
-			want: false,
-			err:  true,
-		},
-		// ...
-	}
+  tests := map[string]struct {
+    mg   mockGetter
+    want bool
+    err  bool
+  }{
+    "Simple": {
+      mg: mockGetter{
+        ct: "text/html",
+      },
+      want: true,
+      err:  false,
+    },
+    "Error": {
+      mg: mockGetter{
+        err: errors.New("error"),
+      },
+      want: false,
+      err:  true,
+    },
+    // ...
+  }
 
-	for n, tc := range tests {
-		t.Run(n, func(t *testing.T) {
-			ok, err := page.IsHTML(tc.mg, "https://example.com")
-			assert.Equal(t, tc.err, err != nil)
-			assert.Equal(t, tc.want, ok)
-		})
-	}
+  for n, tc := range tests {
+    t.Run(n, func(t *testing.T) {
+      ok, err := page.IsHTML(tc.mg, "https://example.com")
+      assert.Equal(t, tc.err, err != nil)
+      assert.Equal(t, tc.want, ok)
+    })
+  }
 }
 
 // ...
