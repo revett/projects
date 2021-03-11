@@ -186,23 +186,25 @@ Links:
 ### Different Package
 
 ```go
-package foo
+package page
 
 // ...
 ```
 
 ```go
-package foo_test
+package page_test
 
 import (
   "testing"
 
-  "github.com/revett/foo"
+  "github.com/revett/snippets/internal/isub/page"
 )
+
+// ...
 ```
 
-If unexported code must be tested, then create another file with
-`_internal_test.go` as the suffix which imports `foo`.
+If unexported code must be tested, then another file with
+`_internal_test.go` as the suffix can be created.
 
 ### HTML Coverage Report
 
@@ -217,46 +219,52 @@ go tool cover -html=coverage.out
 ### Table Driven
 
 ```go
-package foo
-
-func Bar(s string) bool {
-  // ...
-}
-```
-
-```go
-package foo_test
+package page_test
 
 import (
-  "testing"
+	"errors"
+	"testing"
 
-  "github.com/revett/foo"
-  "github.com/stretchr/testify/assert"
+	"github.com/revett/snippets/internal/isub/page"
+	"github.com/stretchr/testify/assert"
 )
 
-func TestBar(t *testing.T) {
-  tests := map[string]struct {
-    input string
-    want string
-  }{
-    "Valid": {
-      input: "a",
-      want: "b",
-    },
-    "Invalid": {
-      input: "a",
-      want: "x",
-    },
-  }
+func TestIsHTML(t *testing.T) {
+	tests := map[string]struct {
+		mg   mockGetter
+		want bool
+		err  bool
+	}{
+		"Simple": {
+			mg: mockGetter{
+				ct: "text/html",
+			},
+			want: true,
+			err:  false,
+		},
+		"Error": {
+			mg: mockGetter{
+				err: errors.New("error"),
+			},
+			want: false,
+			err:  true,
+		},
+		// ...
+	}
 
-  for n, tc := range tests {
-    t.Run(n, func(t *testing.T) {
-      ok := foo.Bar(tc.input)
-      assert.Equal(t, tc.want, ok)
-    })
-  }
+	for n, tc := range tests {
+		t.Run(n, func(t *testing.T) {
+			ok, err := page.IsHTML(tc.mg, "https://example.com")
+			assert.Equal(t, tc.err, err != nil)
+			assert.Equal(t, tc.want, ok)
+		})
+	}
 }
+
+// ...
 ```
+
+Full example: [github.com/revett/snippets/internal/isub/page](https://github.com/revett/snippets/tree/main/internal/isub/page)
 
 Links:
 
