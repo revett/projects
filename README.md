@@ -7,14 +7,13 @@
 This repo follows the structure outlined in
 [golang-standards/project-layout](https://github.com/golang-standards/project-layout).
 
-## Active
+## `pkg/uci`
 
-### `pkg/uci`
-
-Package for interacting with a chess engine that supports the
+`uci` is a package for interacting with chess engines that support the
 [Universal Chess Interface](http://wbec-ridderkerk.nl/html/UCIProtocol.html)
-(UCI) protocol. It builds upon the excellent
-[freeeve/uci](https://github.com/freeeve/uci) repo.
+protocol, such as [Stockfish](https://github.com/official-stockfish/Stockfish).
+
+[Full Documentation →](https://github.com/revett/projects/tree/main/pkg/uci)
 
 ```go
 package main
@@ -27,12 +26,7 @@ import (
 )
 
 func main() {
-	e, err := uci.NewEngine(
-		"/usr/local/bin/stockfish",
-		uci.Debug,
-		uci.InitialiseGame,
-		uci.WithCommandTimeout(100*time.Millisecond),
-	)
+	e, err := uci.NewEngine("/usr/local/bin/stockfish", uci.Debug)
 	if err != nil {
 		log.Fatal(err)
 	}
