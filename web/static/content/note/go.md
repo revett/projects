@@ -4,41 +4,7 @@ date: 2021-03-08T18:09:52Z
 draft: true
 ---
 
-## Debugging
-
-### Pretty Printing Data Structures
-
-```go
-fmt.Printf("%+v\n", s)
-```
-
-```go
-package main
-
-import "https://github.com/davecgh/go-spew"
-
-func main() {
-  spew.Dump(s)
-}
-```
-
-```go
-d, _ := json.MarshalIndent(s, "", "\t")
-fmt.Println(string(d))
-```
-
-## Definitions
-
-### Higher-Order Function
-
-- A function that operates on other functions
-- It must either:
-  - Recieve a (_first-class_) function as an argument
-  - Return a function as output
-
-## HTTP
-
-### Closing Response Body
+## Closing HTTP Response Body
 
 ```go
 r, err := http.Get("https://example.com")
@@ -57,11 +23,16 @@ defer r.Body.Close()
 Links:
 
 - [Package HTTP Overview (golang.org)](https://golang.org/pkg/net/http/#pkg-overview)
-- [http.Client Godoc (golang.org)](https://golang.org/pkg/net/http/#Client.Do)
+- [http.Client (godoc)](https://golang.org/pkg/net/http/#Client.Do)
 
-## Map
+## Higher-Order Function
 
-### Key Exists
+- A function that operates on other functions
+- It must either:
+  - Recieve a (_first-class_) function as an argument
+  - Return a function as output
+
+## Map Key Exists
 
 ```go
 if _, ok := m["key"]; ok {
@@ -180,6 +151,27 @@ Links:
 Links:
 
 - ["Package names" by Sameer Ajmani (blog.golang.org)](https://blog.golang.org/package-names)
+
+## Pretty Printing Data Structures
+
+```go
+fmt.Printf("%+v\n", s)
+```
+
+```go
+package main
+
+import "https://github.com/davecgh/go-spew"
+
+func main() {
+  spew.Dump(s)
+}
+```
+
+```go
+d, _ := json.MarshalIndent(s, "", "\t")
+fmt.Println(string(d))
+```
 
 ## Testing
 

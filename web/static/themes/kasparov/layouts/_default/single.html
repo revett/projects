@@ -17,7 +17,7 @@
   </h1>
 
   <div>
-    Last Updated:
+    {{ .WordCount }} words. Last updated:
     {{ if .GitInfo }}
       <a href="https://github.com/revett/projects/commit/{{ .GitInfo.Hash }}">
         {{ .Lastmod.Format "Monday, 2 January 2006" }}
