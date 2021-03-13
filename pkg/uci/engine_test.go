@@ -31,6 +31,7 @@ func TestGo(t *testing.T) {
 		"Success": {
 			cmdOutput: []string{
 				"info string NNUE evaluation using nn-62ef826d1a6d.nnue enabled",
+				// nolint:lll
 				"info depth 10 seldepth 12 multipv 1 score cp 38 nodes 10144 nps 563555 tbhits 0 time 18 pv e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 g8f6",
 				"bestmove e2e4 ponder c7c5",
 			},
@@ -162,9 +163,11 @@ type mockCommander struct {
 }
 
 func (m mockCommander) Command(s string, a ...string) *exec.Cmd {
-	out := fmt.Sprintf("TEST_CMD_OUTPUT=%s", strings.Join(m.out, ","))
+	// nolint:gosec
 	cmd := exec.Command(os.Args[0])
+	out := fmt.Sprintf("TEST_CMD_OUTPUT=%s", strings.Join(m.out, ","))
 	cmd.Env = append(os.Environ(), "TEST_MAIN=1", out)
+
 	return cmd
 }
 

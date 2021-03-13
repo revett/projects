@@ -70,10 +70,10 @@ func TestWordConsonantVowelPattern(t *testing.T) {
 		},
 	}
 
-	for n, test := range tests {
-		t.Run(n, func(subtest *testing.T) {
-			w := language.NewWord(test.input)
-			assert.Equal(t, test.want, w.ConsonantVowelPattern())
+	for n, tc := range tests {
+		t.Run(n, func(t *testing.T) {
+			w := language.NewWord(tc.input)
+			assert.Equal(t, tc.want, w.ConsonantVowelPattern())
 		})
 	}
 }
