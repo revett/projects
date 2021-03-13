@@ -1,6 +1,5 @@
 ---
 title: "Chess"
-date: 2021-03-12T19:22:47Z
 draft: true
 ---
 
