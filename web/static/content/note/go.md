@@ -1,6 +1,5 @@
 ---
 title: "Go"
-date: 2021-03-08T18:09:52Z
 draft: true
 ---
 
