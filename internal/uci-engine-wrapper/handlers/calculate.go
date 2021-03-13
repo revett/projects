@@ -15,7 +15,10 @@ type request struct {
 	MultiPV  int    `json:"multiPV"`
 }
 
-const maxMoveTime = 7000
+const (
+	engineMemory = 1024
+	maxMoveTime  = 7000
+)
 
 // Calculate is a http.HandlerFunc which runs the 'go' UCI command with a set
 // of options.
@@ -25,6 +28,7 @@ func Calculate(stockfishPath string) func(http.ResponseWriter, *http.Request) {
 		if contentType != webgo.JSONContentType {
 			msg := "Content-Type header is not application/json"
 			webgo.SendError(w, msg, http.StatusUnsupportedMediaType)
+
 			return
 		}
 
@@ -34,6 +38,7 @@ func Calculate(stockfishPath string) func(http.ResponseWriter, *http.Request) {
 		dec.DisallowUnknownFields()
 
 		var req request
+
 		err := dec.Decode(&req)
 		if err != nil {
 			webgo.R400(w, err)
@@ -51,11 +56,12 @@ func Calculate(stockfishPath string) func(http.ResponseWriter, *http.Request) {
 		}
 
 		engOpts := uci.Options{
-			Hash:    1024,
+			Hash:    engineMemory,
 			MultiPV: req.MultiPV,
 			OwnBook: true,
 			Threads: 1,
 		}
+
 		err = e.SetOptions(engOpts)
 		if err != nil {
 			webgo.R500(w, err)

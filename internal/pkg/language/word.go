@@ -13,6 +13,7 @@ type Word struct {
 // NewWord creates a new word.
 func NewWord(s string) *Word {
 	t := strings.ToLower(s)
+
 	return &Word{
 		Letters: strings.Split(t, ""),
 		Text:    t,
@@ -20,6 +21,7 @@ func NewWord(s string) *Word {
 }
 
 // ConsonantVowelPattern translates the word in to a CVC syllable pattern.
+// nolint:cyclop
 func (w Word) ConsonantVowelPattern() string {
 	var p []string
 
@@ -27,6 +29,7 @@ func (w Word) ConsonantVowelPattern() string {
 	for _, l := range w.Letters {
 		if _, ok := v[l]; ok {
 			p = append(p, "V")
+
 			continue
 		}
 
@@ -47,6 +50,7 @@ func (w Word) ConsonantVowelPattern() string {
 		}
 	}
 
+	// nolint:gomnd
 	if len(w.Text) < 3 {
 		return strings.Join(p, "")
 	}
@@ -54,6 +58,7 @@ func (w Word) ConsonantVowelPattern() string {
 	if strings.HasSuffix(w.Text, "le") && p[l-3] == "C" {
 		p[l-2] = "L"
 		p[l-1] = "E"
+
 		return strings.Join(p, "")
 	}
 

@@ -32,6 +32,7 @@ func NewAlphabet(s string, opts ...func(*Alphabet)) *Alphabet {
 	}
 
 	a.generateCombinations()
+
 	return a
 }
 
@@ -57,6 +58,7 @@ func WithMixedCase() func(*Alphabet) {
 }
 
 // RandomLetterPair returns a random letter pair from the configured alphabet.
+// #nosec
 func (a Alphabet) RandomLetterPair() string {
 	return a.Combinations[rand.Intn(len(a.Combinations))]
 }

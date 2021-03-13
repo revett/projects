@@ -58,7 +58,7 @@ func NewEngine(p string, opts ...func(e *Engine) error) (*Engine, error) {
 }
 
 // Debug is an option for the NewEngine function which logs any commands sent to
-// the engine, and all output recieved.
+// the engine, and all output received.
 func Debug(e *Engine) error {
 	e.debug = true
 	return nil
@@ -126,6 +126,7 @@ func (e Engine) IsReady() error {
 	}
 
 	_, err = e.readUntil("readyok")
+
 	return err
 }
 
@@ -143,6 +144,7 @@ func (e Engine) UCI() error {
 	}
 
 	_, err = e.readUntil("uciok")
+
 	return err
 }
 
