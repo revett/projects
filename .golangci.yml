@@ -1,0 +1,23 @@
+linters:
+  disable:
+    - exhaustivestruct
+    - funlen
+    - gochecknoglobals
+    - gochecknoinits
+    - nlreturn
+    - paralleltest
+    - prealloc
+    - scopelint
+    - unparam
+    - wrapcheck
+  presets:
+    - bugs
+    - complexity
+    - format
+    - performance
+    - style
+    - unused
+
+run:
+  skip-dirs:
+    - web
