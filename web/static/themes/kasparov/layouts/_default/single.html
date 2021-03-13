@@ -1,38 +1,13 @@
 {{ define "title" }}
-  {{ if eq .Type "note" }}
-    Notes on {{ .Title }}
-  {{ else }}
-    {{ .Title }}
-  {{ end }}
+  {{ .Title }}
 {{ end }}
 
 {{ define "main" }}
-  <h1>
-    <a href="/">Posts</a> /
-    {{ if eq .Type "note" }}
-      Notes on {{ .Title }}
-    {{ else }}
-      {{ .Title }}
-    {{ end }}
-  </h1>
+  <h2>
+    <a href="/">Home</a> / {{ .Title }}
+  </h2>
 
-  <div>
-    {{ .WordCount }} words. Last updated:
-    {{ if .GitInfo }}
-      <a href="https://github.com/revett/projects/commit/{{ .GitInfo.Hash }}">
-        {{ .Lastmod.Format "Monday, 2 January 2006" }}
-      </a>
-    {{ end }}
+  <div class="mb-6">
+    {{ .Content }}
   </div>
-
-  {{ if ne .Type "page" }}
-    <div>
-      <h2>Contents</h2>
-      {{ .TableOfContents }}
-    </div>
-  {{ else }}
-    <div class="mb-6"></div>
-  {{ end }}
-
-  {{ .Content }}
 {{ end }}

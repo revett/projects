@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>
-      {{- block "title" . }}{{- end }} - {{ .Site.Title }}
+      {{- block "title" . }}{{- end }} - Charlie Revett (@revcd)
     </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,19 +17,42 @@
   </head>
 
   <body>
-    <div class="container max-w-2xl mx-auto my-16 px-2">
+    <div class="container max-w-2xl mx-auto my-16 px-4 md:px-0">
+      <header class="text-lg">
+        <span class="block sm:inline-block font-bold pr-3">
+          <span class="pr-1">{{ emojify ":wave:" }}</span>
+          Charlie Revett
+        </span>
+        <span class="block sm:inline-block pr-3">
+          <span class="pr-1">{{ emojify ":bird:" }}</span>
+          <a href="https://twitter.com/revcd">Twitter</a>
+        </span>
+        <span class="block sm:inline-block pr-3">
+          <span class="pr-1">{{ emojify ":keyboard:" }}</span>
+          <a href="https://github.com/revett">Github</a>
+        </span>
+        <span class="block sm:inline-block pr-3">
+          <span class="pr-1">{{ emojify ":briefcase:" }}</span>
+          <a href="https://www.linkedin.com/in/cdrev/">LinkedIn</a>
+        </span>
+      </header>
+
       {{- block "main" . }}{{- end }}
 
       <div class="mt-4">
         ___
       </div>
       <div class="mt-2">
-        Built using
-        <a href="https://github.com/gohugoio/hugo">Hugo</a> (v{{ hugo.Version }}).
-        Styled using
-        <a href="https://github.com/alecthomas/chroma">Chroma</a>,
-        <a href="https://tailwindcss.com/">Tailwind</a> and
-        <a href="https://github.com/sindresorhus/github-markdown-css">GithubMarkdown</a>.
+        <span class="block sm:inline-block">
+          Built using
+          <a href="https://github.com/gohugoio/hugo">Hugo</a> (v{{ hugo.Version }}).
+        </span>
+        <span class="block sm:inline-block">
+          Styled using
+          <a href="https://github.com/alecthomas/chroma">Chroma</a>,
+          <a href="https://tailwindcss.com/">Tailwind</a> and
+          <a href="https://github.com/sindresorhus/github-markdown-css">GithubMarkdown</a>.
+        </span>
       </div>
     </div>
   </body>
