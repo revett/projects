@@ -8,10 +8,9 @@ draft: true
 ```go
 r, err := http.Get("https://example.com")
 if err != nil {
-  return err
+	return err
 }
 defer r.Body.Close()
-// ...
 ```
 
 > The client must close the response body when finished with it.
@@ -24,6 +23,67 @@ Links:
 - [Package HTTP Overview (golang.org)](https://golang.org/pkg/net/http/#pkg-overview)
 - [http.Client (godoc)](https://golang.org/pkg/net/http/#Client.Do)
 
+## Functional Options
+
+```go
+package chess
+
+func Start(s string, opts ...func(*Engine) error) (*Engine, error) {
+	e, err := startEngine(s)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, o := range opts {
+		if err := o(e); err != nil {
+			return nil, err
+		}
+	}
+
+	return e, nil
+}
+
+func Debug(e *Engine) error {
+	e.debug = true
+	return nil
+}
+
+func WithTimeout(d time.Duration) func(*Engine) error {
+	return func(e *Engine) error {
+		e.timeout = d
+		return nil
+	}
+}
+```
+
+Default use case is simple:
+
+```go
+e, err := chess.Start("/path/to/engine")
+```
+
+Adding more complex initialisation through readable arguments:
+
+```go
+e, err := chess.Start(
+	"/path/to/engine",
+	chess.Debug,
+	chess.WithTimeout(200 * time.Millisecond),
+)
+```
+
+Considerations:
+
+- Default use case for an API is simple to understand
+- Quick and easy to expand an API in the future with further configuration options
+- Parameters are well documented
+- Removes the need to export struct fields as they can now be explicitly modified
+- Number and order of arguments does not matter
+
+Links:
+
+- ["Functional options for friendly APIs" by Dave Cheney (dave.cheney.net)](https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis)
+
 ## Higher-Order Function
 
 - A function that operates on other functions
@@ -35,7 +95,7 @@ Links:
 
 ```go
 if _, ok := m["key"]; ok {
-  // ...
+	// ...
 }
 ```
 
@@ -51,8 +111,8 @@ import "net/http"
 type Getter func(string) (*http.Response, error)
 
 func IsHTML(g Getter, u string) (bool, error) {
-  r, err := g(u)
-  // ...
+	r, err := g(u)
+	// ...
 }
 ```
 
@@ -78,12 +138,12 @@ package page
 import "net/http"
 
 type Getter interface {
-  Get(s string) (r *http.Response, err error)
+	Get(s string) (r *http.Response, err error)
 }
 
 func IsHTML(g Getter, u string) (bool, error) {
-  r, err := g.Get(u)
-  // ...
+	r, err := g.Get(u)
+	// ...
 }
 ```
 
@@ -99,8 +159,8 @@ import "net/http"
 var Getter = http.Get
 
 func IsHTML(u string) (bool, error) {
-  r, err := Getter(u)
-  // ...
+	r, err := Getter(u)
+	// ...
 }
 ```
 
@@ -163,7 +223,7 @@ package main
 import "https://github.com/davecgh/go-spew"
 
 func main() {
-  spew.Dump(s)
+	spew.Dump(s)
 }
 ```
 
@@ -186,9 +246,9 @@ package page
 package page_test
 
 import (
-  "testing"
+	"testing"
 
-  "github.com/revett/snippets/internal/isub/page"
+	"github.com/revett/snippets/internal/isub/page"
 )
 
 // ...
@@ -213,43 +273,43 @@ go tool cover -html=coverage.out
 package page_test
 
 import (
-  "errors"
-  "testing"
+	"errors"
+	"testing"
 
-  "github.com/revett/snippets/internal/isub/page"
-  "github.com/stretchr/testify/assert"
+	"github.com/revett/snippets/internal/isub/page"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestIsHTML(t *testing.T) {
-  tests := map[string]struct {
-    mg   mockGetter
-    want bool
-    err  bool
-  }{
-    "Simple": {
-      mg: mockGetter{
-        ct: "text/html",
-      },
-      want: true,
-      err:  false,
-    },
-    "Error": {
-      mg: mockGetter{
-        err: errors.New("error"),
-      },
-      want: false,
-      err:  true,
-    },
-    // ...
-  }
+	tests := map[string]struct {
+		mg   mockGetter
+		want bool
+		err  bool
+	}{
+		"Simple": {
+			mg: mockGetter{
+				ct: "text/html",
+			},
+			want: true,
+			err:  false,
+		},
+		"Error": {
+			mg: mockGetter{
+				err: errors.New("error"),
+			},
+			want: false,
+			err:  true,
+		},
+		// ...
+	}
 
-  for n, tc := range tests {
-    t.Run(n, func(t *testing.T) {
-      ok, err := page.IsHTML(tc.mg, "https://example.com")
-      assert.Equal(t, tc.err, err != nil)
-      assert.Equal(t, tc.want, ok)
-    })
-  }
+	for n, tc := range tests {
+		t.Run(n, func(t *testing.T) {
+			ok, err := page.IsHTML(tc.mg, "https://example.com")
+			assert.Equal(t, tc.err, err != nil)
+			assert.Equal(t, tc.want, ok)
+		})
+	}
 }
 
 // ...

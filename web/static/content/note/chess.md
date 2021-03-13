@@ -21,7 +21,7 @@ centipawn.
 
 [clarkerubber/irwin](https://github.com/clarkerubber/irwin)
 
-> Irwin (named after Steve Irwin, the Crocodile Hunter) is the AI that learns
+> **Irwin** (named after Steve Irwin, the Crocodile Hunter) is the AI that learns
 > cheating patterns, marks cheaters, and assists moderators in assessing
 > potential cheaters.
 
