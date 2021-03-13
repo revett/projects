@@ -163,7 +163,7 @@ type mockCommander struct {
 }
 
 func (m mockCommander) Command(s string, a ...string) *exec.Cmd {
-	// #nosec
+	// nolint:gosec
 	cmd := exec.Command(os.Args[0])
 	out := fmt.Sprintf("TEST_CMD_OUTPUT=%s", strings.Join(m.out, ","))
 	cmd.Env = append(os.Environ(), "TEST_MAIN=1", out)

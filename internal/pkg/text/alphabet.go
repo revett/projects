@@ -58,8 +58,8 @@ func WithMixedCase() func(*Alphabet) {
 }
 
 // RandomLetterPair returns a random letter pair from the configured alphabet.
-// #nosec
 func (a Alphabet) RandomLetterPair() string {
+	// nolint:gosec
 	return a.Combinations[rand.Intn(len(a.Combinations))]
 }
 
