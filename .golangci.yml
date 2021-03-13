@@ -4,6 +4,9 @@ linters:
     - funlen
     - gochecknoglobals
     - gochecknoinits
+    - goerr113
+    - interfacer
+    - maligned
     - nlreturn
     - paralleltest
     - prealloc
