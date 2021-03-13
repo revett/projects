@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"os/exec"
+	"strings"
 	"time"
 
 	"github.com/pkg/errors"
@@ -86,7 +87,7 @@ func WithCommandTimeout(d time.Duration) func(*Engine) error {
 	}
 }
 
-// Stop ends the chess engine executable.
+// Close ends the chess engine process.
 func (e Engine) Close() error {
 	if err := e.sendCommand("quit"); err != nil {
 		return err
@@ -101,6 +102,20 @@ func (e Engine) Close() error {
 	}
 
 	return e.cmd.Process.Kill()
+}
+
+// Go searches for the best move(s).
+func (e Engine) Go() error {
+	if err := e.sendCommand(goCmd); err != nil {
+		return err
+	}
+
+	_, err := e.readUntil("bestmove")
+	if err != nil {
+		return err
+	}
+
+	return err
 }
 
 // IsReady sends the `isready` command to the engine, to check that it is alive.
@@ -152,7 +167,7 @@ func (e Engine) readUntil(s string) ([]string, error) {
 				log.Println(l)
 			}
 
-			if l == s {
+			if strings.HasPrefix(l, s) {
 				break
 			}
 		}

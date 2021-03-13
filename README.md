@@ -26,7 +26,7 @@ import (
 )
 
 func main() {
-	e, err := uci.NewEngine("/usr/local/bin/stockfish", uci.Debug)
+	e, err := uci.NewEngine("/path/to/engine")
 	if err != nil {
 		log.Fatal(err)
 	}
