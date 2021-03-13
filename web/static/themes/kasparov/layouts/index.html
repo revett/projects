@@ -1,20 +1,35 @@
-{{ define "title" }}Posts{{ end }}
+{{ define "title" }}Notes & Projects{{ end }}
 
 {{ define "main" }}
-  <h1>
-    Posts - {{ .Site.Title }}
-  </h1>
+  <h2>
+    About
+  </h2>
+  <blockquote>
+    “The beige hue on the waters of the loch impressed all, including the
+    French queen, before she heard that symphony again, just as young Arthur
+    wanted.”
+  </blockquote>
+  <a href="/about" class="font-semibold">
+    Read More →
+  </a>
 
+  <h2>
+    Notes
+  </h2>
   <ul>
-  {{- range first 10 .Site.RegularPages }}
-    {{- if ne .File.Dir "/" }}
-      <li>
-        {{ .Date.Format "2006 Jan 02" }} -
-        <a href="{{ .Permalink }}">
-          <span class="font-semibold">{{ .Title }}</span>
-        </a>
-      </li>
-    {{- end -}}
-  {{- end }}
+  {{ range first 10 (where .Site.Pages "Section" "note") }}
+    <li>
+      <a href="{{ .Permalink }}">
+        <span class="font-semibold">{{ .Title }}</span>
+      </a>
+    </li>
+  {{ end }}
   </ul>
+
+  <h2>
+    Projects
+  </h2>
+  <div>
+    {{ with .Site.GetPage "/projects" }}{{ .Content }}{{ end }}
+  </div>
 {{ end }}
