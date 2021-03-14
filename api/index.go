@@ -11,6 +11,6 @@ import (
 // Handler is the exported http.HandlerFunc for Vercel.
 func Handler(w http.ResponseWriter, r *http.Request) {
 	e := gin.Default()
-	e.GET("/search", handlers.Search(os.Getenv("STOCKFISH_PATH")))
+	e.GET("/api", handlers.Search(os.Getenv("STOCKFISH_PATH")))
 	e.ServeHTTP(w, r)
 }
