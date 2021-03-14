@@ -12,9 +12,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// XCommand is an exported function to allow unit tests to monkey patch how the
-// program will be executed.
-var XCommand = exec.Command
+var command = exec.Command
 
 const defaultCommandTimeout = 1 * time.Second
 
@@ -33,7 +31,7 @@ func NewEngine(p string, opts ...func(e *Engine) error) (*Engine, error) {
 	rIn, wIn := io.Pipe()
 	rOut, wOut := io.Pipe()
 
-	cmd := XCommand(p)
+	cmd := command(p)
 	cmd.Stdin = rIn
 	cmd.Stdout = wOut
 
