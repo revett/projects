@@ -11,7 +11,7 @@ Apart from `api/` which is a
 for deploying serverless functions 😢, however these are very lightweight
 handlers which wrap applications in `cmd/`.
 
-## `pkg/uci`
+### `pkg/uci`
 
 `uci` is a package for interacting with chess engines that support the
 [Universal Chess Interface](http://wbec-ridderkerk.nl/html/UCIProtocol.html)
