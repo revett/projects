@@ -31,6 +31,7 @@ func (g goCommand) processOutput(e *Engine) error {
 	return err
 }
 
+// String implements the Command interface.
 func (g goCommand) String() string {
 	return fmt.Sprintf("go depth %d", g.depth)
 }
@@ -55,6 +56,7 @@ func (i isReadyCommand) processOutput(e *Engine) error {
 	return err
 }
 
+// String implements the Command interface.
 func (i isReadyCommand) String() string {
 	return "isready"
 }
@@ -81,6 +83,7 @@ func (p positionCommand) processOutput(e *Engine) error {
 	return nil
 }
 
+// String implements the Command interface.
 func (p positionCommand) String() string {
 	if len(p.moves) == 0 {
 		return fmt.Sprintf("position fen %s", p.fen)
@@ -120,6 +123,7 @@ func (u uciCommand) processOutput(e *Engine) error {
 	return err
 }
 
+// String implements the Command interface.
 func (u uciCommand) String() string {
 	return "uci"
 }
