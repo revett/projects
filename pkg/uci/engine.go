@@ -136,6 +136,16 @@ func (e Engine) Position(f string) error {
 	return e.sendCommand(positionCmd, f)
 }
 
+func (e *Engine) Run(cmds ...command) error {
+	for _, c := range cmds {
+		if err := c.execute(e); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // UCI sends the `uci` command to the engine, to tell the engine to use UCI.
 func (e Engine) UCI() error {
 	err := e.sendCommand(uciCmd)
