@@ -10,7 +10,8 @@ import (
 
 // Handler is the exported http.HandlerFunc for Vercel.
 func Handler(w http.ResponseWriter, r *http.Request) {
-	path := "/var/task/templates/stockfish_13_linux_x64"
+	s := r.URL.Query().Get("binary")
+	path := fmt.Sprintf("/var/task/engines/%s", s)
 
 	e, err := uci.NewEngine(path, uci.LogOutput)
 	if err != nil {
