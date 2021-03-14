@@ -12,9 +12,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// Command is an exported function to allow unit tests to monkey patch how the
-// program will be executed.
-var Command = exec.Command
+var command = exec.Command
 
 const defaultCommandTimeout = 1 * time.Second
 
@@ -33,7 +31,7 @@ func NewEngine(p string, opts ...func(e *Engine) error) (*Engine, error) {
 	rIn, wIn := io.Pipe()
 	rOut, wOut := io.Pipe()
 
-	cmd := Command(p)
+	cmd := command(p)
 	cmd.Stdin = rIn
 	cmd.Stdout = wOut
 
@@ -57,25 +55,11 @@ func NewEngine(p string, opts ...func(e *Engine) error) (*Engine, error) {
 	return e, nil
 }
 
-// Debug is an option for the NewEngine function which logs any commands sent to
-// the engine, and all output received.
-func Debug(e *Engine) error {
+// LogOutput is a functional option for configuring Engine to log any commands
+// sent, and all output received.
+func LogOutput(e *Engine) error {
 	e.debug = true
 	return nil
-}
-
-// InitialiseGame is an option for the NewEngine function which tells the engine
-// to use UCI and start a new game. It then checks if the engine is ready.
-func InitialiseGame(e *Engine) error {
-	if err := e.UCI(); err != nil {
-		return err
-	}
-
-	if err := e.UCINewGame(); err != nil {
-		return err
-	}
-
-	return e.IsReady()
 }
 
 // WithCommandTimeout is an option for the NewEngine function which sets the
@@ -104,54 +88,19 @@ func (e Engine) Close() error {
 	return e.cmd.Process.Kill()
 }
 
-// Go searches for the best move(s).
-func (e Engine) Go() error {
-	if err := e.sendCommand(goCmd); err != nil {
-		return err
+// Run is TODO.
+func (e *Engine) Run(cmds ...Command) error {
+	for _, c := range cmds {
+		if err := e.sendCommand(c.String()); err != nil {
+			return err
+		}
+
+		if err := c.processOutput(e); err != nil {
+			return err
+		}
 	}
 
-	_, err := e.readUntil("bestmove")
-	if err != nil {
-		return err
-	}
-
-	return err
-}
-
-// IsReady sends the `isready` command to the engine, to check that it is alive.
-func (e Engine) IsReady() error {
-	err := e.sendCommand(isReadyCmd)
-	if err != nil {
-		return err
-	}
-
-	_, err = e.readUntil("readyok")
-
-	return err
-}
-
-// Position sends the `position` command to the engine with a givin FEN, setting
-// the internal board position.
-func (e Engine) Position(f string) error {
-	return e.sendCommand(positionCmd, f)
-}
-
-// UCI sends the `uci` command to the engine, to tell the engine to use UCI.
-func (e Engine) UCI() error {
-	err := e.sendCommand(uciCmd)
-	if err != nil {
-		return err
-	}
-
-	_, err = e.readUntil("uciok")
-
-	return err
-}
-
-// UCINewGame sends the `ucinewgame` command to the engine, to tell the engine
-// that the next search command will be from a different game.
-func (e Engine) UCINewGame() error {
-	return e.sendCommand(uciNewGameCmd)
+	return nil
 }
 
 func (e Engine) readUntil(s string) ([]string, error) {
