@@ -1,6 +1,5 @@
 {
   "cleanUrls": true,
-  "collectMetrics": false,
   "env": {
     "STOCKFISH_PATH": "/var/task/engines/stockfish_13_linux_x64_bmi2"
   },
