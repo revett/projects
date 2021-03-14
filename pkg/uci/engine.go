@@ -14,7 +14,7 @@ import (
 
 // Command is an exported function to allow unit tests to monkey patch how the
 // program will be executed.
-var Command = exec.Command
+var XCommand = exec.Command
 
 const defaultCommandTimeout = 1 * time.Second
 
@@ -33,7 +33,7 @@ func NewEngine(p string, opts ...func(e *Engine) error) (*Engine, error) {
 	rIn, wIn := io.Pipe()
 	rOut, wOut := io.Pipe()
 
-	cmd := Command(p)
+	cmd := XCommand(p)
 	cmd.Stdin = rIn
 	cmd.Stdout = wOut
 
@@ -75,7 +75,8 @@ func InitialiseGame(e *Engine) error {
 		return err
 	}
 
-	return e.IsReady()
+	// return e.IsReady()
+	return nil
 }
 
 // WithCommandTimeout is an option for the NewEngine function which sets the
@@ -118,25 +119,13 @@ func (e Engine) Go() error {
 	return err
 }
 
-// IsReady sends the `isready` command to the engine, to check that it is alive.
-func (e Engine) IsReady() error {
-	err := e.sendCommand(isReadyCmd)
-	if err != nil {
-		return err
-	}
-
-	_, err = e.readUntil("readyok")
-
-	return err
-}
-
 // Position sends the `position` command to the engine with a givin FEN, setting
 // the internal board position.
 func (e Engine) Position(f string) error {
 	return e.sendCommand(positionCmd, f)
 }
 
-func (e *Engine) Run(cmds ...command) error {
+func (e *Engine) Run(cmds ...Command) error {
 	for _, c := range cmds {
 		if err := c.execute(e); err != nil {
 			return err

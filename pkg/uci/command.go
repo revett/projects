@@ -1,5 +1,6 @@
 package uci
 
-type command interface {
+type Command interface {
 	execute(*Engine) error
+	string() string
 }
