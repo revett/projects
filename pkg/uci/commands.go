@@ -7,7 +7,7 @@ import (
 
 const defaultSearchDepth = 10
 
-// GoCommand is TODO.
+// GoCommand is used to run the `go` UCI command.
 func GoCommand(opts ...func(*goCommand)) Command {
 	g := goCommand{}
 	if len(opts) == 0 {
@@ -35,14 +35,15 @@ func (g goCommand) String() string {
 	return fmt.Sprintf("go depth %d", g.depth)
 }
 
-// WithDepth is TODO.
+// WithDepth is a functional option that configures the GoCommand to search to
+// a certain depth.
 func WithDepth(i int) func(*goCommand) {
 	return func(c *goCommand) {
 		c.depth = i
 	}
 }
 
-// IsReadyCommand is TODO.
+// IsReadyCommand is used to run the `isready` UCI command.
 func IsReadyCommand() Command {
 	return isReadyCommand{}
 }
@@ -58,7 +59,7 @@ func (i isReadyCommand) String() string {
 	return "isready"
 }
 
-// PositionCommand is TODO.
+// PositionCommand is used to run the `position` UCI command.
 func PositionCommand(opts ...func(*positionCommand)) Command {
 	p := positionCommand{
 		fen: StartingPosition,
@@ -90,21 +91,24 @@ func (p positionCommand) String() string {
 	)
 }
 
-// WithFEN is TODO.
+// WithFEN is a functional option that configures the PositionCommand with a
+// specific board position in Forsyth–Edwards Notation (FEN) notation.
 func WithFEN(s string) func(*positionCommand) {
 	return func(c *positionCommand) {
 		c.fen = s
 	}
 }
 
-// WithMoves is TODO.
+// WithMoves is a functional option that configures the PositionCommand with a
+// series of moves to play.
 func WithMoves(s ...string) func(*positionCommand) {
 	return func(c *positionCommand) {
 		c.moves = s
 	}
 }
 
-// UCICommand is TODO.
+// UCICommand is used to run the `uci` UCI command.
+// nolint:golint
 func UCICommand() Command {
 	return uciCommand{}
 }
@@ -120,7 +124,8 @@ func (u uciCommand) String() string {
 	return "uci"
 }
 
-// UCINewGameCommand is TODO.
+// UCINewGameCommand is used to run the `ucinewgame` UCI command.
+// nolint:golint
 func UCINewGameCommand() Command {
 	return uciCommand{}
 }
