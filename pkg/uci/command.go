@@ -1,6 +1,8 @@
 package uci
 
+import "fmt"
+
 type Command interface {
-	execute(*Engine) error
-	string() string
+	fmt.Stringer
+	processOutput(*Engine) error
 }

@@ -90,24 +90,14 @@ func (e Engine) Close() error {
 	return e.cmd.Process.Kill()
 }
 
-// Go searches for the best move(s).
-func (e Engine) Go() error {
-	if err := e.sendCommand(goCmd); err != nil {
-		return err
-	}
-
-	_, err := e.readUntil("bestmove")
-	if err != nil {
-		return err
-	}
-
-	return err
-}
-
 // Run is TODO.
 func (e *Engine) Run(cmds ...Command) error {
 	for _, c := range cmds {
-		if err := c.execute(e); err != nil {
+		if err := e.sendCommand(c.String()); err != nil {
+			return err
+		}
+
+		if err := c.processOutput(e); err != nil {
 			return err
 		}
 	}

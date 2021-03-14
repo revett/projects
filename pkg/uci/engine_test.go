@@ -23,46 +23,6 @@ func TestClose(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestGo(t *testing.T) {
-	tests := map[string]struct {
-		cmdOutput []string
-		want      error
-	}{
-		"Success": {
-			cmdOutput: []string{
-				"info string NNUE evaluation using nn-62ef826d1a6d.nnue enabled",
-				// nolint:lll
-				"info depth 10 seldepth 12 multipv 1 score cp 38 nodes 10144 nps 563555 tbhits 0 time 18 pv e2e4 c7c5 g1f3 e7e6 d2d4 c5d4 f3d4 g8f6",
-				"bestmove e2e4 ponder c7c5",
-			},
-			want: nil,
-		},
-		"TimeOut": {
-			cmdOutput: []string{
-				"info string NNUE evaluation using nn-62ef826d1a6d.nnue enabled",
-			},
-			want: uci.CommandTimeoutError{},
-		},
-	}
-
-	for n, tc := range tests {
-		t.Run(n, func(t *testing.T) {
-			m := mockCommander{
-				out: tc.cmdOutput,
-			}
-			uci.XCommand = m.Command
-
-			e, err := uci.NewEngine(
-				mockEnginePath, uci.WithCommandTimeout(100*time.Millisecond),
-			)
-			assert.NoError(t, err)
-
-			err = e.Go()
-			assert.IsType(t, tc.want, err)
-		})
-	}
-}
-
 func TestNewEngine(t *testing.T) {
 	uci.XCommand = mockCommander{}.Command
 	_, err := uci.NewEngine(mockEnginePath)
