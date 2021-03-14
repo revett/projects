@@ -63,98 +63,9 @@ func TestGo(t *testing.T) {
 	}
 }
 
-func TestInitialiseGame(t *testing.T) {
-	m := mockCommander{
-		out: []string{
-			"Stockfish 13 by the Stockfish developers (see AUTHORS file)",
-			"id name Stockfish 13",
-			"id author the Stockfish developers (see AUTHORS file)",
-			"uciok",
-			"readyok",
-		},
-	}
-	uci.XCommand = m.Command
-
-	_, err := uci.NewEngine(mockEnginePath, uci.InitialiseGame)
-	assert.NoError(t, err)
-}
-
-func TestIsReady(t *testing.T) {
-	tests := map[string]struct {
-		cmdOutput []string
-		want      error
-	}{
-		"Success": {
-			cmdOutput: []string{
-				"Stockfish 13 by the Stockfish developers (see AUTHORS file)",
-				"readyok",
-			},
-			want: nil,
-		},
-		"TimeOut": {
-			cmdOutput: []string{
-				"Stockfish 13 by the Stockfish developers (see AUTHORS file)",
-			},
-			want: uci.CommandTimeoutError{},
-		},
-	}
-
-	for n, tc := range tests {
-		t.Run(n, func(t *testing.T) {
-			m := mockCommander{
-				out: tc.cmdOutput,
-			}
-			uci.XCommand = m.Command
-
-			_, err := uci.NewEngine(
-				mockEnginePath, uci.WithCommandTimeout(100*time.Millisecond),
-			)
-			assert.NoError(t, err)
-
-			// err = e.IsReady()
-			// assert.IsType(t, tc.want, err)
-		})
-	}
-}
-
 func TestNewEngine(t *testing.T) {
 	uci.XCommand = mockCommander{}.Command
 	_, err := uci.NewEngine(mockEnginePath)
-	assert.NoError(t, err)
-}
-
-func TestPosition(t *testing.T) {
-	uci.XCommand = mockCommander{}.Command
-	e, err := uci.NewEngine(mockEnginePath)
-	assert.NoError(t, err)
-
-	err = e.Position(uci.StartingPosition)
-	assert.NoError(t, err)
-}
-
-func TestUCI(t *testing.T) {
-	m := mockCommander{
-		out: []string{
-			"id name Stockfish 13",
-			"id author the Stockfish developers (see AUTHORS file)",
-			"uciok",
-		},
-	}
-	uci.XCommand = m.Command
-
-	e, err := uci.NewEngine(mockEnginePath)
-	assert.NoError(t, err)
-
-	err = e.UCI()
-	assert.NoError(t, err)
-}
-
-func TestUCINewGame(t *testing.T) {
-	uci.XCommand = mockCommander{}.Command
-	e, err := uci.NewEngine(mockEnginePath)
-	assert.NoError(t, err)
-
-	err = e.UCINewGame()
 	assert.NoError(t, err)
 }
 

@@ -12,7 +12,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// Command is an exported function to allow unit tests to monkey patch how the
+// XCommand is an exported function to allow unit tests to monkey patch how the
 // program will be executed.
 var XCommand = exec.Command
 
@@ -57,25 +57,10 @@ func NewEngine(p string, opts ...func(e *Engine) error) (*Engine, error) {
 	return e, nil
 }
 
-// Debug is an option for the NewEngine function which logs any commands sent to
-// the engine, and all output received.
-func Debug(e *Engine) error {
+// LogOutput is an option for the NewEngine function which logs any commands
+// sent to the engine, and all output received.
+func LogOutput(e *Engine) error {
 	e.debug = true
-	return nil
-}
-
-// InitialiseGame is an option for the NewEngine function which tells the engine
-// to use UCI and start a new game. It then checks if the engine is ready.
-func InitialiseGame(e *Engine) error {
-	if err := e.UCI(); err != nil {
-		return err
-	}
-
-	if err := e.UCINewGame(); err != nil {
-		return err
-	}
-
-	// return e.IsReady()
 	return nil
 }
 
@@ -119,12 +104,7 @@ func (e Engine) Go() error {
 	return err
 }
 
-// Position sends the `position` command to the engine with a givin FEN, setting
-// the internal board position.
-func (e Engine) Position(f string) error {
-	return e.sendCommand(positionCmd, f)
-}
-
+// Run is TODO.
 func (e *Engine) Run(cmds ...Command) error {
 	for _, c := range cmds {
 		if err := c.execute(e); err != nil {
@@ -133,24 +113,6 @@ func (e *Engine) Run(cmds ...Command) error {
 	}
 
 	return nil
-}
-
-// UCI sends the `uci` command to the engine, to tell the engine to use UCI.
-func (e Engine) UCI() error {
-	err := e.sendCommand(uciCmd)
-	if err != nil {
-		return err
-	}
-
-	_, err = e.readUntil("uciok")
-
-	return err
-}
-
-// UCINewGame sends the `ucinewgame` command to the engine, to tell the engine
-// that the next search command will be from a different game.
-func (e Engine) UCINewGame() error {
-	return e.sendCommand(uciNewGameCmd)
 }
 
 func (e Engine) readUntil(s string) ([]string, error) {

@@ -6,10 +6,7 @@ import (
 )
 
 const (
-	goCmd         = "go depth 10"
-	positionCmd   = "position %s"
-	uciCmd        = "uci"
-	uciNewGameCmd = "ucinewgame"
+	goCmd = "go depth 10"
 )
 
 // IsReadyCommand is TODO.
@@ -77,4 +74,40 @@ func WithMoves(s ...string) func(*positionCommand) {
 	return func(p *positionCommand) {
 		p.moves = s
 	}
+}
+
+// UCICommand is TODO.
+func UCICommand() Command {
+	return uciCommand{}
+}
+
+type uciCommand struct{}
+
+func (u uciCommand) execute(e *Engine) error {
+	if err := e.sendCommand(u.string()); err != nil {
+		return err
+	}
+
+	_, err := e.readUntil("uciok")
+
+	return err
+}
+
+func (u uciCommand) string() string {
+	return "uci"
+}
+
+// UCINewGameCommand is TODO.
+func UCINewGameCommand() Command {
+	return uciCommand{}
+}
+
+type uciNewGameCommand struct{}
+
+func (u uciNewGameCommand) execute(e *Engine) error {
+	return e.sendCommand(u.string())
+}
+
+func (u uciNewGameCommand) string() string {
+	return "ucinewgame"
 }
