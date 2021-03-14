@@ -55,8 +55,8 @@ func NewEngine(p string, opts ...func(e *Engine) error) (*Engine, error) {
 	return e, nil
 }
 
-// LogOutput is an option for the NewEngine function which logs any commands
-// sent to the engine, and all output received.
+// LogOutput is a functional option for configuring Engine to log any commands
+// sent, and all output received.
 func LogOutput(e *Engine) error {
 	e.debug = true
 	return nil
