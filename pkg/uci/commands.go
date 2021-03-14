@@ -131,7 +131,7 @@ func (u uciCommand) String() string {
 // UCINewGameCommand is used to run the `ucinewgame` UCI command.
 // nolint:golint
 func UCINewGameCommand() Command {
-	return uciCommand{}
+	return uciNewGameCommand{}
 }
 
 type uciNewGameCommand struct{}
