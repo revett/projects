@@ -2,6 +2,7 @@ package uci
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -23,7 +24,8 @@ func GoCommand(opts ...func(*goCommand)) Command {
 }
 
 type goCommand struct {
-	depth int
+	depth    int
+	movetime int
 }
 
 func (g goCommand) processOutput(e *Engine) error {
@@ -33,7 +35,17 @@ func (g goCommand) processOutput(e *Engine) error {
 
 // String implements the Command interface.
 func (g goCommand) String() string {
-	return fmt.Sprintf("go depth %d", g.depth)
+	p := []string{}
+
+	if g.depth > 0 {
+		p = append(p, "depth", strconv.Itoa(g.depth))
+	}
+
+	if g.movetime > 0 {
+		p = append(p, "movetime", strconv.Itoa(g.movetime))
+	}
+
+	return fmt.Sprintf("go %s", strings.Join(p, " "))
 }
 
 // WithDepth is a functional option that configures the GoCommand to search to
@@ -41,6 +53,14 @@ func (g goCommand) String() string {
 func WithDepth(i int) func(*goCommand) {
 	return func(c *goCommand) {
 		c.depth = i
+	}
+}
+
+// WithMoveTime is a functional option that configures the GoCommand to search
+// for a given period of time, in milliseconds.
+func WithMoveTime(i int) func(*goCommand) {
+	return func(c *goCommand) {
+		c.movetime = i
 	}
 }
 
