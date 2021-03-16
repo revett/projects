@@ -24,8 +24,10 @@ func GoCommand(opts ...func(*goCommand)) Command {
 }
 
 type goCommand struct {
-	depth    int
-	movetime int
+	depth       int
+	infinite    bool
+	movetime    int
+	searchmoves []string
 }
 
 func (g goCommand) processOutput(e *Engine) error {
@@ -41,8 +43,16 @@ func (g goCommand) String() string {
 		p = append(p, "depth", strconv.Itoa(g.depth))
 	}
 
+	if g.infinite {
+		p = append(p, "infinite")
+	}
+
 	if g.movetime > 0 {
 		p = append(p, "movetime", strconv.Itoa(g.movetime))
+	}
+
+	if len(g.searchmoves) > 0 {
+		p = append(p, "searchmoves", strings.Join(g.searchmoves, " "))
 	}
 
 	return fmt.Sprintf("go %s", strings.Join(p, " "))
@@ -56,11 +66,25 @@ func WithDepth(i int) func(*goCommand) {
 	}
 }
 
+// WithInfinite is a functional option that configures the GoCommand to continue
+// searching until the `stop` UCI command is sent.
+func WithInfinite(c *goCommand) {
+	c.infinite = true
+}
+
 // WithMoveTime is a functional option that configures the GoCommand to search
 // for a given period of time, in milliseconds.
 func WithMoveTime(i int) func(*goCommand) {
 	return func(c *goCommand) {
 		c.movetime = i
+	}
+}
+
+// WithSearchMoves is a functional option that restricts the GoCommand to only
+// search using a set of defined moves.
+func WithSearchMoves(s ...string) func(*goCommand) {
+	return func(c *goCommand) {
+		c.searchmoves = s
 	}
 }
 
