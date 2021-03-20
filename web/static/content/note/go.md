@@ -23,6 +23,64 @@ Links:
 - [Package HTTP Overview (golang.org)](https://golang.org/pkg/net/http/#pkg-overview)
 - [http.Client (godoc)](https://golang.org/pkg/net/http/#Client.Do)
 
+## Examples
+
+Go allows snippets of code to act as examples, which are:
+
+- Displayed as package documentation via godoc
+- Verified to be functional by running each of them as tests
+
+This makes sure that a package has up-to-date documentation as it is part of the
+test suite, instead of being within a `README` outside of the Go codebase.
+
+Files which include examples must:
+
+- Start with `example`
+- End with `_test.go`
+
+Simple file would be `example_test.go` however examples can be split across
+multiple files, for example `example_interface_test.go` and
+`example_search_test.go`.
+
+Basic example:
+
+```go
+package stringutil_test
+
+import (
+	"fmt"
+
+	"github.com/golang/example/stringutil"
+)
+
+func Example() {
+	fmt.Println(stringutil.Reverse("hello"))
+}
+```
+
+Note that the exported function starts with `Example` and takes no arguments.
+
+Examples can be scoped to a specific exported identifier:
+
+```go
+func ExampleFoo()     // documents the Foo function or type
+func ExampleBar_Qux() // documents the Qux method of type Bar
+func Example()        // documents the package as a whole
+```
+
+Multiple examples can be provided for the same identifier:
+
+```go
+func ExampleReverse()
+func ExampleReverse_second()
+func ExampleReverse_third()
+```
+
+Links:
+
+- ["Testable Examples in Go" by Andrew Gerrand](https://blog.golang.org/examples)
+- [`sort` package examples](https://golang.org/src/sort/)
+
 ## Functional Options
 
 ```go
