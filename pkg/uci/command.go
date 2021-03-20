@@ -159,6 +159,28 @@ func WithMoves(s ...string) func(*positionCommand) {
 	}
 }
 
+// SetOptionCommand is used to run the `setoption` UCI command.
+func SetOptionCommand(n string, v string) Command {
+	return setOptionCommand{
+		name:  n,
+		value: v,
+	}
+}
+
+type setOptionCommand struct {
+	name  string
+	value string
+}
+
+func (s setOptionCommand) processOutput(e *Engine) error {
+	return nil
+}
+
+// String implements the Command interface.
+func (s setOptionCommand) String() string {
+	return fmt.Sprintf("setoption name %s value %s", s.name, s.value)
+}
+
 // UCICommand is used to run the `uci` UCI command.
 // nolint:golint
 func UCICommand() Command {
