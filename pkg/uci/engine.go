@@ -28,7 +28,7 @@ type Engine struct {
 }
 
 // NewEngine returns an Engine.
-func NewEngine(p string, opts ...func(e *Engine) error) (*Engine, error) {
+func NewEngine(p string, opts ...func(e *Engine)) (*Engine, error) {
 	rIn, wIn := io.Pipe()
 	rOut, wOut := io.Pipe()
 
@@ -48,9 +48,7 @@ func NewEngine(p string, opts ...func(e *Engine) error) (*Engine, error) {
 	}
 
 	for _, o := range opts {
-		if err := o(e); err != nil {
-			return nil, err
-		}
+		o(e)
 	}
 
 	return e, nil
@@ -58,17 +56,15 @@ func NewEngine(p string, opts ...func(e *Engine) error) (*Engine, error) {
 
 // LogOutput is a functional option for configuring Engine to log any commands
 // sent, and all output received.
-func LogOutput(e *Engine) error {
+func LogOutput(e *Engine) {
 	e.logOutput = true
-	return nil
 }
 
 // WithCommandTimeout is an option for the NewEngine function which sets the
 // duration a command must complete in.
-func WithCommandTimeout(d time.Duration) func(*Engine) error {
-	return func(e *Engine) error {
+func WithCommandTimeout(d time.Duration) func(*Engine) {
+	return func(e *Engine) {
 		e.timeout = d
-		return nil
 	}
 }
 
