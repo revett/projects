@@ -19,11 +19,12 @@ const defaultCommandTimeout = 1 * time.Second
 // Engine holds the properties required to communicate with a UCI-compatible
 // chess engine executable.
 type Engine struct {
-	cmd     *exec.Cmd
-	debug   bool
-	timeout time.Duration
-	in      *io.PipeWriter
-	out     *io.PipeReader
+	cmd       *exec.Cmd
+	logOutput bool
+	in        *io.PipeWriter
+	out       *io.PipeReader
+	timeout   time.Duration
+	Results   Results
 }
 
 // NewEngine returns an Engine.
@@ -58,7 +59,7 @@ func NewEngine(p string, opts ...func(e *Engine) error) (*Engine, error) {
 // LogOutput is a functional option for configuring Engine to log any commands
 // sent, and all output received.
 func LogOutput(e *Engine) error {
-	e.debug = true
+	e.logOutput = true
 	return nil
 }
 
@@ -114,7 +115,7 @@ func (e Engine) readUntil(s string) ([]string, error) {
 			l := scanner.Text()
 			lines = append(lines, l)
 
-			if e.debug {
+			if e.logOutput {
 				log.Println(l)
 			}
 
@@ -148,7 +149,7 @@ func (e Engine) readUntil(s string) ([]string, error) {
 func (e Engine) sendCommand(s string, a ...interface{}) error {
 	s = fmt.Sprintf(s, a...)
 
-	if e.debug {
+	if e.logOutput {
 		log.Printf("> %s", s)
 	}
 
