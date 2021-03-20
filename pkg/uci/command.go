@@ -15,6 +15,7 @@ type Command interface {
 const (
 	defaultSearchDepth          = 10
 	requiredBestMoveOutputParts = 4
+	startingPosition            = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 )
 
 // GoCommand is used to run the `go` UCI command.
@@ -132,7 +133,7 @@ func (i isReadyCommand) String() string {
 // PositionCommand is used to run the `position` UCI command.
 func PositionCommand(opts ...func(*positionCommand)) Command {
 	p := positionCommand{
-		fen: StartingPosition,
+		fen: startingPosition,
 	}
 
 	for _, o := range opts {
