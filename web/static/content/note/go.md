@@ -84,6 +84,79 @@ Links:
 
 - ["Functional options for friendly APIs" by Dave Cheney (dave.cheney.net)](https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis)
 
+## Godoc
+
+Basic example for documenting a type, variable, constant or function:
+
+```go
+// Fprint formats using the default formats for its operands and writes to w.
+func Fprint(w io.Writer, a ...interface{}) (n int, err error) {
+```
+
+Comments on a package will render the text within an `Overview` section of the
+HTML godoc page:
+
+```go
+// Package sort provides primitives for sorting slices and user-defined
+// collections.
+package sort
+```
+
+> See [sort](https://golang.org/pkg/sort/).
+
+If the general documentation for the package is much longer, then it should be
+within a `doc.go`:
+
+```go
+// Copyright 2009 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+/*
+Package gob manages streams of gobs - binary values exchanged between an
+Encoder (transmitter) and a Decoder (receiver). A typical use is transporting
+arguments and results of remote procedure calls (RPCs) such as those provided by
+package "net/rpc".
+
+Types and Values
+
+The source and destination values/types need not correspond exactly. For structs,
+fields (identified by name) that are in the source but absent from the receiving
+variable will be ignored. Fields that are in the receiving variable but missing
+from the transmitted type or value will be ignored in the destination. If a field
+with the same name is present in both, their types must be compatible. Both the
+receiver and transmitter will do all necessary indirection and dereferencing to
+convert between gobs and actual Go values. For instance, a gob type that is
+schematically,
+
+	struct { A, B int }
+
+can be sent from or received into any of these Go types:
+
+	struct { A, B int }	// the same
+	*struct { A, B int }	// extra indirection of the struct
+	struct { *A, **B int }	// extra indirection of the fields
+	struct { A, B int64 }	// different concrete value type; see below
+*/
+package gob
+```
+
+> Taken from [doc.go](https://golang.org/src/encoding/gob/doc.go) in
+> [encoding/gob](https://golang.org/pkg/encoding/gob/).
+
+Note that:
+
+- **Paragraphs** are delineated by blank lines
+- **Headings** are a single line without punctuation, with paragraphs before and
+  after it
+- Code snippets must be indented
+- Godoc will generate a table of contents automatically
+
+Links:
+
+- ["Godoc: documenting Go code" by Andrew Gerrand](https://blog.golang.org/godoc)
+- [natefinch/godocgo (pkg.go.dev)](https://pkg.go.dev/github.com/natefinch/godocgo)
+
 ## Higher-Order Function
 
 - A function that operates on other functions
