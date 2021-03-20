@@ -7,7 +7,7 @@
 This repo follows the structure outlined in
 [golang-standards/project-layout](https://github.com/golang-standards/project-layout).
 
-### `pkg/uci`
+## `pkg/uci`
 
 `uci` is a package for interacting with chess engines that support the
 [Universal Chess Interface](http://wbec-ridderkerk.nl/html/UCIProtocol.html)
