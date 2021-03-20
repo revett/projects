@@ -152,6 +152,13 @@ Note that:
 - Code snippets must be indented
 - Godoc will generate a table of contents automatically
 
+Known bugs can be documented (where `user` is someone who can provide more
+information):
+
+```go
+// BUG(user): Description of known bug.
+```
+
 Links:
 
 - ["Godoc: documenting Go code" by Andrew Gerrand](https://blog.golang.org/godoc)
