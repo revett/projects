@@ -89,7 +89,8 @@ func (e Engine) Close() error {
 	return e.cmd.Process.Kill()
 }
 
-// Run is TODO.
+// Run sends one or more UCI commands to the engine and processes the engine
+// output. The commands are sent to the engine in the order given.
 func (e *Engine) Run(cmds ...Command) error {
 	for _, c := range cmds {
 		if err := e.sendCommand(c.String()); err != nil {
