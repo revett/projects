@@ -6,8 +6,11 @@
 
 This repo follows the structure outlined in
 [golang-standards/project-layout](https://github.com/golang-standards/project-layout).
+Apart from `api/` which is a
+[requirement from Vercel](https://vercel.com/docs/serverless-functions/introduction#deploying-serverless-functions)
+for deploying serverless functions 😢.
 
-## `pkg/uci`
+### `pkg/uci`
 
 `uci` is a package for interacting with chess engines that support the
 [Universal Chess Interface](http://wbec-ridderkerk.nl/html/UCIProtocol.html)

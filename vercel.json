@@ -1,0 +1,13 @@
+{
+  "cleanUrls": true,
+  "env": {
+    "STOCKFISH_PATH": "/var/task/engines/stockfish_13_linux_x64_bmi2"
+  },
+  "functions": {
+    "api/index.go": {
+      "includeFiles": "engines/**",
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
+}

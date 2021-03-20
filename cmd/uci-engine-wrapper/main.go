@@ -1,25 +1,22 @@
 package main
 
 import (
-	"github.com/bnkamalesh/webgo/v4"
-	"github.com/bnkamalesh/webgo/v4/middleware"
+	"log"
+
+	"github.com/gin-gonic/gin"
 	"github.com/revett/projects/internal/uci-engine-wrapper/handlers"
 )
 
-const stockfishPath = "/usr/local/bin/stockfish"
+const (
+	port          = ":1323"
+	stockfishPath = "/usr/local/bin/stockfish"
+)
 
 func main() {
-	c := webgo.Config{
-		Port: "1323",
-	}
+	r := gin.Default()
+	r.GET("/search", handlers.Search(stockfishPath))
 
-	r := webgo.NewRouter(&c, routes())
-	r.Use(middleware.AccessLog)
-	r.Start()
-}
-
-func routes() []*webgo.Route {
-	return []*webgo.Route{
-		handlers.CalculateRoute(stockfishPath),
+	if err := r.Run(port); err != nil {
+		log.Fatal(err)
 	}
 }

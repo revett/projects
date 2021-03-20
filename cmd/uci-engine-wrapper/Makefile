@@ -1,8 +1,10 @@
 PROJECT="uci-engine-wrapper"
 
+DEFAULT: run
+
 build:
-	@GOOS=darwin GOARCH=amd64 go build -o ../../dist/${PROJECT}.darwin-amd64 main.go
+	go build -o ../../dist/${PROJECT} main.go
 
 run: build
-	@../../dist/${PROJECT}.darwin-amd64
+	@../../dist/${PROJECT}
 
