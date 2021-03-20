@@ -1,6 +1,7 @@
 package uci
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -11,7 +12,10 @@ type Command interface {
 	processOutput(*Engine) error
 }
 
-const defaultSearchDepth = 10
+const (
+	defaultSearchDepth          = 10
+	requiredBestMoveOutputParts = 4
+)
 
 // GoCommand is used to run the `go` UCI command.
 func GoCommand(opts ...func(*goCommand)) Command {
@@ -36,8 +40,23 @@ type goCommand struct {
 }
 
 func (g goCommand) processOutput(e *Engine) error {
-	_, err := e.readUntil("bestmove")
-	return err
+	l, err := e.readUntil("bestmove")
+	if err != nil {
+		return err
+	}
+
+	lastLine := l[len(l)-1]
+
+	parts := strings.Split(lastLine, " ")
+	if len(parts) != requiredBestMoveOutputParts {
+		return errors.New("malformed last line from go command")
+	}
+
+	e.Results = Results{
+		BestMove: parts[1],
+	}
+
+	return nil
 }
 
 // String implements the Command interface.
