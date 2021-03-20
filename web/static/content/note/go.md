@@ -68,7 +68,7 @@ Adding more complex initialisation through readable arguments:
 e, err := chess.Start(
 	"/path/to/engine",
 	chess.Debug,
-	chess.WithTimeout(200 * time.Millisecond),
+	chess.WithTimeout(200*time.Millisecond),
 )
 ```
 
@@ -202,7 +202,7 @@ Links:
 - Lower case, with no underscores or `mixedCase`
 - Avoid package and function name stutter
 - Abbreviate only if the name will be unambiguous (e.g. `strconv`, `syscall`, `fmt`)
-- Don't steal good names (e.g. `bufio` instead of `buf`)
+- Don't steal good variable names (e.g. `bufio` instead of `buf`)
 - Avoid generic names (e.g. `util`, `common`, `misc`)
 - Avoid exposing all API interfaces in a single package (e.g. `types`, `models`)
 - Avoid unnecessary name collisions (e.g. using same name as popular `http` package)
@@ -210,6 +210,25 @@ Links:
 Links:
 
 - ["Package names" by Sameer Ajmani (blog.golang.org)](https://blog.golang.org/package-names)
+
+## Semantic Package Versioning
+
+Follow the format: `vMAJOR.MINOR.PATCH` (note the `v...` prefix)
+
+- **Major**: a backwards incompatible change to the public API of the module
+- **Minor**: a backwards compatible change to the API, like changing
+  dependencies or adding a new function, method, struct field, or type
+- **Patch**: a change that does not affect the public API or dependencies, like
+  fixing a bug
+
+Pre-release versions can be specified however users must specifically request
+them as normal releases are preferred by the `go` command. Examples:
+
+- `v0.3.0-alpha`
+- `v1.0.0-beta`
+
+Releases must be continued as the `go` command will always use the greatest
+semantic release version available, even if it far behind the primary branch.
 
 ## Pretty Printing Data Structures
 
