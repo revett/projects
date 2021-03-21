@@ -13,7 +13,6 @@ type Command interface {
 }
 
 const (
-	defaultSearchDepth          = 10
 	requiredBestMoveOutputParts = 4
 	startingPosition            = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 )
@@ -21,10 +20,6 @@ const (
 // GoCommand is used to run the `go` UCI command.
 func GoCommand(opts ...func(*goCommand)) Command {
 	g := goCommand{}
-	if len(opts) == 0 {
-		g.depth = defaultSearchDepth
-		return g
-	}
 
 	for _, o := range opts {
 		o(&g)
@@ -78,6 +73,10 @@ func (g goCommand) String() string {
 
 	if len(g.searchmoves) > 0 {
 		p = append(p, "searchmoves", strings.Join(g.searchmoves, " "))
+	}
+
+	if len(p) == 0 {
+		return "go"
 	}
 
 	return fmt.Sprintf("go %s", strings.Join(p, " "))
