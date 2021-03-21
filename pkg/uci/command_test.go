@@ -26,7 +26,6 @@ func TestGoCommand(t *testing.T) {
 		uci.GoCommand(),
 	)
 	assert.NoError(t, err)
-	assert.Equal(t, bestMove, e.Results.BestMove)
 
 	err = e.Close()
 	assert.NoError(t, err)
