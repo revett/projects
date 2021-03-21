@@ -10,7 +10,6 @@ linters:
     - nlreturn
     - paralleltest
     - prealloc
-    - scopelint
     - unparam
     - wrapcheck
   presets:
