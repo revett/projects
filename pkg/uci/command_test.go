@@ -26,6 +26,19 @@ func TestIsReadyCommand(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestSetOptionCommand(t *testing.T) {
+	e, err := uci.NewEngine(mockCommander{}.Command, mockEnginePath)
+	assert.NoError(t, err)
+
+	err = e.Run(
+		uci.SetOptionCommand("threads", "2"),
+	)
+	assert.NoError(t, err)
+
+	err = e.Close()
+	assert.NoError(t, err)
+}
+
 func TestUCICommand(t *testing.T) {
 	mc := mockCommander{
 		out: []string{
