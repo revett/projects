@@ -50,3 +50,16 @@ func TestUCICommand(t *testing.T) {
 	err = e.Close()
 	assert.NoError(t, err)
 }
+
+func TestUCINewGameCommand(t *testing.T) {
+	e, err := uci.NewEngine(mockCommander{}.Command, mockEnginePath)
+	assert.NoError(t, err)
+
+	err = e.Run(
+		uci.UCINewGameCommand(),
+	)
+	assert.NoError(t, err)
+
+	err = e.Close()
+	assert.NoError(t, err)
+}
