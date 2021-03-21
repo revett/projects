@@ -1,6 +1,7 @@
 package uci_test
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -147,6 +148,16 @@ func TestSetOptionCommand(t *testing.T) {
 
 	err = e.Close()
 	assert.NoError(t, err)
+}
+
+func TestSetOptionCommandString(t *testing.T) {
+	name := "threads"
+	value := "2"
+
+	want := fmt.Sprintf("setoption name %s value %s", name, value)
+	c := uci.SetOptionCommand(name, value)
+
+	assert.Equal(t, want, c.String())
 }
 
 func TestUCICommand(t *testing.T) {
