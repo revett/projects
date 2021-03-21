@@ -2,29 +2,65 @@ package uci_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/revett/projects/pkg/uci"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGoCommand(t *testing.T) {
-	mc := mockCommander{
-		out: []string{
-			"info string NNUE evaluation using nn-62ef826d1a6d.nnue enabled",
-			"info depth 1 seldepth 1 multipv 1 score cp 29 nodes 20 nps 20000 tbhits 0 time 1 pv d2d4",
-			"info depth 2 seldepth 2 multipv 1 score cp 89 nodes 42 nps 4666 tbhits 0 time 9 pv d2d4 a7a6",
-			"bestmove d2d4 ponder a7a6",
+	t.Parallel()
+
+	tests := map[string]struct {
+		engineOutput []string
+		expectError  bool
+	}{
+		"Happy": {
+			engineOutput: []string{
+				"info string NNUE evaluation using nn-62ef826d1a6d.nnue enabled",
+				"info depth 1 seldepth 1 multipv 1 score cp 29 nodes 20 nps 20000 tbhits 0 time 1 pv d2d4",
+				"info depth 2 seldepth 2 multipv 1 score cp 89 nodes 42 nps 4666 tbhits 0 time 9 pv d2d4 a7a6",
+				"bestmove d2d4 ponder a7a6",
+			},
+		},
+		"MalformedBestMoveLine": {
+			engineOutput: []string{
+				"info string NNUE evaluation using nn-62ef826d1a6d.nnue enabled",
+				"info depth 1 seldepth 1 multipv 1 score cp 29 nodes 20 nps 20000 tbhits 0 time 1 pv d2d4",
+				"info depth 2 seldepth 2 multipv 1 score cp 89 nodes 42 nps 4666 tbhits 0 time 9 pv d2d4 a7a6",
+				"bestmove d2d4 ponder",
+			},
+			expectError: true,
+		},
+		"Timeout": {
+			expectError: true,
 		},
 	}
 
-	e, err := uci.NewEngine(mc.Command, mockEnginePath)
-	assert.NoError(t, err)
+	for n, tc := range tests {
+		tc := tc
 
-	err = e.Run(uci.GoCommand())
-	assert.NoError(t, err)
+		t.Run(n, func(t *testing.T) {
+			t.Parallel()
 
-	err = e.Close()
-	assert.NoError(t, err)
+			mc := mockCommander{
+				out: tc.engineOutput,
+			}
+
+			e, err := uci.NewEngine(
+				mc.Command,
+				mockEnginePath,
+				uci.WithCommandTimeout(100*time.Millisecond),
+			)
+			assert.NoError(t, err)
+
+			err = e.Run(uci.GoCommand())
+			assert.Equal(t, tc.expectError, err != nil)
+
+			err = e.Close()
+			assert.NoError(t, err)
+		})
+	}
 }
 
 func TestGoCommandString(t *testing.T) {
