@@ -1,4 +1,4 @@
-package uci
+package uci_test
 
 import (
 	"fmt"
@@ -8,14 +8,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/revett/projects/pkg/uci"
 	"github.com/stretchr/testify/assert"
 )
 
 const mockEnginePath = "/path/to/engine"
 
 func TestClose(t *testing.T) {
-	command = mockCommander{}.Command
-	e, err := NewEngine(mockEnginePath)
+	e, err := uci.NewEngine(mockCommander{}.Command, mockEnginePath)
 	assert.NoError(t, err)
 
 	err = e.Close()
@@ -23,8 +23,7 @@ func TestClose(t *testing.T) {
 }
 
 func TestNewEngine(t *testing.T) {
-	command = mockCommander{}.Command
-	_, err := NewEngine(mockEnginePath)
+	_, err := uci.NewEngine(mockCommander{}.Command, mockEnginePath)
 	assert.NoError(t, err)
 }
 
