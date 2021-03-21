@@ -68,15 +68,15 @@ func TestGoCommandString(t *testing.T) {
 	t.Parallel()
 
 	tests := map[string]struct {
-		gc   uci.Command
+		c    uci.Command
 		want string
 	}{
 		"EmptyOptions": {
-			gc:   uci.GoCommand(),
+			c:    uci.GoCommand(),
 			want: "go",
 		},
-		"Multiple": {
-			gc: uci.GoCommand(
+		"MultipleOptions": {
+			c: uci.GoCommand(
 				uci.WithSearchMoves("e2e4", "e7e5"),
 				uci.WithDepth(10),
 				uci.WithMoveTime(1000),
@@ -84,19 +84,19 @@ func TestGoCommandString(t *testing.T) {
 			want: "go depth 10 movetime 1000 searchmoves e2e4 e7e5",
 		},
 		"WithDepth": {
-			gc:   uci.GoCommand(uci.WithDepth(10)),
+			c:    uci.GoCommand(uci.WithDepth(10)),
 			want: "go depth 10",
 		},
 		"WithInfinite": {
-			gc:   uci.GoCommand(uci.WithInfinite),
+			c:    uci.GoCommand(uci.WithInfinite),
 			want: "go infinite",
 		},
 		"WithMoveTime": {
-			gc:   uci.GoCommand(uci.WithMoveTime(1000)),
+			c:    uci.GoCommand(uci.WithMoveTime(1000)),
 			want: "go movetime 1000",
 		},
 		"WithSearchMoves": {
-			gc:   uci.GoCommand(uci.WithSearchMoves("e2e4", "e7e5")),
+			c:    uci.GoCommand(uci.WithSearchMoves("e2e4", "e7e5")),
 			want: "go searchmoves e2e4 e7e5",
 		},
 	}
@@ -106,7 +106,7 @@ func TestGoCommandString(t *testing.T) {
 
 		t.Run(n, func(t *testing.T) {
 			t.Parallel()
-			assert.Equal(t, tc.want, tc.gc.String())
+			assert.Equal(t, tc.want, tc.c.String())
 		})
 	}
 }
@@ -137,6 +137,49 @@ func TestPositionCommand(t *testing.T) {
 
 	err = e.Close()
 	assert.NoError(t, err)
+}
+
+func TestPositionCommandString(t *testing.T) {
+	t.Parallel()
+
+	tests := map[string]struct {
+		c    uci.Command
+		want string
+	}{
+		"EmptyOptions": {
+			c:    uci.PositionCommand(),
+			want: "position",
+		},
+		"MultipleOptions": {
+			c: uci.PositionCommand(
+				uci.WithMoves("e2e4", "e7e5"),
+				uci.WithFEN("r3kb1r/pp1q1ppp/4p3/8/3P4/8/P1P2PPP/R1BQ1RK1 b kq - 1 12"),
+			),
+			want: "position fen r3kb1r/pp1q1ppp/4p3/8/3P4/8/P1P2PPP/R1BQ1RK1 b kq - 1 12 moves e2e4 e7e5",
+		},
+		"WithFEN": {
+			c: uci.PositionCommand(
+				uci.WithFEN("r3kb1r/pp1q1ppp/4p3/8/3P4/8/P1P2PPP/R1BQ1RK1 b kq - 1 12"),
+			),
+			want: "position fen r3kb1r/pp1q1ppp/4p3/8/3P4/8/P1P2PPP/R1BQ1RK1 b kq - 1 12",
+		},
+		"WithMoves": {
+			c: uci.PositionCommand(
+				uci.WithMoves("e2e4", "e7e5"),
+			),
+			want: "position moves e2e4 e7e5",
+		},
+	}
+
+	for n, tc := range tests {
+		tc := tc
+
+		t.Run(n, func(t *testing.T) {
+			t.Parallel()
+
+			assert.Equal(t, tc.want, tc.c.String())
+		})
+	}
 }
 
 func TestSetOptionCommand(t *testing.T) {
