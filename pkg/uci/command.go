@@ -12,19 +12,11 @@ type Command interface {
 	processOutput(*Engine) error
 }
 
-const (
-	defaultSearchDepth          = 10
-	requiredBestMoveOutputParts = 4
-	startingPosition            = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-)
+const requiredBestMoveOutputParts = 4
 
 // GoCommand is used to run the `go` UCI command.
 func GoCommand(opts ...func(*goCommand)) Command {
 	g := goCommand{}
-	if len(opts) == 0 {
-		g.depth = defaultSearchDepth
-		return g
-	}
 
 	for _, o := range opts {
 		o(&g)
@@ -80,6 +72,10 @@ func (g goCommand) String() string {
 		p = append(p, "searchmoves", strings.Join(g.searchmoves, " "))
 	}
 
+	if len(p) == 0 {
+		return "go"
+	}
+
 	return fmt.Sprintf("go %s", strings.Join(p, " "))
 }
 
@@ -132,9 +128,7 @@ func (i isReadyCommand) String() string {
 
 // PositionCommand is used to run the `position` UCI command.
 func PositionCommand(opts ...func(*positionCommand)) Command {
-	p := positionCommand{
-		fen: startingPosition,
-	}
+	p := positionCommand{}
 
 	for _, o := range opts {
 		o(&p)
@@ -154,13 +148,21 @@ func (p positionCommand) processOutput(e *Engine) error {
 
 // String implements the Command interface.
 func (p positionCommand) String() string {
-	if len(p.moves) == 0 {
-		return fmt.Sprintf("position fen %s", p.fen)
+	parts := []string{}
+
+	if p.fen != "" {
+		parts = append(parts, "fen", p.fen)
 	}
 
-	return fmt.Sprintf(
-		"position fen %s moves %s", p.fen, strings.Join(p.moves, " "),
-	)
+	if len(p.moves) > 0 {
+		parts = append(parts, "moves", strings.Join(p.moves, " "))
+	}
+
+	if len(parts) == 0 {
+		return "position"
+	}
+
+	return fmt.Sprintf("position %s", strings.Join(parts, " "))
 }
 
 // WithFEN is a functional option that configures the PositionCommand with a

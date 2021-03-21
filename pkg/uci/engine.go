@@ -12,7 +12,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-var command = exec.Command
+type commander func(name string, arg ...string) *exec.Cmd
 
 const defaultCommandTimeout = 1 * time.Second
 
@@ -28,11 +28,11 @@ type Engine struct {
 }
 
 // NewEngine returns an Engine.
-func NewEngine(p string, opts ...func(e *Engine)) (*Engine, error) {
+func NewEngine(c commander, p string, opts ...func(e *Engine)) (*Engine, error) {
 	rIn, wIn := io.Pipe()
 	rOut, wOut := io.Pipe()
 
-	cmd := command(p)
+	cmd := c(p)
 	cmd.Stdin = rIn
 	cmd.Stdout = wOut
 

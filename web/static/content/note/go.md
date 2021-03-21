@@ -438,6 +438,8 @@ import (
 )
 
 func TestIsHTML(t *testing.T) {
+	t.Parallel()
+
 	tests := map[string]struct {
 		mg   mockGetter
 		want bool
@@ -461,7 +463,10 @@ func TestIsHTML(t *testing.T) {
 	}
 
 	for n, tc := range tests {
+		tc := tc
+
 		t.Run(n, func(t *testing.T) {
+			t.Parallel()
 			ok, err := page.IsHTML(tc.mg, "https://example.com")
 			assert.Equal(t, tc.err, err != nil)
 			assert.Equal(t, tc.want, ok)
