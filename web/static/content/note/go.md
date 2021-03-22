@@ -479,9 +479,15 @@ func TestIsHTML(t *testing.T) {
 
 Full example: [github.com/revett/snippets/internal/isub/page](https://github.com/revett/snippets/tree/main/internal/isub/page)
 
+Note:
+
+- That the `tc` variable is reassigned within the body of the loop to avoid
+  using the wrong iterated variable, as `t.Run` is a goroutine.
+
 Links:
 
 - ["Prefer table driven tests" by Dave Cheney (dave.cheney.net)](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
+- ["Using Goroutines on Loop Iterator Variables" (go/wiki)](https://github.com/golang/go/wiki/CommonMistakes#using-goroutines-on-loop-iterator-variables)
 
 ## Resources
 
