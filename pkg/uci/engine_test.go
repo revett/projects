@@ -123,6 +123,9 @@ func TestRun(t *testing.T) {
 			},
 			expectError: true,
 		},
+		"UCINewGameCommand": {
+			commands: []uci.Command{uci.UCINewGameCommand()},
+		},
 	}
 
 	for n, tc := range tests {
