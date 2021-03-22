@@ -98,6 +98,28 @@ func TestRun(t *testing.T) {
 			},
 			expectError: true,
 		},
+		"Multiple": {
+			commands: []uci.Command{
+				uci.UCICommand(),
+				uci.UCINewGameCommand(),
+				uci.IsReadyCommand(),
+				uci.GoCommand(),
+			},
+			engineOutput: []string{
+				"id name Stockfish 13",
+				"id author the Stockfish developers (see AUTHORS file)",
+				"",
+				"option name Debug Log File type string default",
+				"option name Contempt type spin default 24 min -100 max 100",
+				"option name Threads type spin default 1 min 1 max 512",
+				"uciok",
+				"readyok",
+				"info string NNUE evaluation using nn-62ef826d1a6d.nnue enabled",
+				"info depth 1 seldepth 1 multipv 1 score cp 29 nodes 20 nps 20000 tbhits 0 time 1 pv d2d4",
+				"info depth 2 seldepth 2 multipv 1 score cp 89 nodes 42 nps 4666 tbhits 0 time 9 pv d2d4 a7a6",
+				"bestmove d2d4 ponder a7a6",
+			},
+		},
 		"PositionCommand": {
 			commands: []uci.Command{uci.PositionCommand()},
 		},
