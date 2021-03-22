@@ -51,6 +51,65 @@ func TestResultsBestMove(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestRun(t *testing.T) {
+	t.Parallel()
+
+	tests := map[string]struct {
+		commands     []uci.Command
+		engineOutput []string
+		expectError  bool
+	}{
+		"GoCommandHappy": {
+			commands: []uci.Command{uci.GoCommand()},
+			engineOutput: []string{
+				"info string NNUE evaluation using nn-62ef826d1a6d.nnue enabled",
+				"info depth 1 seldepth 1 multipv 1 score cp 29 nodes 20 nps 20000 tbhits 0 time 1 pv d2d4",
+				"info depth 2 seldepth 2 multipv 1 score cp 89 nodes 42 nps 4666 tbhits 0 time 9 pv d2d4 a7a6",
+				"bestmove d2d4 ponder a7a6",
+			},
+		},
+		"GoCommandMalformedBestMoveLine": {
+			commands: []uci.Command{uci.GoCommand()},
+			engineOutput: []string{
+				"info string NNUE evaluation using nn-62ef826d1a6d.nnue enabled",
+				"info depth 1 seldepth 1 multipv 1 score cp 29 nodes 20 nps 20000 tbhits 0 time 1 pv d2d4",
+				"info depth 2 seldepth 2 multipv 1 score cp 89 nodes 42 nps 4666 tbhits 0 time 9 pv d2d4 a7a6",
+				"bestmove d2d4 ponder",
+			},
+			expectError: true,
+		},
+		"GoCommandTimeout": {
+			commands:    []uci.Command{uci.GoCommand()},
+			expectError: true,
+		},
+	}
+
+	for n, tc := range tests {
+		tc := tc
+
+		t.Run(n, func(t *testing.T) {
+			t.Parallel()
+
+			mc := mockCommander{
+				out: tc.engineOutput,
+			}
+
+			e, err := uci.NewEngine(
+				mc.Command,
+				mockEnginePath,
+				uci.WithCommandTimeout(100*time.Millisecond),
+			)
+			assert.NoError(t, err)
+
+			err = e.Run(tc.commands...)
+			assert.Equal(t, tc.expectError, err != nil)
+
+			err = e.Close()
+			assert.NoError(t, err)
+		})
+	}
+}
+
 type mockCommander struct {
 	out []string
 }
