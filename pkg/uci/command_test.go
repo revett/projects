@@ -3,66 +3,10 @@ package uci_test
 import (
 	"fmt"
 	"testing"
-	"time"
 
 	"github.com/revett/projects/pkg/uci"
 	"github.com/stretchr/testify/assert"
 )
-
-func TestGoCommand(t *testing.T) {
-	t.Parallel()
-
-	tests := map[string]struct {
-		engineOutput []string
-		expectError  bool
-	}{
-		"Happy": {
-			engineOutput: []string{
-				"info string NNUE evaluation using nn-62ef826d1a6d.nnue enabled",
-				"info depth 1 seldepth 1 multipv 1 score cp 29 nodes 20 nps 20000 tbhits 0 time 1 pv d2d4",
-				"info depth 2 seldepth 2 multipv 1 score cp 89 nodes 42 nps 4666 tbhits 0 time 9 pv d2d4 a7a6",
-				"bestmove d2d4 ponder a7a6",
-			},
-		},
-		"MalformedBestMoveLine": {
-			engineOutput: []string{
-				"info string NNUE evaluation using nn-62ef826d1a6d.nnue enabled",
-				"info depth 1 seldepth 1 multipv 1 score cp 29 nodes 20 nps 20000 tbhits 0 time 1 pv d2d4",
-				"info depth 2 seldepth 2 multipv 1 score cp 89 nodes 42 nps 4666 tbhits 0 time 9 pv d2d4 a7a6",
-				"bestmove d2d4 ponder",
-			},
-			expectError: true,
-		},
-		"Timeout": {
-			expectError: true,
-		},
-	}
-
-	for n, tc := range tests {
-		tc := tc
-
-		t.Run(n, func(t *testing.T) {
-			t.Parallel()
-
-			mc := mockCommander{
-				out: tc.engineOutput,
-			}
-
-			e, err := uci.NewEngine(
-				mc.Command,
-				mockEnginePath,
-				uci.WithCommandTimeout(100*time.Millisecond),
-			)
-			assert.NoError(t, err)
-
-			err = e.Run(uci.GoCommand())
-			assert.Equal(t, tc.expectError, err != nil)
-
-			err = e.Close()
-			assert.NoError(t, err)
-		})
-	}
-}
 
 func TestGoCommandString(t *testing.T) {
 	t.Parallel()
@@ -111,32 +55,8 @@ func TestGoCommandString(t *testing.T) {
 	}
 }
 
-func TestIsReadyCommand(t *testing.T) {
-	mc := mockCommander{
-		out: []string{
-			"readyok",
-		},
-	}
-
-	e, err := uci.NewEngine(mc.Command, mockEnginePath)
-	assert.NoError(t, err)
-
-	err = e.Run(uci.IsReadyCommand())
-	assert.NoError(t, err)
-
-	err = e.Close()
-	assert.NoError(t, err)
-}
-
-func TestPositionCommand(t *testing.T) {
-	e, err := uci.NewEngine(mockCommander{}.Command, mockEnginePath)
-	assert.NoError(t, err)
-
-	err = e.Run(uci.PositionCommand())
-	assert.NoError(t, err)
-
-	err = e.Close()
-	assert.NoError(t, err)
+func TestIsReadyCommandString(t *testing.T) {
+	assert.Equal(t, "isready", uci.IsReadyCommand().String())
 }
 
 func TestPositionCommandString(t *testing.T) {
@@ -176,21 +96,9 @@ func TestPositionCommandString(t *testing.T) {
 
 		t.Run(n, func(t *testing.T) {
 			t.Parallel()
-
 			assert.Equal(t, tc.want, tc.c.String())
 		})
 	}
-}
-
-func TestSetOptionCommand(t *testing.T) {
-	e, err := uci.NewEngine(mockCommander{}.Command, mockEnginePath)
-	assert.NoError(t, err)
-
-	err = e.Run(uci.SetOptionCommand("threads", "2"))
-	assert.NoError(t, err)
-
-	err = e.Close()
-	assert.NoError(t, err)
 }
 
 func TestSetOptionCommandString(t *testing.T) {
@@ -203,36 +111,10 @@ func TestSetOptionCommandString(t *testing.T) {
 	assert.Equal(t, want, c.String())
 }
 
-func TestUCICommand(t *testing.T) {
-	mc := mockCommander{
-		out: []string{
-			"id name Stockfish 13",
-			"id author the Stockfish developers (see AUTHORS file)",
-			"",
-			"option name Debug Log File type string default",
-			"option name Contempt type spin default 24 min -100 max 100",
-			"option name Threads type spin default 1 min 1 max 512",
-			"uciok",
-		},
-	}
-
-	e, err := uci.NewEngine(mc.Command, mockEnginePath)
-	assert.NoError(t, err)
-
-	err = e.Run(uci.UCICommand())
-	assert.NoError(t, err)
-
-	err = e.Close()
-	assert.NoError(t, err)
+func TestUCICommandString(t *testing.T) {
+	assert.Equal(t, "uci", uci.UCICommand().String())
 }
 
-func TestUCINewGameCommand(t *testing.T) {
-	e, err := uci.NewEngine(mockCommander{}.Command, mockEnginePath)
-	assert.NoError(t, err)
-
-	err = e.Run(uci.UCINewGameCommand())
-	assert.NoError(t, err)
-
-	err = e.Close()
-	assert.NoError(t, err)
+func TestUCINewGameCommandString(t *testing.T) {
+	assert.Equal(t, "ucinewgame", uci.UCINewGameCommand().String())
 }
