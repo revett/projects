@@ -59,17 +59,6 @@ func TestIsReadyCommandString(t *testing.T) {
 	assert.Equal(t, "isready", uci.IsReadyCommand().String())
 }
 
-func TestPositionCommand(t *testing.T) {
-	e, err := uci.NewEngine(mockCommander{}.Command, mockEnginePath)
-	assert.NoError(t, err)
-
-	err = e.Run(uci.PositionCommand())
-	assert.NoError(t, err)
-
-	err = e.Close()
-	assert.NoError(t, err)
-}
-
 func TestPositionCommandString(t *testing.T) {
 	t.Parallel()
 
@@ -111,17 +100,6 @@ func TestPositionCommandString(t *testing.T) {
 			assert.Equal(t, tc.want, tc.c.String())
 		})
 	}
-}
-
-func TestSetOptionCommand(t *testing.T) {
-	e, err := uci.NewEngine(mockCommander{}.Command, mockEnginePath)
-	assert.NoError(t, err)
-
-	err = e.Run(uci.SetOptionCommand("threads", "2"))
-	assert.NoError(t, err)
-
-	err = e.Close()
-	assert.NoError(t, err)
 }
 
 func TestSetOptionCommandString(t *testing.T) {

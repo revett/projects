@@ -59,7 +59,7 @@ func TestRun(t *testing.T) {
 		engineOutput []string
 		expectError  bool
 	}{
-		"GoCommandHappy": {
+		"GoCommand": {
 			commands: []uci.Command{uci.GoCommand()},
 			engineOutput: []string{
 				"info string NNUE evaluation using nn-62ef826d1a6d.nnue enabled",
@@ -93,6 +93,31 @@ func TestRun(t *testing.T) {
 		},
 		"IsReadyCommandTimeout": {
 			commands: []uci.Command{uci.IsReadyCommand()},
+			engineOutput: []string{
+				"foo",
+			},
+			expectError: true,
+		},
+		"PositionCommand": {
+			commands: []uci.Command{uci.PositionCommand()},
+		},
+		"SetOptionCommand": {
+			commands: []uci.Command{uci.SetOptionCommand("threads", "2")},
+		},
+		"UCICommand": {
+			commands: []uci.Command{uci.UCICommand()},
+			engineOutput: []string{
+				"id name Stockfish 13",
+				"id author the Stockfish developers (see AUTHORS file)",
+				"",
+				"option name Debug Log File type string default",
+				"option name Contempt type spin default 24 min -100 max 100",
+				"option name Threads type spin default 1 min 1 max 512",
+				"uciok",
+			},
+		},
+		"UCICommandTimeout": {
+			commands: []uci.Command{uci.UCICommand()},
 			engineOutput: []string{
 				"foo",
 			},
