@@ -96,7 +96,6 @@ func TestPositionCommandString(t *testing.T) {
 
 		t.Run(n, func(t *testing.T) {
 			t.Parallel()
-
 			assert.Equal(t, tc.want, tc.c.String())
 		})
 	}
