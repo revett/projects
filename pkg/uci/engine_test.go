@@ -79,7 +79,23 @@ func TestRun(t *testing.T) {
 			expectError: true,
 		},
 		"GoCommandTimeout": {
-			commands:    []uci.Command{uci.GoCommand()},
+			commands: []uci.Command{uci.GoCommand()},
+			engineOutput: []string{
+				"foo",
+			},
+			expectError: true,
+		},
+		"IsReadyCommand": {
+			commands: []uci.Command{uci.IsReadyCommand()},
+			engineOutput: []string{
+				"readyok",
+			},
+		},
+		"IsReadyCommandTimeout": {
+			commands: []uci.Command{uci.IsReadyCommand()},
+			engineOutput: []string{
+				"foo",
+			},
 			expectError: true,
 		},
 	}

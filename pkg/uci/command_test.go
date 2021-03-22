@@ -55,21 +55,8 @@ func TestGoCommandString(t *testing.T) {
 	}
 }
 
-func TestIsReadyCommand(t *testing.T) {
-	mc := mockCommander{
-		out: []string{
-			"readyok",
-		},
-	}
-
-	e, err := uci.NewEngine(mc.Command, mockEnginePath)
-	assert.NoError(t, err)
-
-	err = e.Run(uci.IsReadyCommand())
-	assert.NoError(t, err)
-
-	err = e.Close()
-	assert.NoError(t, err)
+func TestIsReadyCommandString(t *testing.T) {
+	assert.Equal(t, "isready", uci.IsReadyCommand().String())
 }
 
 func TestPositionCommand(t *testing.T) {
