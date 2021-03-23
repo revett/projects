@@ -16,8 +16,8 @@ type commander func(name string, arg ...string) *exec.Cmd
 
 const defaultCommandTimeout = 1 * time.Second
 
-// Engine holds the properties required to communicate with a UCI-compatible
-// chess engine executable.
+// Engine holds the properties required to communicate with a UCI chess engine
+// process.
 type Engine struct {
 	cmd       *exec.Cmd
 	logOutput bool
@@ -27,7 +27,9 @@ type Engine struct {
 	Results   Results
 }
 
-// NewEngine returns an Engine.
+// NewEngine returns an Engine, after starting the chess engine executable at
+// the given path. Zero or more functional options can be passed to configure
+// the Engine.
 func NewEngine(c commander, p string, opts ...func(e *Engine)) (*Engine, error) {
 	rIn, wIn := io.Pipe()
 	rOut, wOut := io.Pipe()
@@ -54,21 +56,21 @@ func NewEngine(c commander, p string, opts ...func(e *Engine)) (*Engine, error) 
 	return e, nil
 }
 
-// LogOutput is a functional option for configuring Engine to log any commands
-// sent, and all output received.
+// LogOutput is a functional option for configuring NewEngine so that commands
+// sent to an Engine and output from the Engine itself are logged.
 func LogOutput(e *Engine) {
 	e.logOutput = true
 }
 
-// WithCommandTimeout is an option for the NewEngine function which sets the
-// duration a command must complete in.
+// WithCommandTimeout is a functional option for configuring NewEngine which
+// sets the duration a command must complete in, the default is 1 second.
 func WithCommandTimeout(d time.Duration) func(*Engine) {
 	return func(e *Engine) {
 		e.timeout = d
 	}
 }
 
-// Close ends the chess engine process.
+// Close ends the underlying Engine process.
 func (e Engine) Close() error {
 	if err := e.sendCommand("quit"); err != nil {
 		return err

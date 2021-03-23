@@ -14,7 +14,7 @@ type Command interface {
 
 const requiredBestMoveOutputParts = 4
 
-// GoCommand is used to run the `go` UCI command.
+// GoCommand is used to run the "go" UCI command.
 func GoCommand(opts ...func(*goCommand)) Command {
 	g := goCommand{}
 
@@ -88,7 +88,7 @@ func WithDepth(i int) func(*goCommand) {
 }
 
 // WithInfinite is a functional option that configures the GoCommand to continue
-// searching until the `stop` UCI command is sent.
+// searching until the "stop" UCI command is sent.
 func WithInfinite(c *goCommand) {
 	c.infinite = true
 }
@@ -109,7 +109,7 @@ func WithSearchMoves(s ...string) func(*goCommand) {
 	}
 }
 
-// IsReadyCommand is used to run the `isready` UCI command.
+// IsReadyCommand is used to run the "isready" UCI command.
 func IsReadyCommand() Command {
 	return isReadyCommand{}
 }
@@ -126,7 +126,7 @@ func (i isReadyCommand) String() string {
 	return "isready"
 }
 
-// PositionCommand is used to run the `position` UCI command.
+// PositionCommand is used to run the "position" UCI command.
 func PositionCommand(opts ...func(*positionCommand)) Command {
 	p := positionCommand{}
 
@@ -181,7 +181,7 @@ func WithMoves(s ...string) func(*positionCommand) {
 	}
 }
 
-// SetOptionCommand is used to run the `setoption` UCI command.
+// SetOptionCommand is used to run the "setoption" UCI command.
 func SetOptionCommand(n string, v string) Command {
 	return setOptionCommand{
 		name:  n,
@@ -203,9 +203,8 @@ func (s setOptionCommand) String() string {
 	return fmt.Sprintf("setoption name %s value %s", s.name, s.value)
 }
 
-// UCICommand is used to run the `uci` UCI command.
-// nolint:golint
-func UCICommand() Command {
+// UCICommand is used to run the "uci" UCI command.
+func UCICommand() Command { // nolint:golint
 	return uciCommand{}
 }
 
@@ -221,9 +220,8 @@ func (u uciCommand) String() string {
 	return "uci"
 }
 
-// UCINewGameCommand is used to run the `ucinewgame` UCI command.
-// nolint:golint
-func UCINewGameCommand() Command {
+// UCINewGameCommand is used to run the "ucinewgame" UCI command.
+func UCINewGameCommand() Command { // nolint:golint
 	return uciNewGameCommand{}
 }
 
