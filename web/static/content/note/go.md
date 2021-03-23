@@ -268,6 +268,14 @@ information):
 // BUG(user): Description of known bug.
 ```
 
+Running `godoc` locally (at the root of a project with `go.mod`):
+
+```bash
+go get golang.org/x/tools/cmd/godoc
+godoc -http=:6060
+http://localhost:6060/pkg/#thirdparty
+```
+
 Links:
 
 - ["Godoc: documenting Go code" by Andrew Gerrand](https://blog.golang.org/godoc)
