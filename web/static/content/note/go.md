@@ -23,6 +23,57 @@ Links:
 - [Package HTTP Overview (golang.org)](https://golang.org/pkg/net/http/#pkg-overview)
 - [http.Client (godoc)](https://golang.org/pkg/net/http/#Client.Do)
 
+## Enums
+
+Make use of `iota`, basic example:
+
+```go
+package main
+
+import "fmt"
+
+const (
+	red = iota
+	blue
+	green
+)
+
+func main() {
+	fmt.Println(red, blue, green)
+	// output: 0 1 2
+}
+```
+
+Note:
+
+- `iota` represents successive integer constants, starting from `0`
+- Resets back to `0` when `const` appears again
+- Increments after each specification within a `const` block
+- `_` can be used to skip a given value
+
+Full enum example using `iota`:
+
+```go
+package main
+
+type Direction int
+
+const (
+	North = iota
+	East
+	South
+	West
+)
+
+func (d Direction) String() string {
+    return [...]string{"North", "East", "South", "West"}[d]
+}
+```
+
+Links:
+
+- [`ConstSpec` (golang.org)](https://golang.org/ref/spec#ConstSpec)
+
 ## Examples
 
 Go allows snippets of code to act as examples, which are:
