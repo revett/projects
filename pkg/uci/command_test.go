@@ -21,26 +21,26 @@ func TestGoCommandString(t *testing.T) {
 		},
 		"MultipleOptions": {
 			c: uci.GoCommand(
-				uci.WithSearchMoves("e2e4", "e7e5"),
-				uci.WithDepth(10),
-				uci.WithMoveTime(1000),
+				uci.SearchMoves("e2e4", "e7e5"),
+				uci.Depth(10),
+				uci.MoveTime(1000),
 			),
 			want: "go depth 10 movetime 1000 searchmoves e2e4 e7e5",
 		},
-		"WithDepth": {
-			c:    uci.GoCommand(uci.WithDepth(10)),
+		"Depth": {
+			c:    uci.GoCommand(uci.Depth(10)),
 			want: "go depth 10",
 		},
-		"WithInfinite": {
-			c:    uci.GoCommand(uci.WithInfinite),
+		"Infinite": {
+			c:    uci.GoCommand(uci.Infinite),
 			want: "go infinite",
 		},
-		"WithMoveTime": {
-			c:    uci.GoCommand(uci.WithMoveTime(1000)),
+		"MoveTime": {
+			c:    uci.GoCommand(uci.MoveTime(1000)),
 			want: "go movetime 1000",
 		},
-		"WithSearchMoves": {
-			c:    uci.GoCommand(uci.WithSearchMoves("e2e4", "e7e5")),
+		"SearchMoves": {
+			c:    uci.GoCommand(uci.SearchMoves("e2e4", "e7e5")),
 			want: "go searchmoves e2e4 e7e5",
 		},
 	}
@@ -72,20 +72,20 @@ func TestPositionCommandString(t *testing.T) {
 		},
 		"MultipleOptions": {
 			c: uci.PositionCommand(
-				uci.WithMoves("e2e4", "e7e5"),
-				uci.WithFEN("r3kb1r/pp1q1ppp/4p3/8/3P4/8/P1P2PPP/R1BQ1RK1 b kq - 1 12"),
+				uci.Moves("e2e4", "e7e5"),
+				uci.FEN("r3kb1r/pp1q1ppp/4p3/8/3P4/8/P1P2PPP/R1BQ1RK1 b kq - 1 12"),
 			),
 			want: "position fen r3kb1r/pp1q1ppp/4p3/8/3P4/8/P1P2PPP/R1BQ1RK1 b kq - 1 12 moves e2e4 e7e5",
 		},
-		"WithFEN": {
+		"FEN": {
 			c: uci.PositionCommand(
-				uci.WithFEN("r3kb1r/pp1q1ppp/4p3/8/3P4/8/P1P2PPP/R1BQ1RK1 b kq - 1 12"),
+				uci.FEN("r3kb1r/pp1q1ppp/4p3/8/3P4/8/P1P2PPP/R1BQ1RK1 b kq - 1 12"),
 			),
 			want: "position fen r3kb1r/pp1q1ppp/4p3/8/3P4/8/P1P2PPP/R1BQ1RK1 b kq - 1 12",
 		},
-		"WithMoves": {
+		"Moves": {
 			c: uci.PositionCommand(
-				uci.WithMoves("e2e4", "e7e5"),
+				uci.Moves("e2e4", "e7e5"),
 			),
 			want: "position moves e2e4 e7e5",
 		},
