@@ -62,9 +62,9 @@ func LogOutput(e *Engine) {
 	e.logOutput = true
 }
 
-// WithCommandTimeout is a functional option for configuring NewEngine which
+// CommandTimeout is a functional option for configuring NewEngine which
 // sets the duration a command must complete in, the default is 1 second.
-func WithCommandTimeout(d time.Duration) func(*Engine) {
+func CommandTimeout(d time.Duration) func(*Engine) {
 	return func(e *Engine) {
 		e.timeout = d
 	}
