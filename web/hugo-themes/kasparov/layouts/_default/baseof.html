@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>
-      {{- block "title" . }}{{- end }} - Charlie Revett (@revcd)
+      {{- block "title" . }}{{- end }} - {{ .Site.Title }}
     </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,20 +21,14 @@
       <header class="text-lg">
         <span class="block sm:inline-block font-bold pr-3">
           <span class="pr-1">{{ emojify ":wave:" }}</span>
-          Charlie Revett
+          {{ .Site.Title }}
         </span>
-        <span class="block sm:inline-block pr-3">
-          <span class="pr-1">{{ emojify ":bird:" }}</span>
-          <a href="https://twitter.com/revcd">Twitter</a>
-        </span>
-        <span class="block sm:inline-block pr-3">
-          <span class="pr-1">{{ emojify ":keyboard:" }}</span>
-          <a href="https://github.com/revett">Github</a>
-        </span>
-        <span class="block sm:inline-block pr-3">
-          <span class="pr-1">{{ emojify ":briefcase:" }}</span>
-          <a href="https://www.linkedin.com/in/cdrev/">LinkedIn</a>
-        </span>
+        {{ range $h := $.Site.Params.Headers }}
+          <span class="block sm:inline-block pr-3">
+            <span class="pr-1">{{ emojify $h.emoji }}</span>
+            <a href="{{ $h.url }}">{{ $h.title }}</a>
+          </span>
+        {{ end }}
       </header>
 
       {{- block "main" . }}{{- end }}

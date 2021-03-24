@@ -140,7 +140,7 @@ dist
 .pnp.*
 
 # Tailwind
-tailwind*.css
+tailwind-build.css
 
 # Compiled Markdown Partials
 *.partial.html

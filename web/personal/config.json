@@ -1,0 +1,40 @@
+{
+  "baseURL": "http://example.org/",
+  "disableKinds": ["section", "taxonomy", "term"],
+  "enableEmoji": true,
+  "enableGitInfo": true,
+  "languageCode": "en-us",
+  "markup": {
+    "highlight": {
+      "tabWidth": 4
+    },
+    "tableOfContents": {
+      "ordered": true
+    }
+  },
+  "params": {
+    "headers": [
+      {
+        "emoji": ":bird:",
+        "title": "Twitter",
+        "url": "https://twitter.com/revcd"
+      },
+      {
+        "emoji": ":keyboard:",
+        "title": "Github",
+        "url": "https://github.com/revett"
+      },
+      {
+        "emoji": ":briefcase:",
+        "title": "LinkedIn",
+        "url": "https://www.linkedin.com/in/cdrev/"
+      }
+    ]
+  },
+  "permalinks": {
+    "note": "/:title"
+  },
+  "pygmentsUseClasses": true,
+  "theme": "kasparov",
+  "title": "Charlie Revett"
+}

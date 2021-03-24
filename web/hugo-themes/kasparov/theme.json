@@ -1,0 +1,14 @@
+{
+  "description": "Minimal theme loosely based on Github Markdown styling",
+  "features": [],
+  "homepage": "https://github.com/revett/projects/tree/main/web/hugo-themes/kasparov",
+  "license": "MIT",
+  "licenselink": "https://github.com/revett/projects/blob/master/LICENSE",
+  "min_version": "0.41.0",
+  "name": "Kasparov",
+  "tags": [],
+  "author": {
+    "homepage": "https://github.com/revett",
+    "name": "Charlie Revett"
+  }
+}

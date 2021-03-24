@@ -4,7 +4,7 @@ module.exports = {
   },
   darkMode: false,
   plugins: [],
-  purge: ["./**/*.html"],
+  purge: ["../../**/*.html"],
   theme: {
     extend: {
       fontFamily: {
