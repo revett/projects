@@ -79,31 +79,31 @@ func (g goCommand) String() string {
 	return fmt.Sprintf("go %s", strings.Join(p, " "))
 }
 
-// WithDepth is a functional option that configures the GoCommand to search to
+// Depth is a functional option that configures the GoCommand to search to
 // a certain depth.
-func WithDepth(i int) func(*goCommand) {
+func Depth(i int) func(*goCommand) {
 	return func(c *goCommand) {
 		c.depth = i
 	}
 }
 
-// WithInfinite is a functional option that configures the GoCommand to continue
+// Infinite is a functional option that configures the GoCommand to continue
 // searching until the "stop" UCI command is sent.
-func WithInfinite(c *goCommand) {
+func Infinite(c *goCommand) {
 	c.infinite = true
 }
 
-// WithMoveTime is a functional option that configures the GoCommand to search
+// MoveTime is a functional option that configures the GoCommand to search
 // for a given period of time, in milliseconds.
-func WithMoveTime(i int) func(*goCommand) {
+func MoveTime(i int) func(*goCommand) {
 	return func(c *goCommand) {
 		c.movetime = i
 	}
 }
 
-// WithSearchMoves is a functional option that restricts the GoCommand to only
+// SearchMoves is a functional option that restricts the GoCommand to only
 // search using a set of defined moves.
-func WithSearchMoves(s ...string) func(*goCommand) {
+func SearchMoves(s ...string) func(*goCommand) {
 	return func(c *goCommand) {
 		c.searchmoves = s
 	}
@@ -165,17 +165,17 @@ func (p positionCommand) String() string {
 	return fmt.Sprintf("position %s", strings.Join(parts, " "))
 }
 
-// WithFEN is a functional option that configures the PositionCommand with a
+// FEN is a functional option that configures the PositionCommand with a
 // specific board position in Forsyth–Edwards Notation (FEN) notation.
-func WithFEN(s string) func(*positionCommand) {
+func FEN(s string) func(*positionCommand) {
 	return func(c *positionCommand) {
 		c.fen = s
 	}
 }
 
-// WithMoves is a functional option that configures the PositionCommand with a
+// Moves is a functional option that configures the PositionCommand with a
 // series of moves to play.
-func WithMoves(s ...string) func(*positionCommand) {
+func Moves(s ...string) func(*positionCommand) {
 	return func(c *positionCommand) {
 		c.moves = s
 	}
