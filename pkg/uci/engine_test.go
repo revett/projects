@@ -163,7 +163,7 @@ func TestRun(t *testing.T) {
 			e, err := uci.NewEngine(
 				mc.Command,
 				mockEnginePath,
-				uci.WithCommandTimeout(100*time.Millisecond),
+				uci.CommandTimeout(100*time.Millisecond),
 			)
 			assert.NoError(t, err)
 
