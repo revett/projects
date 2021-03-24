@@ -132,10 +132,11 @@ func (e Engine) readUntil(s string) ([]string, error) {
 	case res := <-c:
 		lines = res
 	case <-time.After(e.timeout):
-		return nil, CommandTimeoutError{
-			duration: 1,
-			response: s,
-		}
+		return nil, errors.Errorf(
+			"timed out after %d seconds, waiting for '%s' response from engine",
+			e.timeout,
+			s,
+		)
 	}
 
 	if scanner.Err() != nil {
