@@ -548,6 +548,23 @@ Links:
 - ["Prefer table driven tests" by Dave Cheney (dave.cheney.net)](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
 - ["Using Goroutines on Loop Iterator Variables" (go/wiki)](https://github.com/golang/go/wiki/CommonMistakes#using-goroutines-on-loop-iterator-variables)
 
+## Timeouts
+
+```go
+c := make(chan string, 1)
+go func() {
+	time.Sleep(2*time.Second)
+	c <- "ping"
+}()
+
+select {
+case r := <-c:
+	log.Println(r)
+case <-time.After(1*time.Second):
+	log.Fatal("timeout")
+}
+```
+
 ## Resources
 
 - [gophercises.com](https://gophercises.com)
