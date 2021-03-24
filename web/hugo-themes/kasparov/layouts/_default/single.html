@@ -1,0 +1,13 @@
+{{ define "title" }}
+  {{ .Title }}
+{{ end }}
+
+{{ define "main" }}
+  <h2>
+    <a href="/">Home</a> / {{ .Title }}
+  </h2>
+
+  <div class="mb-6">
+    {{ .Content }}
+  </div>
+{{ end }}
