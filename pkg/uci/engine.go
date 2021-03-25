@@ -103,28 +103,11 @@ func (e *Engine) Run(cmds ...Command) error {
 	return nil
 }
 
-func (e Engine) readUntil(s string) ([]string, error) {
+func (e Engine) readUntil(prefix string) ([]string, error) {
 	scanner := bufio.NewScanner(e.out)
 	c := make(chan []string, 1)
 
-	go func() {
-		var lines []string
-
-		for scanner.Scan() {
-			l := scanner.Text()
-			lines = append(lines, l)
-
-			if e.logOutput {
-				log.Println(l)
-			}
-
-			if strings.HasPrefix(l, s) {
-				break
-			}
-		}
-
-		c <- lines
-	}()
+	go scanOutput(c, scanner, &e, prefix)
 
 	var lines []string
 
@@ -135,7 +118,7 @@ func (e Engine) readUntil(s string) ([]string, error) {
 		return nil, errors.Errorf(
 			"timed out after %d seconds, waiting for '%s' response from engine",
 			e.timeout,
-			s,
+			prefix,
 		)
 	}
 
@@ -159,4 +142,23 @@ func (e Engine) sendCommand(s string, a ...interface{}) error {
 	}
 
 	return nil
+}
+
+func scanOutput(c chan []string, scanner *bufio.Scanner, e *Engine, prefix string) {
+	var lines []string
+
+	for scanner.Scan() {
+		l := scanner.Text()
+		lines = append(lines, l)
+
+		if e.logOutput {
+			log.Println(l)
+		}
+
+		if strings.HasPrefix(l, prefix) {
+			break
+		}
+	}
+
+	c <- lines
 }
