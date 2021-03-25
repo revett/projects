@@ -565,6 +565,40 @@ case <-time.After(1*time.Second):
 }
 ```
 
+## Types of Functions
+
+### Anonymous Function
+
+- A function that is declared without a name
+- It can be assigned to a variable or called inline
+
+```go
+func() {
+	log.Println("foo")
+}()
+```
+
+```go
+w := "foo"
+func(s string) {
+	log.Println(s)
+}(w)
+```
+
+```go
+f := func() {
+	log.Println("foo")
+}
+f()
+```
+
+### Higher-Order Function
+
+- A function that operates on other functions
+- It must either:
+  - Recieve a function as an argument
+  - Return a function as output
+
 ## Resources
 
 - [gophercises.com](https://gophercises.com)
