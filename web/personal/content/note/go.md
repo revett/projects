@@ -281,13 +281,6 @@ Links:
 - ["Godoc: documenting Go code" by Andrew Gerrand](https://blog.golang.org/godoc)
 - [natefinch/godocgo (pkg.go.dev)](https://pkg.go.dev/github.com/natefinch/godocgo)
 
-## Higher-Order Function
-
-- A function that operates on other functions
-- It must either:
-  - Recieve a (_first-class_) function as an argument
-  - Return a function as output
-
 ## Map Key Exists
 
 ```go
