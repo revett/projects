@@ -1,0 +1,28 @@
+{
+  "baseURL": "https://thruhike.uk",
+  "disableKinds": ["taxonomy", "term"],
+  "enableEmoji": true,
+  "params": {
+    "headers": [
+      {
+        "emoji": ":hiking_boot:",
+        "title": "Routes",
+        "url": "/routes"
+      },
+      {
+        "emoji": ":camping:",
+        "title": "Wild Camping",
+        "url": "/wild-camping"
+      },
+      {
+        "emoji": ":wave:",
+        "title": "About",
+        "url": "/about"
+      }
+    ],
+    "rootHeaderEmoji": ":mountain:"
+  },
+  "languageCode": "en-gb",
+  "title": "ThruHike.uk",
+  "theme": "kasparov"
+}

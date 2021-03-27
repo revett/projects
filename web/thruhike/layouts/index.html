@@ -1,0 +1,35 @@
+{{ define "title" }}{{ end }}
+
+{{ define "main" }}
+  <h2>
+    Welcome!
+  </h2>
+  <p>
+    This site is a UK reference guide for:
+  </p>
+
+  <ul>
+    <li>Multi-day hikes</li>
+    <li>Wild camping areas</li>
+  </ul>
+
+  <p>
+    Please feel free to contribute new routes via
+    <a href="">Github</a>, the entire site is open-source.
+  </p>
+
+  <h2>
+    Routes
+  </h2>
+  <ul>
+  {{ range first 10 (where .Site.RegularPages "Section" "routes") }}
+    <li>
+      <a href="{{ .Permalink }}">
+        <span class="font-semibold">{{ .Title }}</span>
+      </a>
+    </li>
+  {{ end }}
+  </ul>
+
+  <img class="rounded shadow-lg" src="/img/glenfinnan-viaduct-jack-anstey.jpg">
+{{ end }}
