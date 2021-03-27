@@ -3,8 +3,7 @@ import data from "./geojson.json";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoicmV2Y2QiLCJhIjoiY2ttcnQxYmNyMGI1cjJxcGJ1dHlhdXF6diJ9.Bp0j1asGrBZ9DjZ2LYqplQ";
+mapboxgl.accessToken = "...";
 
 const p = window.location.pathname.split("/");
 const filename = p.pop() || p.pop();
