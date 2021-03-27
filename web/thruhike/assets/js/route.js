@@ -36,4 +36,17 @@ map.on("load", function () {
       "line-width": 3,
     },
   });
+
+  const markerOpts = {
+    color: "#197e33",
+    scale: 0.5,
+  };
+  const markerLocs = [
+    route.geometry.coordinates[0],
+    route.geometry.coordinates[route.geometry.coordinates.length - 1],
+  ];
+
+  for (const loc of markerLocs) {
+    new mapboxgl.Marker(markerOpts).setLngLat(loc).addTo(map);
+  }
 });
