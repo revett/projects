@@ -11,9 +11,3 @@
 
   {{ .Content }}
 {{ end }}
-
-{{ define "scripts"}}
-  <script>
-    const route = {{ index .Site.Data.routes .File.BaseFileName }}
-  </script>
-{{ end }}
