@@ -1,7 +1,6 @@
 ---
 title: "About"
 date: 2021-03-27T12:34:43Z
-draft: false
 ---
 
 ```go
@@ -10,6 +9,6 @@ draft: false
 
 ### Links
 
-- [Github]()
-- [Glenfinnan Viaduct photo by Jack Anstey](https://unsplash.com/@jack_anstey)
+- [Github](https://github.com/revett/projects/tree/main/web/thruhike)
+- ["Glenfinnan Viaduct" by Jack Anstey (unsplash.com)](https://unsplash.com/@jack_anstey)
 - [Sitemap](/sitemap.xml)

@@ -1,0 +1,11 @@
+{
+  "name": "thruhike",
+  "version": "0.1.0",
+  "license": "MIT",
+  "dependencies": {
+    "mapbox-gl": "^2.2.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
+  }
+}
