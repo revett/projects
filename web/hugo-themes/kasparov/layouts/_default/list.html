@@ -1,0 +1,21 @@
+{{ define "title" }}
+  {{ .Title }}
+{{ end }}
+
+{{ define "main" }}
+  <h2>
+    <a href="/">Home</a> / {{ .Title }}
+  </h2>
+
+  {{ $section := .Section }}
+
+  <ul>
+  {{ range first 10 (where .Site.RegularPages "Section" $section) }}
+    <li>
+      <a href="{{ .Permalink }}">
+        <span class="font-semibold">{{ .Title }}</span>
+      </a>
+    </li>
+  {{ end }}
+  </ul>
+{{ end }}

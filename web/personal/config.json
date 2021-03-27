@@ -3,7 +3,7 @@
   "disableKinds": ["section", "taxonomy", "term"],
   "enableEmoji": true,
   "enableGitInfo": true,
-  "languageCode": "en-us",
+  "languageCode": "en-gb",
   "markup": {
     "highlight": {
       "tabWidth": 4
