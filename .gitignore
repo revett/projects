@@ -144,3 +144,7 @@ tailwind-build.css
 
 # Compiled Markdown Partials
 *.partial.html
+
+# Compiled Parcel output for Hugo
+**/static/js/*.js*
+**/static/js/*.css*
