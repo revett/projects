@@ -2,8 +2,7 @@ import axios from "axios";
 import mapbox from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-mapbox.accessToken =
-  "pk.eyJ1IjoicmV2Y2QiLCJhIjoiY2ttcnczcTBnMGMxZTJ3czE4dHFqMXk1ZyJ9.psM5qytFbaYbm_vqOAXUNA";
+mapbox.accessToken = "...";
 
 const addMarkers = (m, d) => {
   const coordinates = mergeCoordinatesFromFeatures(d);
