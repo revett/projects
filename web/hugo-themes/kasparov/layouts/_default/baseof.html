@@ -4,9 +4,11 @@
     <title>
       {{- block "title" . }}{{- end }} - {{ .Site.Title }}
     </title>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {{ hugo.Generator }}
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
     {{ $chroma := resources.Get "css/chroma.css" }}
@@ -14,6 +16,8 @@
     {{ $tailwind := resources.Get "css/tailwind-build.css" }}
     {{ $styles := slice $chroma $github $tailwind | resources.Concat "css/bundle.min.css" | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
+
+    {{ partial "head/styles.html" . }}
   </head>
 
   <body>
@@ -49,5 +53,7 @@
         </span>
       </div>
     </div>
+
+    {{ partial "footer/scripts.html" . }}
   </body>
 </html>
