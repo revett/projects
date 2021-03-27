@@ -24,5 +24,6 @@
   },
   "languageCode": "en-gb",
   "title": "ThruHike.uk",
-  "theme": "kasparov"
+  "theme": "kasparov",
+  "themesDir": "../hugo-themes"
 }

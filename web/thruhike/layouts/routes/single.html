@@ -1,0 +1,13 @@
+{{ define "title" }}
+    {{ .Title }}
+{{ end }}
+
+{{ define "main" }}
+  <h2>
+    <a href="/">Home</a> / {{ .Title }}
+  </h2>
+
+  <div id="map" class="h-96 mb-4 rounded shadow-lg"></div>
+
+  {{ .Content }}
+{{ end }}
