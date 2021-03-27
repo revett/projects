@@ -1,5 +1,5 @@
 {{ define "title" }}
-    {{ .Title }}
+  {{ .Title }}
 {{ end }}
 
 {{ define "main" }}
@@ -10,4 +10,10 @@
   <div id="map" class="h-96 mb-4 rounded shadow-lg"></div>
 
   {{ .Content }}
+{{ end }}
+
+{{ define "scripts"}}
+  <script>
+    const route = {{ index .Site.Data.routes .File.BaseFileName }}
+  </script>
 {{ end }}
