@@ -1,15 +1,9 @@
-import data from "./geojson.json";
-
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 mapboxgl.accessToken = "...";
 
-const p = window.location.pathname.split("/");
-const filename = p.pop() || p.pop();
-const geojson = data[filename];
-
-const coordinates = geojson.geometry.coordinates;
+const coordinates = route.geometry.coordinates;
 const bounds = coordinates.reduce(function (bounds, coord) {
   return bounds.extend(coord);
 }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
@@ -26,7 +20,7 @@ const map = new mapboxgl.Map({
 map.on("load", function () {
   map.addSource("route", {
     type: "geojson",
-    data: geojson,
+    data: route,
   });
 
   map.addLayer({
