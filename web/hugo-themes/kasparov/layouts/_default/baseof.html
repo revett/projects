@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>
-      {{- block "title" . }}{{- end }} - {{ .Site.Title }}
+      {{ block "title" . }}{{ end }} - {{ .Site.Title }}
     </title>
 
     <meta charset="utf-8">
@@ -35,25 +35,21 @@
         {{ end }}
       </header>
 
-      {{- block "main" . }}{{- end }}
+      {{ block "main" . }}{{ end }}
 
       <div class="mt-4">
         ___
       </div>
       <div class="mt-2">
-        <span class="block sm:inline-block">
-          Built using
-          <a href="https://github.com/gohugoio/hugo">Hugo</a> (v{{ hugo.Version }}).
-        </span>
-        <span class="block sm:inline-block">
-          Styled using
-          <a href="https://github.com/alecthomas/chroma">Chroma</a>,
-          <a href="https://tailwindcss.com/">Tailwind</a> and
-          <a href="https://github.com/sindresorhus/github-markdown-css">GithubMarkdown</a>.
-        </span>
+        Built using
+        <a href="https://github.com/gohugoio/hugo">Hugo</a> (v{{ hugo.Version }}),
+        styled by the
+        <a href="https://github.com/revett/projects/tree/main/web/hugo-themes/kasparov">Kasparov</a>
+        theme.
       </div>
     </div>
 
+    {{ block "scripts" . }}{{ end }}
     {{ partial "footer/scripts.html" . }}
   </body>
 </html>
