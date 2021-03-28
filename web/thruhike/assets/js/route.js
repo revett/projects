@@ -58,6 +58,7 @@ const initialiseMap = (d) => {
     fitBoundsOptions: {
       padding: 80,
     },
+    maxBounds: [-11.97, 49.2, 3.31, 59.76],
     style: "mapbox://styles/mapbox/outdoors-v11",
   });
 };
