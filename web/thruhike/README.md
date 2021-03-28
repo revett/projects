@@ -1,5 +1,15 @@
 # ThruHike
 
+## Usage
+
+```bash
+MAPBOX_TOKEN="..." make js
+```
+
+```bash
+make run
+```
+
 ## Adding A Route
 
 > Follow the
