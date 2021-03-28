@@ -1,22 +1,22 @@
 ---
 title: "South West Coast Path"
 date: 2021-03-27T15:08:49Z
-areas:
-  - Foo
-country: Bar
-days: 3
-distance:
-  kilometers: 80
-  miles: 50
+data:
+  areas:
+    - Foo
+  country: England
+  days: 99
+  distance:
+    kilometers: 80
+    miles: 50
+  links:
+    - title: Wikipedia
+      url: https://en.wikipedia.org/wiki/Pangram
+  summary:
+    text: The beige hue on the waters of the loch impressed all, including the
+      French queen, before she heard that symphony again, just as young Arthur
+      wanted.
+    author:
+      name: Wikipedia
+      url: https://en.wikipedia.org/wiki/Pangram
 ---
-
-## Summary
-
-> The beige hue on the waters of the loch impressed all, including the French
-> queen, before she heard that symphony again, just as young Arthur wanted.
-
-From [Wikipedia](https://en.wikipedia.org/wiki/Pangram).
-
-## Links
-
-- [Wikipedia](https://en.wikipedia.org/wiki/Pangram)

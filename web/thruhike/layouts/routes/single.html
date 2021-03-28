@@ -14,24 +14,40 @@
   <h2>Details</h2>
   <ul>
     <li>
-      <b>Country</b>: {{ .Page.Params.Country }}
+      <b>Country</b>: {{ .Page.Params.Data.Country }}
     </li>
     <li>
-      {{ if eq (len .Page.Params.Areas) 1 }}
+      {{ if eq (len .Page.Params.Data.Areas) 1 }}
         <b>Area</b>:
       {{ else }}
         <b>Areas</b>:
       {{ end }}
-      {{ delimit .Page.Params.Areas ", " }}
+      {{ delimit .Page.Params.Data.Areas ", " }}
     </li>
     <li>
       <b>Distance</b>:
-      {{ .Page.Params.Distance.Miles }}m /
-      {{ .Page.Params.Distance.Kilometers }}km
+      {{ .Page.Params.Data.Distance.Miles }}m /
+      {{ .Page.Params.Data.Distance.Kilometers }}km
     </li>
     <li>
-      <b>Duration</b>: {{ .Page.Params.Days }} days
+      <b>Duration</b>: {{ .Page.Params.Data.Days }} days
     </li>
+  </ul>
+
+  <h2>Summary</h2>
+  <blockquote>{{ .Page.Params.Data.Summary.Text }}</blockquote>
+  <p>
+    From
+    <a href="{{ .Page.Params.Data.Summary.Author.Url }}">{{ .Page.Params.Data.Summary.Author.Name }}</a>.
+  </p>
+
+  <h2>Links</h2>
+  <ul>
+  {{ range $link := .Page.Params.Data.Links }}
+    <li>
+      <a href="{{ $link.url }}">{{ $link.title }}</a>
+    </li>
+  {{ end }}
   </ul>
 
   {{ .Content }}
