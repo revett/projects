@@ -4,10 +4,35 @@
 
 {{ define "main" }}
   <h2>
-    <a href="/">Home</a> / {{ .Title }}
+    <a href="/">Home</a> /
+    <a href="/{{ .Section }}">{{ title .Section }}</a> /
+    {{ .Title }}
   </h2>
 
   <div id="map" class="h-96 mb-4 rounded-lg shadow-lg"></div>
+
+  <h2>Details</h2>
+  <ul>
+    <li>
+      <b>Country</b>: {{ .Page.Params.Country }}
+    </li>
+    <li>
+      {{ if eq (len .Page.Params.Areas) 1 }}
+        <b>Area</b>:
+      {{ else }}
+        <b>Areas</b>:
+      {{ end }}
+      {{ delimit .Page.Params.Areas ", " }}
+    </li>
+    <li>
+      <b>Distance</b>:
+      {{ .Page.Params.Distance.Miles }}m /
+      {{ .Page.Params.Distance.Kilometers }}km
+    </li>
+    <li>
+      <b>Duration</b>: {{ .Page.Params.Days }} days
+    </li>
+  </ul>
 
   {{ .Content }}
 {{ end }}

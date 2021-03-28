@@ -1,0 +1,121 @@
+{{ define "main" }}
+  <h2>
+    <a href="/">Home</a> / {{ .Title }}
+  </h2>
+
+  {{ $section := .Section }}
+
+  <h3>All</h3>
+  <ul>
+  {{ range where .Site.RegularPages "Section" $section }}
+    <li>
+      <a href="{{ .Permalink }}">
+        <span class="font-semibold">{{ .Title }}</span>
+      </a>
+    </li>
+  {{ end }}
+  </ul>
+
+  <hr>
+
+  <h3>By Country</h3>
+
+  <h4>England</h4>
+  <ul>
+  {{ range $page := where .Site.RegularPages "Section" $section }}
+    {{ if eq $page.Params.Country "England" }}
+      <li>
+        <a href="{{ .Permalink }}">
+          <span class="font-semibold">{{ .Title }}</span>
+        </a>
+      </li>
+    {{ end }}
+  {{ end }}
+  </ul>
+
+  <h4>Scotland</h4>
+  <ul>
+  {{ range $page := where .Site.RegularPages "Section" $section }}
+    {{ if eq $page.Params.Country "Scotland" }}
+      <li>
+        <a href="{{ .Permalink }}">
+          <span class="font-semibold">{{ .Title }}</span>
+        </a>
+      </li>
+    {{ end }}
+  {{ end }}
+  </ul>
+
+  <h4>Wales</h4>
+  <ul>
+  {{ range $page := where .Site.RegularPages "Section" $section }}
+    {{ if eq $page.Params.Country "Wales" }}
+      <li>
+        <a href="{{ .Permalink }}">
+          <span class="font-semibold">{{ .Title }}</span>
+        </a>
+      </li>
+    {{ end }}
+  {{ end }}
+  </ul>
+
+  <hr>
+
+  <h3>By National Park</h3>
+
+  <h4>Lake District</h4>
+  <ul>
+  {{ range $page := where .Site.RegularPages "Section" $section }}
+    {{ if in $page.Params.Areas "Lake District" }}
+      <li>
+        <a href="{{ .Permalink }}">
+          <span class="font-semibold">{{ .Title }}</span>
+        </a>
+      </li>
+    {{ end }}
+  {{ end }}
+  </ul>
+
+  <hr>
+
+  <h3>By Distance</h3>
+
+  <h4>0-100km</h4>
+  <ul>
+  {{ range $page := where .Site.RegularPages "Section" $section }}
+    {{ if le $page.Params.Distance.Kilometers 100 }}
+      <li>
+        <a href="{{ .Permalink }}">
+          <span class="font-semibold">{{ .Title }}</span>
+        </a>
+      </li>
+    {{ end }}
+  {{ end }}
+  </ul>
+
+  <h4>100-200km</h4>
+  <ul>
+  {{ range $page := where .Site.RegularPages "Section" $section }}
+    {{ if and (gt $page.Params.Distance.Kilometers 100) (le $page.Params.Distance.Kilometers 200) }}
+      <li>
+        <a href="{{ .Permalink }}">
+          <span class="font-semibold">{{ .Title }}</span>
+        </a>
+      </li>
+    {{ end }}
+  {{ end }}
+  </ul>
+
+  <h4>200km+</h4>
+  <ul>
+  {{ range $page := where .Site.RegularPages "Section" $section }}
+    {{ if gt $page.Params.Distance.Kilometers 200 }}
+      <li>
+        <a href="{{ .Permalink }}">
+          <span class="font-semibold">{{ .Title }}</span>
+        </a>
+      </li>
+    {{ end }}
+  {{ end }}
+  </ul>
+{{ end }}
