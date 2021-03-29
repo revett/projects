@@ -4,11 +4,12 @@ date: {{ .Date }}
 data:
   areas:
     - Foo
-  country: Bar
-  days: 99
+  countries:
+    - Foo
+  days: 0
   distance:
-    kilometers: 80
-    miles: 50
+    kilometers: 0
+    miles: 0
   links:
     - title: Wikipedia
       url: https://en.wikipedia.org/wiki/Pangram
