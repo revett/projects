@@ -3,12 +3,13 @@ title: "Cateran Trail"
 date: 2021-03-28T13:57:12+01:00
 data:
   areas:
-    - Highlands
-  country: Scotland
+    - Cairngorms National Park
+  countries:
+    - Scotland
   days: 5
   distance:
-    kilometers: 105
-    miles: 65
+    kilometers: 103
+    miles: 64
   links:
     - title: Perth and Kinross Countryside Trust
       url: https://www.pkct.org/cateran-trail

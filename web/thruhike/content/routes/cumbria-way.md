@@ -4,10 +4,11 @@ date: 2021-03-28T14:04:04+01:00
 data:
   areas:
     - Lake District
-  country: England
+  countries:
+    - England
   days: 5
   distance:
-    kilometers: 113
+    kilometers: 112
     miles: 70
   links:
     - title: cumbriawaywalk.info

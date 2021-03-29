@@ -3,12 +3,13 @@ title: "West Highland Way"
 date: 2021-03-27T12:37:05Z
 data:
   areas:
-    - Foo
-  country: Scotland
-  days: 99
+    - Highlands
+  countries:
+    - Scotland
+  days: 7
   distance:
-    kilometers: 80
-    miles: 50
+    kilometers: 96
+    miles: 154
   links:
     - title: Wikipedia
       url: https://en.wikipedia.org/wiki/Pangram

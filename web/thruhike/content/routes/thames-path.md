@@ -2,13 +2,12 @@
 title: "Thames Path"
 date: 2021-03-28T13:44:52+01:00
 data:
-  areas:
-    - Foo
-  country: England
-  days: 99
+  countries:
+    - England
+  days: 10
   distance:
-    kilometers: 80
-    miles: 50
+    kilometers: 294
+    miles: 184
   links:
     - title: Wikipedia
       url: https://en.wikipedia.org/wiki/Pangram
