@@ -9,21 +9,28 @@
     {{ .Title }}
   </h2>
 
-  <div id="map" class="h-96 mb-4 rounded-lg shadow-lg"></div>
+  <div id="map" class="h-96 mb-4 outline-none rounded-lg shadow-lg"></div>
 
   <h2>Details</h2>
   <ul>
     <li>
-      <b>Country</b>: {{ .Page.Params.Data.Country }}
-    </li>
-    <li>
-      {{ if eq (len .Page.Params.Data.Areas) 1 }}
-        <b>Area</b>:
+      {{ if eq (len .Page.Params.Data.Countries) 1 }}
+        <b>Country</b>:
       {{ else }}
-        <b>Areas</b>:
+        <b>Countries</b>:
       {{ end }}
-      {{ delimit .Page.Params.Data.Areas ", " }}
+      {{ delimit .Page.Params.Data.Countries ", " }}
     </li>
+    {{ if .Page.Params.Data.Areas }}
+      <li>
+        {{ if eq (len .Page.Params.Data.Areas) 1 }}
+          <b>Area</b>:
+        {{ else }}
+          <b>Areas</b>:
+        {{ end }}
+        {{ delimit .Page.Params.Data.Areas ", " }}
+      </li>
+    {{ end }}
     <li>
       <b>Distance</b>:
       {{ .Page.Params.Data.Distance.Miles }}m /
