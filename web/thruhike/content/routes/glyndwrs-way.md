@@ -2,13 +2,12 @@
 title: "Glyndŵr's Way"
 date: 2021-03-28T13:28:27+01:00
 data:
-  areas:
-    - Foo
-  country: Wales
-  days: 99
+  countries:
+    - Wales
+  days: 9
   distance:
-    kilometers: 80
-    miles: 50
+    kilometers: 217
+    miles: 135
   links:
     - title: Wikipedia
       url: https://en.wikipedia.org/wiki/Pangram

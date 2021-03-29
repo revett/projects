@@ -6,10 +6,11 @@ data:
     - Lake District
     - North York Moors
     - Yorkshire Dales
-  country: England
-  days: 0
+  countries:
+    - England
+  days: 15
   distance:
-    kilometers: 292
+    kilometers: 293
     miles: 182
   links:
     - title: Wikipedia

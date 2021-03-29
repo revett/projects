@@ -52,15 +52,26 @@ const calculateBounds = (d) => {
 };
 
 const initialiseMap = (d) => {
-  return new mapbox.Map({
+  const m = new mapbox.Map({
+    attributionControl: false,
     bounds: calculateBounds(d),
     container: "map",
     fitBoundsOptions: {
-      padding: 80,
+      padding: 20,
     },
     maxBounds: [-11.97, 49.2, 3.31, 59.76],
     style: "mapbox://styles/mapbox/outdoors-v11",
   });
+
+  m.addControl(new mapbox.FullscreenControl());
+  m.addControl(new mapbox.NavigationControl());
+  m.addControl(
+    new mapbox.AttributionControl({
+      compact: true,
+    })
+  );
+
+  return m;
 };
 
 const mergeCoordinatesFromFeatures = (d) => {

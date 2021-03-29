@@ -1,3 +1,7 @@
+{{ define "title" }}
+  {{ title .Section }}
+{{ end }}
+
 {{ define "main" }}
   <h2>
     <a href="/">Home</a> / {{ .Title }}
@@ -7,7 +11,7 @@
 
   <h3>All</h3>
   <ul>
-  {{ range where .Site.RegularPages "Section" $section }}
+  {{ range sort (where .Site.RegularPages "Section" $section) "Title" "asc" }}
     <li>
       <a href="{{ .Permalink }}">
         <span class="font-semibold">{{ .Title }}</span>
@@ -22,8 +26,8 @@
 
   <h4>England</h4>
   <ul>
-  {{ range $page := where .Site.RegularPages "Section" $section }}
-    {{ if eq $page.Params.Data.Country "England" }}
+  {{ range $page := sort (where .Site.RegularPages "Section" $section) "Title" "asc" }}
+    {{ if in $page.Params.Data.Countries "England" }}
       <li>
         <a href="{{ .Permalink }}">
           <span class="font-semibold">{{ .Title }}</span>
@@ -35,8 +39,8 @@
 
   <h4>Scotland</h4>
   <ul>
-  {{ range $page := where .Site.RegularPages "Section" $section }}
-    {{ if eq $page.Params.Data.Country "Scotland" }}
+  {{ range $page := sort (where .Site.RegularPages "Section" $section) "Title" "asc" }}
+    {{ if in $page.Params.Data.Countries "Scotland" }}
       <li>
         <a href="{{ .Permalink }}">
           <span class="font-semibold">{{ .Title }}</span>
@@ -48,8 +52,8 @@
 
   <h4>Wales</h4>
   <ul>
-  {{ range $page := where .Site.RegularPages "Section" $section }}
-    {{ if eq $page.Params.Data.Country "Wales" }}
+  {{ range $page := sort (where .Site.RegularPages "Section" $section) "Title" "asc" }}
+    {{ if in $page.Params.Data.Countries "Wales" }}
       <li>
         <a href="{{ .Permalink }}">
           <span class="font-semibold">{{ .Title }}</span>

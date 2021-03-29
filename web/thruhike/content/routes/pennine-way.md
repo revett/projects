@@ -1,15 +1,18 @@
 ---
-title: "South West Coast Path"
-date: 2021-03-27T15:08:49Z
+title: "Pennine Way"
+date: 2021-03-29T20:29:41+01:00
 data:
   areas:
-    - Exmoor National Park
+    - Northumberland National Park
+    - Peak District
+    - Yorkshire Dales
   countries:
     - England
-  days: 30
+    - Scotland
+  days: 16
   distance:
-    kilometers: 1014
-    miles: 630
+    kilometers: 431
+    miles: 268
   links:
     - title: Wikipedia
       url: https://en.wikipedia.org/wiki/Pangram

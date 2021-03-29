@@ -15,6 +15,10 @@ html {
   padding-right: 4px;
 }
 
+canvas {
+  outline: none;
+}
+
 .anchor:focus {
   outline: none;
 }

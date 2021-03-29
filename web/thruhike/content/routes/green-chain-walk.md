@@ -1,15 +1,15 @@
 ---
-title: "South West Coast Path"
-date: 2021-03-27T15:08:49Z
+title: "Green Chain Walk"
+date: 2021-03-29T12:39:18+01:00
 data:
   areas:
-    - Exmoor National Park
+    - London
   countries:
     - England
-  days: 30
+  days: 3
   distance:
-    kilometers: 1014
-    miles: 630
+    kilometers: 82
+    miles: 50
   links:
     - title: Wikipedia
       url: https://en.wikipedia.org/wiki/Pangram
