@@ -2,6 +2,7 @@
   "baseURL": "https://thruhike.uk",
   "disableKinds": ["taxonomy", "term"],
   "enableEmoji": true,
+  "languageCode": "en-gb",
   "outputs": {
     "page": ["html", "json"]
   },
@@ -30,7 +31,6 @@
     ],
     "rootHeaderEmoji": ":mountain:"
   },
-  "languageCode": "en-gb",
   "title": "ThruHike.uk",
   "theme": "kasparov",
   "themesDir": "../hugo-themes"
