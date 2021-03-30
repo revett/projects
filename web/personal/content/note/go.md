@@ -592,6 +592,15 @@ f()
   - Recieve a function as an argument
   - Return a function as output
 
+## UK Companies Using Go
+
+- [Banked](https://banked.com/)
+- [Curve](https://www.curve.com/en-gb/)
+- [Form3](https://www.form3.tech/)
+- [Monzo](https://monzo.com/)
+- [Utility Warehouse](https://uw.co.uk/)
+- **[Vidsy](https://vidsy.co)**
+
 ## Resources
 
 - [gophercises.com](https://gophercises.com)
