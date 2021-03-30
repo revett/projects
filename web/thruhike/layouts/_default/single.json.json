@@ -1,0 +1,3 @@
+{{
+  merge .Params.Data (dict "title" .Title "url" .Permalink) | jsonify (dict "indent" "  ")
+}}

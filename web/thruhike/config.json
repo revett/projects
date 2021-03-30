@@ -2,6 +2,9 @@
   "baseURL": "https://thruhike.uk",
   "disableKinds": ["taxonomy", "term"],
   "enableEmoji": true,
+  "outputs": {
+    "page": ["html", "json"]
+  },
   "params": {
     "headers": [
       {
@@ -18,6 +21,11 @@
         "emoji": ":wave:",
         "title": "About",
         "url": "/about"
+      },
+      {
+        "emoji": ":building_construction:",
+        "title": "Data",
+        "url": "/data"
       }
     ],
     "rootHeaderEmoji": ":mountain:"
