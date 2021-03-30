@@ -29,7 +29,37 @@
   <h2>
     Projects
   </h2>
-  <div>
-    {{ with .Site.GetPage "/projects" }}{{ .Content }}{{ end }}
+  <img
+    class="rounded-lg shadow-lg"
+    src="/img/eugene-chystiakov-sRRhKMeCeXY-unsplash-cropped.jpg"
+  >
+  <div class="flex mt-1">
+    <div class="flex-initial pr-3">
+      <a href="https://pkg.go.dev/github.com/revett/projects/pkg/uci">
+        <b><code>uci</code></b>
+      </a>
+    </div>
+    <div class="flex-initial">
+      Go package for interacting with chess engines that support the
+      Universal Chess Interface (UCI) protocol.
+    </div>
   </div>
+
+  <img
+    class="mt-4 rounded-lg shadow-lg"
+    src="/img/jack-anstey-XVoyX7l9ocY-unsplash-cropped.jpg"
+  >
+  <div class="flex mt-1">
+    <div class="flex-initial pr-3">
+      <a href="#">
+        <b><code>thruhike</code></b>
+      </a>
+    </div>
+    <div class="flex-initial">
+      Reference website for long distance multi-day hikes and wild camping areas
+      in the UK, built using
+      <a href="https://www.mapbox.com/">Mapbox</a>.
+    </div>
+  </div>
+
 {{ end }}
