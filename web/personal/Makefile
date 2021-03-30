@@ -4,4 +4,4 @@ build:
 	hugo --buildDrafts --minify --verbose
 
 run:
-	hugo server --buildDrafts --themesDir="../hugo-themes" --verbose
+	hugo server --buildDrafts --verbose

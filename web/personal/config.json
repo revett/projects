@@ -28,13 +28,20 @@
         "emoji": ":briefcase:",
         "title": "LinkedIn",
         "url": "https://www.linkedin.com/in/cdrev/"
+      },
+      {
+        "emoji": ":martial_arts_uniform:",
+        "title": "Katas",
+        "url": "https://www.codewars.com/users/revett"
       }
-    ]
+    ],
+    "rootHeaderEmoji": ":wave:"
   },
   "permalinks": {
     "note": "/:title"
   },
   "pygmentsUseClasses": true,
   "theme": "kasparov",
+  "themesDir": "../hugo-themes",
   "title": "Charlie Revett"
 }
