@@ -17,7 +17,7 @@
     {{ $styles := slice $chroma $github $tailwind | resources.Concat "css/bundle.min.css" | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $styles.Permalink }}" integrity="{{ $styles.Data.Integrity }}">
 
-    {{ if templates.Exists "head/styles.html" }}
+    {{ if templates.Exists "partials/head/styles.html" }}
       {{ partial "head/styles.html" . }}
     {{ end }}
   </head>
@@ -51,9 +51,7 @@
       </div>
     </div>
 
-    {{ block "scripts" . }}{{ end }}
-
-    {{ if templates.Exists "footer/scripts.html" }}
+    {{ if templates.Exists "partials/footer/scripts.html" }}
       {{ partial "footer/scripts.html" . }}
     {{ end }}
   </body>
