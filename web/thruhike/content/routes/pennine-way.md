@@ -11,16 +11,19 @@ data:
     - Scotland
   days: 16
   distance:
-    kilometers: 431
+    kilometers: 429
     miles: 268
   links:
-    - title: Wikipedia
-      url: https://en.wikipedia.org/wiki/Pangram
+    - title: "Ramblers: Pennine Way"
+      url: https://www.ramblers.org.uk/go-walking/routes-and-places-to-walk/paths-index/national-trail/pennine-way.aspx
+    - title: "National Trails: Pennine Way"
+      url: https://www.nationaltrail.co.uk/en_GB/trails/pennine-way/
   summary:
-    text: The beige hue on the waters of the loch impressed all, including the
-      French queen, before she heard that symphony again, just as young Arthur
-      wanted.
+    text: The Pennine Way is the oldest, and arguably the most iconic, of
+      England’s National Trails. Starting in the Peak District and stretching
+      north to the Scottish Borders, it is one of the most challenging but
+      rewarding long-distance walking routes and is steeped in history.
     author:
-      name: Wikipedia
-      url: https://en.wikipedia.org/wiki/Pangram
+      name: National Trails
+      url: https://www.nationaltrail.co.uk/en_GB/trails/pennine-way/
 ---
