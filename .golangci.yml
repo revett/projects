@@ -20,6 +20,10 @@ linters:
     - style
     - unused
 
+linters-settings:
+  wsl:
+    allow-cuddle-declarations: true
+
 run:
   skip-dirs:
     - web
