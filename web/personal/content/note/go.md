@@ -364,6 +364,11 @@ Considerations:
 
 ## Naming
 
+## CLI Flags
+
+- Make use of `mixedCase`
+- See [Hugo (gohugo.io)](https://gohugo.io/getting-started/usage/) for examples
+
 ### Interface Names
 
 - One method interfaces are named by the method with an `-er` suffix
