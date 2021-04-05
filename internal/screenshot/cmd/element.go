@@ -37,7 +37,7 @@ func Element() *cli.Command {
 			if err != nil {
 				return err
 			}
-			defer wd.Quit()
+			defer wd.Quit() // nolint:errcheck
 
 			log.Printf("opening webpage: %s", c.String("u"))
 			if err := wd.Get(c.String("u")); err != nil {
