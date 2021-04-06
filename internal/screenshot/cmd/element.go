@@ -1,12 +1,9 @@
 package cmd
 
 import (
-	"fmt"
-	"io/ioutil"
 	"log"
-	"time"
 
-	"github.com/google/uuid"
+	"github.com/revett/projects/internal/screenshot/imgio"
 	"github.com/revett/projects/internal/screenshot/page"
 	"github.com/tebeka/selenium"
 	"github.com/urfave/cli/v2"
@@ -17,7 +14,7 @@ func Element() *cli.Command {
 	return &cli.Command{
 		Name:    "element",
 		Aliases: []string{"e"},
-		Usage:   "take screenshot of web element",
+		Usage:   "take screenshot of a web element",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:     "selector",
@@ -27,9 +24,9 @@ func Element() *cli.Command {
 			},
 		},
 		Action: func(c *cli.Context) error {
-			log.Printf("setting webdriver browsername: %s", c.String("bn"))
+			log.Printf("setting webdriver browsername: %s", c.String("browserName"))
 			caps := selenium.Capabilities{
-				"browserName": c.String("bn"),
+				"browserName": c.String("browserName"),
 			}
 
 			log.Printf("connecting to local selenium host: %s", c.String("host"))
@@ -37,45 +34,30 @@ func Element() *cli.Command {
 			if err != nil {
 				return err
 			}
-			defer wd.Quit() // nolint:errcheck
 
-			log.Printf("opening webpage: %s", c.String("u"))
-			if err := wd.Get(c.String("u")); err != nil {
-				return err
-			}
+			defer func() {
+				if err := wd.Quit(); err != nil {
+					log.Println("err")
+				}
+			}()
 
-			log.Printf(
-				"waiting for element (up to %ds): %s", c.Int("t"), c.String("u"),
-			)
-			err = wd.WaitWithTimeout(
-				page.Exists(c.String("s")), time.Duration(c.Int("t"))*time.Second,
-			)
+			om := page.New(wd)
+			err = om.Visit(c.String("url"))
 			if err != nil {
 				return err
 			}
 
-			log.Printf("retrieving element: %s", c.String("s"))
-			we, err := wd.FindElement(selenium.ByCSSSelector, c.String("s"))
+			err = om.WaitForElement(c.String("selector"), c.Int("timeout"))
 			if err != nil {
 				return err
 			}
 
-			log.Println("taking screenshot of element")
-			b, err := we.Screenshot(false)
+			b, err := om.ScreenshotElement(c.String("selector"))
 			if err != nil {
 				return err
 			}
 
-			id := uuid.New()
-			fp := fmt.Sprintf("/Users/revett/Downloads/%s.jpg", id.String())
-
-			log.Printf("writing image to file: %s", fp)
-			err = ioutil.WriteFile(fp, b, 0600)
-			if err != nil {
-				return err
-			}
-
-			return nil
+			return imgio.Write(b)
 		},
 	}
 }
