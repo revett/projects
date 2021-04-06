@@ -3,6 +3,16 @@ title: "Go"
 draft: true
 ---
 
+## Checking Deferred Errors
+
+```go
+defer func() {
+	if err := wd.Quit(); err != nil {
+		log.Println("err")
+	}
+}()
+```
+
 ## Closing HTTP Response Body
 
 ```go
@@ -364,7 +374,7 @@ Considerations:
 
 ## Naming
 
-## CLI Flags
+### CLI Flags
 
 - Make use of `mixedCase`
 - See [Hugo (gohugo.io)](https://gohugo.io/getting-started/usage/) for examples
