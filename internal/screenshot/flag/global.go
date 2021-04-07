@@ -3,13 +3,14 @@ package flag
 import (
 	"strconv"
 
+	"github.com/tebeka/selenium"
 	"github.com/urfave/cli/v2"
 )
 
 const (
 	defaultTimeout              = 5
 	defaultWebDriverBrowserName = "firefox"
-	defaultWebDriverHost        = "http://localhost:4444/wd/hub"
+	defaultWebDriverHost        = selenium.DefaultURLPrefix
 )
 
 // Global generates all of the global CLI flags.
@@ -24,6 +25,7 @@ func Global() []cli.Flag {
 		},
 		&cli.StringFlag{
 			Name:        "host",
+			Aliases:     []string{"ho"},
 			DefaultText: defaultWebDriverHost,
 			Usage:       "local webdriver host uri",
 			Value:       defaultWebDriverHost,

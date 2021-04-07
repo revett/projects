@@ -3,6 +3,7 @@ package cmd
 import (
 	"log"
 
+	"github.com/revett/projects/internal/screenshot/browser"
 	"github.com/revett/projects/internal/screenshot/imgio"
 	"github.com/revett/projects/internal/screenshot/page"
 	"github.com/tebeka/selenium"
@@ -24,24 +25,20 @@ func Element() *cli.Command {
 			},
 		},
 		Action: func(c *cli.Context) error {
-			log.Printf("setting webdriver browsername: %s", c.String("browserName"))
-			caps := selenium.Capabilities{
-				"browserName": c.String("browserName"),
-			}
-
-			log.Printf("connecting to local selenium host: %s", c.String("host"))
-			wd, err := selenium.NewRemote(caps, c.String("host"))
+			b, err := browser.New(
+				selenium.NewRemote, c.String("browserName"), c.String("host"),
+			)
 			if err != nil {
 				return err
 			}
 
 			defer func() {
-				if err := wd.Quit(); err != nil {
+				if err := b.Quit(); err != nil {
 					log.Println("err")
 				}
 			}()
 
-			om := page.New(wd)
+			om := page.New(b)
 			err = om.Visit(c.String("url"))
 			if err != nil {
 				return err
@@ -52,12 +49,12 @@ func Element() *cli.Command {
 				return err
 			}
 
-			b, err := om.ScreenshotElement(c.String("selector"))
+			bytes, err := om.ScreenshotElement(c.String("selector"))
 			if err != nil {
 				return err
 			}
 
-			return imgio.Write(b)
+			return imgio.Write(bytes)
 		},
 	}
 }

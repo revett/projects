@@ -491,6 +491,15 @@ go test -v ./... -cover -coverprofile=coverage.out
 go tool cover -html=coverage.out
 ```
 
+### Ignore Logs
+
+```go
+func TestMain(m *testing.M) {
+	log.SetOutput(ioutil.Discard)
+	os.Exit(m.Run())
+}
+```
+
 ### Table Driven
 
 ```go
