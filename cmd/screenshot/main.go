@@ -12,10 +12,16 @@ import (
 
 func main() {
 	app := &cli.App{
-		Flags: flag.Global(),
+		Authors: []*cli.Author{
+			{
+				Email: "@revcd",
+				Name:  "Charlie Revett",
+			},
+		},
 		Commands: []*cli.Command{
 			cmd.Element(),
 		},
+		Flags: flag.Global(),
 	}
 
 	sort.Sort(cli.FlagsByName(app.Flags))
