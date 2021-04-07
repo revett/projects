@@ -25,7 +25,7 @@ func TestGlobalStringFlagsSingleAlias(t *testing.T) {
 
 func TestGlobalIntFlagsSingleAlias(t *testing.T) {
 	for _, e := range flag.Global() {
-		f, ok := e.(*cli.StringFlag)
+		f, ok := e.(*cli.IntFlag)
 		if !ok {
 			continue
 		}
