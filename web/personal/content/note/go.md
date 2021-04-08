@@ -619,9 +619,21 @@ f()
 ## UK Companies Using Go
 
 - [Banked](https://banked.com/)
+- [Bud](https://www.thisisbud.com/)
+- [Couchbase](https://www.couchbase.com/)
 - [Curve](https://www.curve.com/en-gb/)
+- [EDF Energy](https://www.edfenergy.com)
+- [Fastly](https://www.fastly.com/)
 - [Form3](https://www.form3.tech/)
+- [Geckoboard](https://www.geckoboard.com/)
+- [GoCardless](https://gocardless.com/)
 - [Monzo](https://monzo.com/)
+- [MySense](https://www.mysense.ai/)
+- [ONI](https://oni.bio/)
+- [Paddle](https://paddle.com/)
+- [Seldon](https://www.seldon.io/)
+- [Senseye](https://www.senseye.io/)
+- [TreeCard](https://www.treecard.org/)
 - [Utility Warehouse](https://uw.co.uk/)
 - **[Vidsy](https://vidsy.co)**
 
