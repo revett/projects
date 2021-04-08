@@ -24,37 +24,40 @@ func Element() *cli.Command {
 				Usage:    "css selector for element",
 			},
 		},
-		Action: func(c *cli.Context) error {
-			b, err := browser.New(
-				selenium.NewRemote, c.String("browserName"), c.String("host"),
-			)
-			if err != nil {
-				return err
-			}
-
-			defer func() {
-				if err := b.Quit(); err != nil {
-					log.Println("err")
-				}
-			}()
-
-			om := page.New(b)
-			err = om.Visit(c.String("url"))
-			if err != nil {
-				return err
-			}
-
-			err = om.WaitForElement(c.String("selector"), c.Int("timeout"))
-			if err != nil {
-				return err
-			}
-
-			bytes, err := om.ScreenshotElement(c.String("selector"))
-			if err != nil {
-				return err
-			}
-
-			return imgio.Write(bytes)
-		},
+		Action: elementAction,
 	}
+}
+
+func elementAction(c *cli.Context) error {
+	b, err := browser.New(
+		selenium.NewRemote, c.String("browserName"), c.String("host"),
+	)
+	if err != nil {
+		return err
+	}
+
+	defer func() {
+		if err := b.Quit(); err != nil {
+			log.Println("err")
+		}
+	}()
+
+	om := page.New(b)
+
+	err = om.Visit(c.String("url"))
+	if err != nil {
+		return err
+	}
+
+	err = om.WaitForElement(c.String("selector"), c.Int("timeout"))
+	if err != nil {
+		return err
+	}
+
+	bytes, err := om.ScreenshotElement(c.String("selector"))
+	if err != nil {
+		return err
+	}
+
+	return imgio.Write(bytes)
 }
