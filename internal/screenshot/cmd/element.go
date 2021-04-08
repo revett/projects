@@ -43,6 +43,7 @@ func elementAction(c *cli.Context) error {
 	}()
 
 	om := page.New(b)
+
 	err = om.Visit(c.String("url"))
 	if err != nil {
 		return err
