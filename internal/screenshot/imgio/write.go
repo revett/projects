@@ -2,8 +2,8 @@ package imgio
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/google/uuid"
 )
@@ -16,5 +16,13 @@ func Write(b []byte) error {
 
 	log.Printf("writing image to file: %s", fp)
 
-	return ioutil.WriteFile(fp, b, 0600)
+	f, err := os.Create(fp)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	_, err = f.Write(b)
+
+	return err
 }
