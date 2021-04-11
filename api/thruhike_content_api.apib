@@ -1,0 +1,121 @@
+FORMAT: 1A
+
+# ThruHike Content API
+
+The ThruHike Content API is a simple API allowing users to access data about
+long distance walking routes in the UK, along with map data.
+
+# Group Routes
+
+Resources related to routes in the API.
+
+## List Routes [/routes]
+
+### Get Routes [GET]
+
++ Response 200 (application/json)
+    + Attributes (array[Route])
+
++ Response 500 (application/json)
+    + Attributes (ErrorInternalServerError)
+
+## Get Route [/routes/{id}]
+
+### Get Route [GET]
+
++ Response 200 (application/json)
+    + Attributes (Route)
+
++ Response 400 (application/json)
+    + Attributes (ErrorInvalidRouteID)
++ Response 404 (application/json)
+    + Attributes (ErrorRouteNotFound)
++ Response 500 (application/json)
+    + Attributes (ErrorInternalServerError)
+
++ Parameters
+    + id: `pennine-way` (string) - ID of the Route, in kebab case (a-z)
+
+## Get Route Map Data [/routes/{id}/data{?format}]
+
+### Get Route Map Data [GET]
+
++ Response 200 (application/json)
+
+    ```
+    {
+        "type": "FeatureCollection",
+        "features": [
+            {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [0.061695378, 51.4986717807],
+                ]
+            }
+        ]
+    }
+    ```
+
++ Response 200 (application/gpx+xml)
+
++ Response 400 (application/json)
+    + Attributes (ErrorInvalidRouteID)
++ Response 404 (application/json)
+    + Attributes (ErrorRouteNotFound)
++ Response 500 (application/json)
+    + Attributes (ErrorInternalServerError)
+
++ Parameters
+    + id: `pennine-way` (string) - ID of the Route, in kebab case (a-z)
+    + format (enum[string], optional) - Format of the map data
+        + Default: geojson
+        + Members
+            + geojson
+            + gpx
+            + mapbox
+
+## Data Structures
+
+### Author (object)
+
++ name: `Ramblers: Pennine Way` (required, string) - Author of the route guide
++ url: `https://www.ramblers.org.uk/go-walking/routes-and-places-to-walk/paths-index/national-trail/pennine-way.aspx`
+  (required, string) - URL of the route guide
+
+### Distance (object)
+
++ kilometers: 429 (required, number) - Total distance of route in kilometers
++ miles: 268 (required, number) - Total distance of route in miles
+
+### ErrorInternalServerError (object)
+
++ code: 500 (required, number)
++ error: Internal server error occured (required, string)
+
+### ErrorInvalidRouteID (object)
+
++ code: 400 (required, number)
++ error: `Route ID must be kebab case (a-z)` (required, string)
+
+### ErrorRouteNotFound (object)
+
++ code: 404 (required, number)
++ error: Route not found (required, string)
+
+### Route (object)
+
++ title: Pennine Way (required, string) - Name of route
++ imageURI: `https://via.placeholder.com/400x200` (required, string) - Static
+  image of the route
++ duration: 16 (required, number) - Total duration of the route, in days
++ distance (required, Distance)
++ guides (required, array[Author])
++ summary (required, array[Summary])
+
+### Summary (object)
+
++ author (required, Author)
++ text: `The Pennine Way is the oldest, and arguably the most iconic, of England’s National Trails.`
+  (required, string) - Route summary
