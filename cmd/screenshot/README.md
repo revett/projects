@@ -1,6 +1,6 @@
 # Screenshot
 
-A CLI for taking a screenshot of a web element using
+A CLI for taking screenshots of web elements using
 [Selenium](https://github.com/SeleniumHQ/docker-selenium) (Docker) and the
 [tebeka/selenium](https://github.com/tebeka/selenium) package.
 
@@ -9,7 +9,7 @@ A CLI for taking a screenshot of a web element using
 Start a Firefox Selenium container:
 
 ```bash
-docker run -d -p 4444:4444 -p 7900:7900 --shm-size 2g selenium/standalone-firefox:4.0.0-beta-3-prerelease-20210402
+docker run -d -p 4444:4444 -p 7900:7900 selenium/standalone-firefox
 ```
 
 > **[Full Documentation →](https://github.com/SeleniumHQ/docker-selenium)**
@@ -22,19 +22,21 @@ Build the binary:
 make run cmd=screenshot
 ```
 
+> Using the **root** Makefile.
+
 View CLI usage:
 
 ```bash
 cmd/screenshot/screenshot
 ```
 
-## Example
+### Example
 
 ```bash
 cmd/screenshot/screenshot -u https://news.ycombinator.com/ element -s="#hnmain"
 ```
 
-## Debugging
+### Debugging
 
 View what is happening inside the Selenium container by visiting
 [http://localhost:7900](http://localhost:7900), the default password is
