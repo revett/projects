@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"log"
+	"time"
 
 	"github.com/revett/projects/internal/screenshot/browser"
 	"github.com/revett/projects/internal/screenshot/imgio"
@@ -53,6 +54,10 @@ func elementAction(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
+
+	// BUG(revett): Wait for Mapbox map to fully load, fix for .WaitForElement
+	// required.
+	time.Sleep(5 * time.Second)
 
 	bytes, err := om.ScreenshotElement(c.String("selector"))
 	if err != nil {
