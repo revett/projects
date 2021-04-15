@@ -55,9 +55,10 @@ func elementAction(c *cli.Context) error {
 		return err
 	}
 
+	// nolint:godox
 	// BUG(revett): Wait for Mapbox map to fully load, fix for .WaitForElement
 	// required.
-	time.Sleep(5 * time.Second)
+	time.Sleep(5 * time.Second) // nolint:gomnd
 
 	bytes, err := om.ScreenshotElement(c.String("selector"))
 	if err != nil {
