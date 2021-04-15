@@ -148,3 +148,6 @@ tailwind-build.css
 # Compiled Parcel output for Hugo
 **/static/js/*.js*
 **/static/js/*.css*
+
+# Public Hugo builds
+web/**/public

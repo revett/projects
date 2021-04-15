@@ -1,0 +1,15 @@
+version: "3.3"
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ../../web/thruhike/public:/usr/share/nginx/html:ro
+  selenium:
+    image: selenium/standalone-firefox:4.0.0-beta-3-prerelease-20210402
+    links:
+      - nginx
+    ports:
+      - 4444:4444
+      - 7900:7900
