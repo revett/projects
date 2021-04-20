@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/url"
-	"time"
 
 	"github.com/revett/projects/internal/mapbox-screenshot/browser"
 	"github.com/revett/projects/internal/mapbox-screenshot/imgio"
@@ -66,11 +65,6 @@ func captureElements(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
-
-	// nolint:godox
-	// BUG(revett): Wait for Mapbox map to fully load, fix for .WaitForElement
-	// required.
-	time.Sleep(8 * time.Second) // nolint:gomnd
 
 	bytes, err := om.ScreenshotElement(selector)
 	if err != nil {
