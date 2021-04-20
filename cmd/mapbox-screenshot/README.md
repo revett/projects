@@ -19,21 +19,27 @@ docker run -d -p 4444:4444 -p 7900:7900 selenium/standalone-firefox
 Build the binary:
 
 ```bash
-make run cmd=screenshot
+make run cmd=mapbox-screenshot
 ```
 
 > Using the **root** Makefile.
 
+Change to that director:
+
+```bash
+cd cmd/mapbox-screenshot/
+```
+
 View CLI usage:
 
 ```bash
-cmd/screenshot/screenshot
+mapbox-screenshot -h
 ```
 
 ### Example
 
 ```bash
-cmd/screenshot/screenshot -u https://news.ycombinator.com/ element -s="#hnmain"
+mapbox-screenshot capture https://news.ycombinator.com/ "#hnmain"
 ```
 
 ### Debugging
