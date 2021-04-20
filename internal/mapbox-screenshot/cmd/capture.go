@@ -20,25 +20,14 @@ const (
 	requiredCaptureArgs = 2
 )
 
-var (
-	multipleMaps bool
-
-	captureCmd = &cobra.Command{
-		Use:   "capture [url] [selector]",
-		Short: "Screenshot a map",
-		Args:  validateArgs,
-		RunE:  captureElements,
-	}
-)
+var captureCmd = &cobra.Command{
+	Use:   "capture [url] [selector]",
+	Short: "Screenshot a map",
+	Args:  validateArgs,
+	RunE:  captureElements,
+}
 
 func init() {
-	captureCmd.PersistentFlags().BoolVar(
-		&multipleMaps,
-		"multiple",
-		false,
-		"CSS selector returns more than one map element",
-	)
-
 	rootCmd.AddCommand(captureCmd)
 }
 
