@@ -1,6 +1,7 @@
 # Mapbox Screenshot
 
-A CLI for taking screenshots of web elements using
+A CLI for taking screenshots of
+[Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/example/) maps using
 [Selenium](https://github.com/SeleniumHQ/docker-selenium) (Docker) and the
 [tebeka/selenium](https://github.com/tebeka/selenium) package.
 
