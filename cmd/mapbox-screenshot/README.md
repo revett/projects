@@ -1,4 +1,4 @@
-# Screenshot
+# Mapbox Screenshot
 
 A CLI for taking screenshots of web elements using
 [Selenium](https://github.com/SeleniumHQ/docker-selenium) (Docker) and the
