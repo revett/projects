@@ -2,6 +2,7 @@ import axios from "axios";
 import mapbox from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
+const stylesLoadedKey = "mapbox.StylesLoaded";
 mapbox.accessToken = process.env.MAPBOX_TOKEN;
 
 const addMarkers = (m, d) => {
@@ -41,6 +42,10 @@ const addRouteLayer = (m, d) => {
 
     addMarkers(m, d);
   });
+
+  m.on("idle", () => {
+    localStorage.setItem(stylesLoadedKey, true);
+  });
 };
 
 const calculateBounds = (d) => {
@@ -70,6 +75,8 @@ const initialiseMap = (d) => {
       compact: true,
     })
   );
+
+  localStorage.setItem(stylesLoadedKey, false);
 
   return m;
 };
