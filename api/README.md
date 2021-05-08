@@ -1,3 +1,3 @@
 # `/api`
 
-OpenAPI/Swagger specs, JSON schema files, protocol definition files.
+[API Blueprint](https://github.com/apiaryio/api-blueprint) specifications.
